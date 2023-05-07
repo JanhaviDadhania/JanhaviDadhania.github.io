@@ -1,0 +1,32 @@
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.leftcolumn {
+  float: left;
+  width: 20%;
+}
+.leftsublock {
+  float: left;
+  width: 100%;
+}
+
+.rightcolumn {
+  float: left;
+  width: 70%;
+  border-left:1px solid black;
+}
+.rightsubblock {
+  float: left;
+  width: 100%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+
+.myimage {
+  float:left;
+  margin-bottom: 10%;
+  max-width: 100%;
+}
