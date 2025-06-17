@@ -1,0 +1,17 @@
+quantum 
+
+bloch sphere https://physics.stackexchange.com/questions/204090/understanding-the-bloch-sphere
+
+
+1. spin is not how it spins, it's how it's wavefunction transforms on rotation and exchange
+2. any quantum state can be written down by a,x,b,phi parametrs but look carefully and you will see b is just under root 1-asquare and 
+about x and phi, in quantum mechanics their absolute value doesnt matter only relative matters so it's x - phi. so on verticle axis you
+got |0> and |1> and a vs b trade off comes there and the difference of x and phi comes on circle.... at top and botton there are points 
+so instead of cylinder it's a sphere.
+(so topologically it's like a sphere.)
+
+HADAMARD gate
+1. |0> gets transformed in +x state, |1> gets transformed in -x state. +x is 1/root2|0> + 1/root2|1> and -x is 1/roo2|0> - 1/root2|1>
+2. and ulta true too. +x gets transformed into |0> and -x gets transformed into |1> state 
+
+In N qubit system if we apply hadamard gate it creates uniform superposition. 
