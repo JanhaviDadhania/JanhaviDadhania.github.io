@@ -15,3 +15,6 @@ HADAMARD gate
 2. and ulta true too. +x gets transformed into |0> and -x gets transformed into |1> state 
 
 In N qubit system if we apply hadamard gate it creates uniform superposition. 
+(!img)[uniformsuperposition.png]
+
+
