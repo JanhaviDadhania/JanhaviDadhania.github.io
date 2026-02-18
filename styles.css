@@ -1,32 +1,779 @@
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+/* ====================================================
+   JANHAVI DADHANIA - PERSONAL SITE
+   Terminal aesthetic, dark theme, monospace
+   ==================================================== */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.leftcolumn {
-  float: left;
-  width: 20%;
+:root {
+  --bg: #0a0a0a;
+  --bg-raised: #111111;
+  --bg-card: #161616;
+  --text: #c8c8c8;
+  --text-dim: #666666;
+  --text-bright: #e8e8e8;
+  --accent: #5fba7d;
+  --accent-dim: #3d7a52;
+  --accent-glow: rgba(95, 186, 125, 0.15);
+  --link: #5fba7d;
+  --link-hover: #8fd4a4;
+  --border: #222222;
+  --mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Cascadia Code', 'Consolas', 'Liberation Mono', monospace;
+  --font-size: 14.5px;
+  --line-height: 1.65;
+  --max-width: 860px;
+  --section-gap: 5rem;
 }
-.leftsublock {
-  float: left;
+
+html {
+  scroll-behavior: smooth;
+  font-size: var(--font-size);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  line-height: var(--line-height);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* --- Scanline overlay (subtle CRT effect) --- */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
 }
 
-.rightcolumn {
-  float: left;
-  width: 70%;
-  border-left:1px solid black;
-}
-.rightsubblock {
-  float: left;
-  width: 100%;
-  margin-left: 10%;
-  margin-bottom: 5%;
+/* --- Links --- */
+a {
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
-.myimage {
-  float:left;
-  margin-bottom: 10%;
-  max-width: 100%;
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Navigation --- */
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+#nav.nav-visible {
+  transform: translateY(0);
+}
+
+#nav.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-name {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* --- Main layout --- */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+section {
+  margin-bottom: var(--section-gap);
+}
+
+/* --- Fade-in on scroll --- */
+.fade-section {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Section headings --- */
+.section-heading {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* ====================================================
+   HERO
+   ==================================================== */
+#hero {
+  padding-top: 2rem;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ascii-header {
+  color: var(--accent);
+  font-size: 0.65rem;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.hero-content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  cursor: default;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Mushroom easter egg on name hover */
+.hero-name.mushroom-active::after {
+  content: ' 🍄';
+  font-size: 1.2rem;
+  position: relative;
+  animation: mushroom-bob 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes mushroom-bob {
+  from { top: 0; }
+  to { top: -4px; }
+}
+
+.hero-role {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.hero-role a {
+  color: var(--text);
+}
+
+.hero-role a:hover {
+  color: var(--accent);
+}
+
+.hero-tagline {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  visibility: hidden; /* set visible by JS after typing starts */
+}
+
+.hero-tagline.typing-done::after {
+  content: '|';
+  color: var(--accent);
+  animation: blink-cursor 1s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hero-image-wrap {
+  flex-shrink: 0;
+}
+
+.hero-image {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  filter: grayscale(30%) contrast(1.05);
+  transition: filter 0.4s ease, border-color 0.3s ease;
+}
+
+.hero-image:hover {
+  filter: grayscale(0%) contrast(1);
+  border-color: var(--accent-dim);
+}
+
+.ascii-divider {
+  color: var(--border);
+  font-size: 0.7rem;
+  line-height: 1;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* ====================================================
+   ABOUT
+   ==================================================== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.about-text p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
+}
+
+.stats-block {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.9;
+  white-space: pre;
+}
+
+/* ====================================================
+   TIMELINE / WORK
+   ==================================================== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2rem;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  z-index: 1;
+}
+
+.timeline-item:first-child .timeline-marker {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.timeline-date {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.timeline-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-content h3 a {
+  color: var(--text-bright);
+}
+
+.timeline-content h3 a:hover {
+  color: var(--accent);
+}
+
+.role-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 0.3em;
+}
+
+.timeline-content p {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ====================================================
+   RESEARCH
+   ==================================================== */
+.research-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.2s ease;
+}
+
+.research-card:hover {
+  border-color: var(--accent-dim);
+}
+
+.research-label {
+  font-size: 0.72rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.research-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+}
+
+.research-card p {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ====================================================
+   WRITING
+   ==================================================== */
+.writing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.writing-block {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.writing-block:hover {
+  border-color: var(--accent-dim);
+}
+
+.writing-block h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.6rem;
+}
+
+.writing-block > p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+  line-height: 1.55;
+}
+
+.writing-list {
+  list-style: none;
+  padding: 0;
+}
+
+.writing-list li {
+  font-size: 0.82rem;
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+.writing-list li:first-child {
+  border-top: none;
+}
+
+.writing-also {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.writing-also p {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.writing-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.writing-links-row a {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.writing-links-row a:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  text-decoration: none;
+}
+
+/* ====================================================
+   READING
+   ==================================================== */
+.reading-intro {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.bookshelf {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.book-category h3 {
+  font-size: 0.82rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+}
+
+.book-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.book-category li {
+  font-size: 0.82rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.book-category li:last-child {
+  border-bottom: none;
+}
+
+.book-category li a {
+  color: var(--text);
+}
+
+.book-category li a:hover {
+  color: var(--accent);
+}
+
+/* ====================================================
+   CONTACT
+   ==================================================== */
+.contact-block {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+  font-size: 0.88rem;
+  line-height: 2;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.contact-block a {
+  color: var(--link);
+}
+
+/* ====================================================
+   FOOTER
+   ==================================================== */
+footer {
+  padding: 2rem 0 1rem;
+  text-align: center;
+}
+
+.ascii-footer {
+  color: var(--border);
+  font-size: 0.7rem;
+  line-height: 1;
+  user-select: none;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* ====================================================
+   MUSHROOM EASTER EGG - Floating animation
+   ==================================================== */
+.floating-mushroom {
+  position: fixed;
+  top: -40px;
+  z-index: 10000;
+  pointer-events: none;
+  animation: mushroom-fall linear forwards;
+  opacity: 0.85;
+}
+
+@keyframes mushroom-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ====================================================
+   RESPONSIVE - TABLET
+   ==================================================== */
+@media (max-width: 768px) {
+  :root {
+    --section-gap: 3.5rem;
+    --font-size: 14px;
+  }
+
+  main {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .ascii-header {
+    font-size: 0.45rem;
+  }
+
+  .hero-content {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .hero-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .hero-name {
+    font-size: 1.5rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .stats-block {
+    font-size: 0.75rem;
+  }
+
+  .writing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bookshelf {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+  }
+
+  .contact-block {
+    font-size: 0.78rem;
+    padding: 1rem 1rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}
+
+/* ====================================================
+   RESPONSIVE - MOBILE
+   ==================================================== */
+@media (max-width: 480px) {
+  :root {
+    --section-gap: 3rem;
+    --font-size: 13.5px;
+  }
+
+  .ascii-header {
+    font-size: 0.38rem;
+    overflow: hidden;
+  }
+
+  .hero-name {
+    font-size: 1.3rem;
+  }
+
+  .hero-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+  }
+
+  .timeline {
+    padding-left: 1.5rem;
+  }
+
+  .timeline-marker {
+    left: -1.5rem;
+    width: 9px;
+    height: 9px;
+  }
+
+  .nav-name {
+    font-size: 0.8rem;
+  }
+
+  .writing-links-row {
+    gap: 0.35rem;
+  }
+
+  .writing-links-row a {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* ====================================================
+   PRINT (just in case)
+   ==================================================== */
+@media print {
+  .scanline,
+  #nav,
+  .floating-mushroom {
+    display: none;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  .ascii-header,
+  .ascii-divider,
+  .ascii-footer {
+    display: none;
+  }
 }
