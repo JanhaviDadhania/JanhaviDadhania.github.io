@@ -1,143 +1,361 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janhavi Dadhania</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>></text></svg>">
+  <noscript><style>.hero-tagline { visibility: visible !important; }</style></noscript>
 </head>
 <body>
-  <div class="row">
-    <div class="leftcolumn">
-      <div class="leftsublock">
-        <img src="345fdsr89jt4edg.jpeg" class='myimage'></img> <br>
-        <h2><u>Janhavi Dadhania</u></h2>
-        <h4>I currently work as Data Scientist @ Razorpay</h4> <br>
-        <a href="https://www.linkedin.com/in/janhavi-dadhania-485385166/">Linkedin Profile</a> <br>
-        <a href="#workexperience">Work Experience</a> <br>
-        <a href="#pastprojects">Past projects in Machine Learning</a> <br>
-        <a href="#education">Education</a> <br>
-        <a href="#books">books/reports/articles I had been reading</a> <br>
-        <a href="#thoughts">Thoughts</a> <br>
-        <a href="#volunteering">Volunteering</a> <br>
+
+  <div class="scanline"></div>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <span class="nav-name">janhavi</span>
+      <div class="nav-links">
+        <a href="#about">[about]</a>
+        <a href="#work">[work]</a>
+        <a href="#research">[research]</a>
+        <a href="#writing">[writing]</a>
+        <a href="#reading">[reading]</a>
+        <a href="#contact">[contact]</a>
       </div>
     </div>
-    <div class="rightcolumn">
-      <div class="rightsubblock">
-        <h4 id='workexperience'>Work Experience</h4>
+  </nav>
 
-        <br><a href="https://razorpay.com/">1. Razorpay | Data Scientist</a>
-        <dd>developing statistical and probabilistic models.</dd>
+  <main>
 
-        <br><a href="https://sharechat.com/about">2. Sharechat & moj | Machine Learning Engineer</a>
-
-        <dd>- my latest project was with sharechat's camera AI team. I was working on optimising deep neural nets for face landmark prediction on low end mobile devices.</dd>
-        <dd>- in previous project, I worked with team to design video commerce pipeline for suggesting similar apperals as present in short videos. Prepared hierarchy for Indian apperals data annotation, did image tagging, implemented tag based and image similarity based search system.</dd>
-
-        <h4>Internships</h4>
-
-        <br><a href="https://www.entrupy.com/">3. Entrupy | Machine Learning Intern</a>
-        <dd>- trained deep siamese networks for point cloud registration in 3D. Learned interesting synthetic data creation on blender.</dd>
-
-        <br><a href="https://www.linkedin.com/company/ultrainstinct-ai/people/">4. Ultrainstinct | Machine Learning Intern</a>
-        <dd>- re-trained/re-produced existing state-of-the-art multi model deep learning pipelines on ActivityNet for video captioning as a part of exploring the problem of automatic theft detection using survelence camera feed.</dd>
-
+    <!-- ==================== HERO ==================== -->
+    <section id="hero">
+      <pre class="ascii-header" aria-hidden="true">
+     _             _                 _
+    (_) __ _ _ __ | |__   __ ___   _(_)
+    | |/ _` | '_ \| '_ \ / _` \ \ / / |
+    | | (_| | | | | | | | (_| |\ V /| |
+   _/ |\__,_|_| |_|_| |_|\__,_| \_/ |_|
+  |__/
+      </pre>
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-name" id="hero-name">Janhavi Dadhania</h1>
+          <p class="hero-role">ML Engineer @ <a href="https://www.project44.com/" target="_blank" rel="noopener">project44</a></p>
+          <p class="hero-tagline">building models that move things through the real world. writing about the systems underneath everything else.</p>
+        </div>
+        <div class="hero-image-wrap">
+          <img src="https://cdn.unlikefraction.com/users/profile_photos/mypenguin.png" alt="Janhavi Dadhania" class="hero-image" id="hero-image">
+        </div>
       </div>
-      <hr>
-      <div class="rightsubblock">
-        <h4 id='pastprojects'>Past projects in Machine Learning</h4>
-        <br><a href="https://arxiv.org/abs/2101.05806">1. Video captioning on ActivityNet</a> <br>
-        <dd>abstract</dd>
-        <dd>Video captioning is a popular task that challenges models to
-            describe events in videos using natural language. In this work,
-            we investigate the ability of various visual feature representations derived from state-of-the-art convolutional neural networks to capture high-level semantic context. We introduce
-            the Weighted Additive Fusion Transformer with Memory
-            Augmented Encoders (WAFTM), a captioning model that
-            incorporates memory in a transformer encoder and uses a
-            novel method, to fuse features, that ensures due importance
-            is given to more significant representations. We illustrate a
-            gain in performance realized by applying Word-Piece Tokenization and a popular REINFORCE algorithm. Finally, we
-            benchmark our model on two datasets and obtain a CIDEr of
-            92.4 on MSVD and a METEOR of 0.091 on the ActivityNet
-            Captions Dataset.</dd>
+      <pre class="ascii-divider" aria-hidden="true">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      </pre>
+    </section>
 
-        <br><a href="https://arxiv.org/abs/2112.13706">2. BTech Project on Visual Question Answering</a> <br>
-        <dd>abstract</dd>
-        <dd>While a lot of work has been done on developing models to tackle the problem of Visual Question Answering, the
-              ability of these models to relate the question to the image
-              features still remain less explored.
-              We present an empirical study of different feature
-              extraction methods with different loss functions. We
-              propose New dataset for the task of Visual Question
-              Answering with multiple image inputs having only one
-              ground truth, and benchmark our results on them. Our
-              final model utilising Resnet + RCNN image features and
-              Bert embeddings, inspired from stacked attention network
-              gives 39% word accuracy and 99% image accuracy on
-              CLEVER+TinyImagenet dataset.</dd>
+    <!-- ==================== ABOUT ==================== -->
+    <section id="about">
+      <h2 class="section-heading"># about</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I spend my days getting transformer models to predict when trucks will show up (harder than it sounds) and my evenings wondering whether consciousness is computable.</p>
+          <p>Before logistics I was at Razorpay routing payments with reinforcement learning, and at ShareChat figuring out face detection on phones that cost less than a textbook. The through-line is: I like problems where the real world refuses to cooperate with your model.</p>
+          <p>Outside of work I read too much (economics, philosophy, history, whatever's lying around), run two Substacks about complex systems and the strange loops in everything, and occasionally get lost in papers about foundational models and multimodal architectures.</p>
+          <p>IIT Dharwad CS, class of 2022. Arctic Code Vault Contributor on GitHub (which mostly means I was in the right repo at the right time, but I'll take it).</p>
+        </div>
+        <div class="about-stats">
+<pre class="stats-block">
+  location   : bangalore
+  focus      : deep learning, RL
+  reading    : too many books
+  writing    : two substacks
+  github     : arctic code vault
+  cgpa       : 8.7/10
+</pre>
+        </div>
+      </div>
+    </section>
 
+    <!-- ==================== EXPERIENCE ==================== -->
+    <section id="work">
+      <h2 class="section-heading"># work</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-date">2025 - present</div>
+          <div class="timeline-content">
+            <h3><a href="https://www.project44.com/" target="_blank" rel="noopener">project44</a> <span class="role-tag">ML Engineer 2</span></h3>
+            <p>Building a transformer-based ETA prediction model for logistics trucks. Improved accuracy with lane embedding and hex-level geospatial features. Also built an NL2SQL chatbot using LLM-based RAG that automated customer data queries, cutting latency from 30s to 20s.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-date">2023 - 2025</div>
+          <div class="timeline-content">
+            <h3><a href="https://razorpay.com/" target="_blank" rel="noopener">Razorpay</a> <span class="role-tag">Data Scientist</span></h3>
+            <p>Designed RL-based payment routing algorithms handling hundreds of transactions per second. Pushed success rates from 80% to 93%. Built an XGBoost model for predicting order returns before they happened.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-date">2022 - 2023</div>
+          <div class="timeline-content">
+            <h3><a href="https://sharechat.com/" target="_blank" rel="noopener">ShareChat & Moj</a> <span class="role-tag">ML Engineer</span></h3>
+            <p>Optimized deep face landmark detection for low-end mobile devices. Built image-text search across a 3M item fashion catalog for video commerce.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-date">internships</div>
+          <div class="timeline-content">
+            <h3><a href="https://www.entrupy.com/" target="_blank" rel="noopener">Entrupy</a> + <a href="https://www.linkedin.com/company/ultrainstinct-ai/" target="_blank" rel="noopener">Ultrainstinct</a></h3>
+            <p>Siamese networks for 3D point cloud registration at Entrupy. Multimodal deep networks for video captioning on ActivityNet at Ultrainstinct.</p>
+          </div>
+        </div>
       </div>
-      <hr>
-      <div class="rightsubblock">
-        <h4 id='education'>Education</h4>
-        <a href="https://www.iitdh.ac.in/">1. Indian Institute of Technology Dharwad | 2018-2022 </a> <br>
-        2. N L Bhavani Higher Secondary School | 2016-2018 <br>
-        <a href="https://navodaya.gov.in/nvs/nvs-school/Tapi/en/home">3. Jawahar Navodaya Vidhyalaya Surat | 2011-2016 </a> <br>
+    </section>
+
+    <!-- ==================== RESEARCH ==================== -->
+    <section id="research">
+      <h2 class="section-heading"># research</h2>
+      <div class="research-card">
+        <div class="research-label">arXiv:2112.13706</div>
+        <h3><a href="https://arxiv.org/abs/2112.13706" target="_blank" rel="noopener">Multi-Image Visual Question Answering</a></h3>
+        <p>BTech project at IIT Dharwad. Proposed a new dataset for VQA with multiple image inputs and a single ground truth. The final model used ResNet + RCNN image features with BERT embeddings, inspired by stacked attention networks. Achieved 39% word accuracy and 99% image accuracy on CLEVER+TinyImagenet.</p>
       </div>
-      <hr>
-      <div class="rightsubblock">
-        <h4 id='books'>books/reports/articles I had been reading</h4>
-        why nations fail? origin of power, prosperity and poverty by __ <br>
-        understanding power: noam chomsky <br>
-        India after Gandhi by ranchandra guha <br>
-        <u>Our common Future - Report of the World Commission on Environment and Development (~1987)</u> <br>
-        <a href='excerpts/theageofreform.html'>the age of reform by richard hofstadter</a> <br>
-        <a href='excerpts/india2020.html'>Vision 2020 | India by APJ abdul kalam with Y S rajan</a> <br>
-        <a href='excerpts/extremefuture.html'>theextremefuture by james canton</a><br>
-        random walk down wall stree by burton g malkiel <br>
-        the intelligent investor by benjamin graham <br>
-        getting things done by david allen <br>
-        newsman: tracking India in modi era by rajdeep sardesai <br>
-        the coalition years by pranab mukherjee <br>
-        Superpower?: The Amazing Race Between China's Hare and India's Tortoise by raghav bahl <br>
-        GST, Arun Kumar <br>
-        The End of poverty, Economic Possibilities of Our Time, by Jeffrey Sachs <br>
-        <a href='excerpts/indiauninc.html'>India UnInc (unincorporated)</a><br>
-        Unleashing the Innovators: How Mature Companies Find New Life with Startups by Jim Stengel and Tom Post <br>
-        <a href='excerpts/makingglobalizationwork.html'>Making Globablization WORK by Joseph Stinglitz</a> <br>
-        Rebuild <br>
-        Play Bigger: How Pirates, Dreamers and Innovators Create and Dominate Markets by Al Ramadan, Christopher Lochhead, Dave Peterson, Kevin Maney <br>
-        <a href='excerpts/ancient&medievalhostory.html'>Ancient and Medieval History, Hayes Moon</a> <br>
-        <u></u><a href='excerpts/wealthofnations.html'>Inquiry into the Nature and Causes of Wealth of Nations</a><br></u>
-        <!-- <a href='excerpts/modernmarketing_1964.html'>Modern Marketing 1964</a><br> -->
-        <a href='excerpts/valueofnothing.html'>The Value of Nothing by Raj Patel</a><br>
-        How Modi Won India, 2019 by Rajdeep Sardesai <br>
-        Fault Lines by Dr Raghuram Rajan<br>
-        The Story of Philosophy by Will Durant <br>
-        NO LOGO by Naomi Klein <br>
-        Outline History of English Language by Frederick T. Wood <br>
-        <a href='excerpts/animalsandmen.html'>Animals & Men by David Katz</a><br>
+      <div class="research-card">
+        <div class="research-label">arXiv:2101.05806</div>
+        <h3><a href="https://arxiv.org/abs/2101.05806" target="_blank" rel="noopener">Video Captioning on ActivityNet</a></h3>
+        <p>Introduced WAFTM (Weighted Additive Fusion Transformer with Memory Augmented Encoders) for video captioning. Used a novel feature fusion method and memory-augmented transformer encoders. CIDEr of 92.4 on MSVD, METEOR of 0.091 on ActivityNet.</p>
       </div>
-      <hr>
-      <div class="rightsubblock">
-        <h4 id='thoughts'>Thoughts</h4>
-        <br><a href="substack/ideas/language_and_our_metal_pals.html">1. Lanauge and Our Metal Pals</a>
-        <br><a href="substack/ideas/consumption_capacity.html">1. How much capacity do people really have to consume?</a>
-        <br><a href="substack/ideas/software_biology.html">1. Should software systems take explicit inspiration from organismic systems?</a>
-        <br><a href="substack/techjobcazualisation.html">1. Are we heading towards large scale tech job cazualisation?</a>
-        <br><a href="">2. how has (and how is it?) recent Indian finance stack changed things for new entrants? AA, OCEN, UPI, Indian Stack (https://indiastack.org/payments.html), here vs USA, Europe, Singapore, China, Japan, ... <br>
-          <br><a href="substack/stories/nutricious_stories.html">3. Our stories need to change, we are not cave people now</a>
-          <br><a href="">3.1 when I understand few more things, about symbols and red paint telling me story...</a>
-          <br><a href="substack/stories/ai_story_of_india.html">4. what ai story is India telling it's population? </a>
-        <br><a href="substack/stories/painting_picture_in_peoples_mind.html">5. Painting picture in mind</a>
-        <br>
-        <br><a href="substack/why_not_read_books.html">5. Why could reading too many books be bad?</a>
+    </section>
+
+    <!-- ==================== WRITING ==================== -->
+    <section id="writing">
+      <h2 class="section-heading"># writing</h2>
+      <div class="writing-grid">
+        <div class="writing-block">
+          <h3><a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">Complex Systems in the World</a></h3>
+          <p>The more serious one. Chaos theory, consciousness, Hindu cosmology meets quantum mechanics, how minds simulate reality. Basically: what are the rules underneath the rules?</p>
+          <ul class="writing-list">
+            <li><a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">Does God Play Dice to decide your future?</a> &mdash; chaos, order, cosmology, quantum mechanics</li>
+            <li><a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">What is Consciousness?</a> &mdash; the hard problem, quantum biology, Penrose-Hameroff</li>
+            <li><a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">Production of Ideas</a> &mdash; how minds build models of reality</li>
+          </ul>
+        </div>
+        <div class="writing-block">
+          <h3><a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">Personal Substack</a></h3>
+          <p>The everything-else one. Language preservation through a math lens, AI personified as narrative, culture as organism, old scientific diagrams that happen to be beautiful.</p>
+          <ul class="writing-list">
+            <li><a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">Mathematical Look at Why Language Preservation Matters</a> &mdash; computational irreducibility</li>
+            <li><a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">What Does It Mean to Be AI?</a> &mdash; narrative essay, AI as character</li>
+            <li><a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">Stories as DNA of Culture Organisms</a> &mdash; Sapiens through a complexity lens</li>
+            <li><a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">Aesthetically Pleasing Old Time Science</a> &mdash; visual essay on historical diagrams</li>
+          </ul>
+        </div>
       </div>
-      <hr>
-      <div class="rightsubblock">
-        <h4 id='volunteering'>Volunteering</h4>
-        <br><a href="https://www.headstart.in/">1. Headstart Karnataka</a>
-        <dd>Network for startups and ecosystem enablers.</dd>
-        <br><a href="https://cdc.iitdh.ac.in/">2. Career Development Cell IIT Dharwad | Head of cell(2021-22), Public Relations Coordinator(2020-21)</a>
-        <dd>Career and Placement cell of IIT Dharwad.</dd>
+      <div class="writing-also">
+        <p>Older writing from the archives:</p>
+        <div class="writing-links-row">
+          <a href="substack/ideas/language_and_our_metal_pals.html">Language and Our Metal Pals</a>
+          <a href="substack/ideas/consumption_capacity.html">Consumption Capacity</a>
+          <a href="substack/ideas/software_biology.html">Software Biology</a>
+          <a href="substack/stories/nutricious_stories.html">Nutritious Stories</a>
+          <a href="substack/stories/ai_story_of_india.html">AI Story of India</a>
+          <a href="substack/stories/painting_picture_in_peoples_mind.html">Painting Pictures in Minds</a>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
+
+    <!-- ==================== READING ==================== -->
+    <section id="reading">
+      <h2 class="section-heading"># reading</h2>
+      <p class="reading-intro">A partial list. The full one would crash your browser.</p>
+      <div class="bookshelf">
+        <div class="book-category">
+          <h3>economics & systems</h3>
+          <ul>
+            <li><a href="excerpts/wealthofnations.html">An Inquiry into the Nature and Causes of the Wealth of Nations</a> &mdash; Adam Smith</li>
+            <li><a href="excerpts/makingglobalizationwork.html">Making Globalization Work</a> &mdash; Joseph Stiglitz</li>
+            <li><a href="excerpts/valueofnothing.html">The Value of Nothing</a> &mdash; Raj Patel</li>
+            <li>Why Nations Fail &mdash; Acemoglu & Robinson</li>
+            <li>The End of Poverty &mdash; Jeffrey Sachs</li>
+            <li>Random Walk Down Wall Street &mdash; Burton Malkiel</li>
+            <li>The Intelligent Investor &mdash; Benjamin Graham</li>
+            <li>Fault Lines &mdash; Raghuram Rajan</li>
+          </ul>
+        </div>
+        <div class="book-category">
+          <h3>india & politics</h3>
+          <ul>
+            <li>India After Gandhi &mdash; Ramachandra Guha</li>
+            <li><a href="excerpts/india2020.html">India 2020</a> &mdash; APJ Abdul Kalam</li>
+            <li><a href="excerpts/indiauninc.html">India Uninc.</a></li>
+            <li>Understanding Power &mdash; Noam Chomsky</li>
+            <li><a href="excerpts/theageofreform.html">The Age of Reform</a> &mdash; Richard Hofstadter</li>
+            <li><a href="excerpts/ancient&medievalhostory.html">Ancient and Medieval History</a> &mdash; Hayes & Moon</li>
+            <li>The Coalition Years &mdash; Pranab Mukherjee</li>
+          </ul>
+        </div>
+        <div class="book-category">
+          <h3>philosophy & everything else</h3>
+          <ul>
+            <li>The Story of Philosophy &mdash; Will Durant</li>
+            <li>No Logo &mdash; Naomi Klein</li>
+            <li><a href="excerpts/animalsandmen.html">Animals & Men</a> &mdash; David Katz</li>
+            <li><a href="excerpts/extremefuture.html">The Extreme Future</a> &mdash; James Canton</li>
+            <li>Outline History of English Language &mdash; Frederick T. Wood</li>
+            <li>Play Bigger &mdash; Ramadan, Lochhead, Peterson, Maney</li>
+            <li>Getting Things Done &mdash; David Allen</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact">
+      <h2 class="section-heading"># contact</h2>
+<pre class="contact-block">
+  $ cat contact.txt
+
+  email    : <a href="mailto:janhavivdadhania@gmail.com">janhavivdadhania@gmail.com</a>
+  linkedin : <a href="https://linkedin.com/in/janhavi-dadhania-485385166/" target="_blank" rel="noopener">janhavi-dadhania</a>
+  github   : <a href="https://github.com/JanhaviDadhania" target="_blank" rel="noopener">JanhaviDadhania</a>
+  substack : <a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">complex systems</a> | <a href="https://janhavivdadhania.substack.com" target="_blank" rel="noopener">personal</a>
+</pre>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+      <pre class="ascii-footer" aria-hidden="true">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
+      <p class="footer-text" title="🍄">built with html, css, and curiosity. no frameworks were harmed.</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // ===== Smooth scroll for nav links =====
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ===== Nav show/hide on scroll =====
+    let lastScroll = 0;
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current > 100) {
+        nav.classList.add('nav-visible');
+      } else {
+        nav.classList.remove('nav-visible');
+      }
+      if (current > lastScroll && current > 300) {
+        nav.classList.add('nav-hidden');
+      } else {
+        nav.classList.remove('nav-hidden');
+      }
+      lastScroll = current;
+    });
+
+    // ===== Typing effect for hero tagline =====
+    function typeWriter(el, text, speed, callback) {
+      let i = 0;
+      el.textContent = '';
+      function type() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    // Run typing on load
+    window.addEventListener('load', () => {
+      const tagline = document.querySelector('.hero-tagline');
+      const fullText = tagline.textContent;
+      tagline.style.visibility = 'visible';
+      typeWriter(tagline, fullText, 22, () => {
+        tagline.classList.add('typing-done');
+      });
+    });
+
+    // ===== Mushroom easter egg on hero name =====
+    const heroName = document.getElementById('hero-name');
+    let mushroomTimeout;
+    heroName.addEventListener('mouseenter', () => {
+      heroName.dataset.original = heroName.textContent;
+      mushroomTimeout = setTimeout(() => {
+        heroName.classList.add('mushroom-active');
+      }, 600);
+    });
+    heroName.addEventListener('mouseleave', () => {
+      clearTimeout(mushroomTimeout);
+      heroName.classList.remove('mushroom-active');
+    });
+
+    // ===== Mushroom cursor on hero image =====
+    const heroImage = document.getElementById('hero-image');
+    heroImage.addEventListener('mouseenter', () => {
+      heroImage.style.cursor = "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='24' font-size='24'>🍄</text></svg>\") 16 16, pointer";
+    });
+    heroImage.addEventListener('mouseleave', () => {
+      heroImage.style.cursor = 'default';
+    });
+
+    // ===== Fade-in on scroll =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('fade-section');
+      observer.observe(section);
+    });
+
+    // ===== Konami-style mushroom: type 'mushroom' anywhere =====
+    let konamiBuffer = '';
+    document.addEventListener('keydown', (e) => {
+      konamiBuffer += e.key.toLowerCase();
+      if (konamiBuffer.length > 8) konamiBuffer = konamiBuffer.slice(-8);
+      if (konamiBuffer === 'mushroom') {
+        konamiBuffer = '';
+        spawnMushrooms();
+      }
+    });
+
+    function spawnMushrooms() {
+      for (let i = 0; i < 15; i++) {
+        const m = document.createElement('div');
+        m.className = 'floating-mushroom';
+        m.textContent = '🍄';
+        m.style.left = Math.random() * 100 + 'vw';
+        m.style.animationDuration = (2 + Math.random() * 3) + 's';
+        m.style.animationDelay = (Math.random() * 1) + 's';
+        m.style.fontSize = (16 + Math.random() * 24) + 'px';
+        document.body.appendChild(m);
+        setTimeout(() => m.remove(), 5000);
+      }
+    }
+  </script>
+
 </body>
+</html>
