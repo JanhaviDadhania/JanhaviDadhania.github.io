@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. The Physical Colors */
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+            --ink-faded: #5A5A5A;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 0 10vh 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* 2. Top Section: Title & Video */
+        .top-section {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 0;
+        }
+
+        .text-content {
+            flex: 1;
+        }
+
+        .top-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--ink-faded);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        h1.title {
+            font-family: 'EB Garamond', serif;
+            font-size: 5rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            margin: 0;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .video-container {
+            flex: 1.2;
+            width: 100%;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background-color: #111;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 4. Bottom Section: Substack & Socials */
+        .subscribe-section {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'EB Garamond', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            transition: all 0.4s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+        }
+
+        .ghost-text {
+            position: absolute;
+            top: 2vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'EB Garamond', serif;
+            font-size: 18vw;
+            font-weight: 400;
+            color: var(--ink);
+            opacity: 0.03;
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 0;
+        }
+
+        /* Responsive Design for Mobile */
+        @media (max-width: 900px) {
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2.5rem;
+                margin-bottom: 2rem;
+            }
+            h1.title {
+                font-size: 3.5rem;
+            }
+            .video-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ghost-text">THE MIRROR</div>
+
+    <div class="container">
+        
+        <div class="top-section">
+            <div class="text-content">
+                <div class="top-text">World today is loud. Let's write it down.</div>
+                <h1 class="title">The Mirror</h1>
+                
+                <div class="subscribe-section" style="margin-top: 1rem;">
+                    <div class="mirror-subscribe">
+                        <h3 style="font-family: 'EB Garamond', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.8rem; font-style: italic;">come along as we document history in the making</h3>
+                        <a href="https://janhavidadhania.substack.com/subscribe" target="_blank" class="mirror-btn">Subscribe to The Mirror</a>
+                    </div>
+                </div>
+
+                <ul class="social-links">
+                    <li><a href="https://www.instagram.com/janhavidadhania_/" target="_blank">Instagram</a></li>
+                    <li><a href="https://janhavidadhania.substack.com" target="_blank">Substack</a></li>
+                    <li><a href="https://x.com/DadhaniaJanhavi" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.linkedin.com/in/janhavi-dadhania-485385166/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1KjM9wwvNOyKcFdAgj0BHfsuz7EfqJGJ-/preview" 
+                            style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" 
+                            frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .mirror-subscribe {
+                padding: 0;
+                max-width: 600px;
+                background-color: transparent;
+            }
+            .mirror-btn {
+                display: inline-block;
+                padding: 0.6rem 1.2rem;
+                background-color: var(--ink);
+                color: var(--paper);
+                text-decoration: none;
+                font-family: 'EB Garamond', serif;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                transition: all 0.3s ease;
+                border: 1px solid var(--ink);
+            }
+            .mirror-btn:hover {
+                background-color: transparent;
+                color: var(--ink);
+            }
+        </style>
+
+    </div>
+
+</body>
+</html>
