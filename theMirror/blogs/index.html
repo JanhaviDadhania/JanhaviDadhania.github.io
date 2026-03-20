@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next - The Mirror</title>
+    <title>Blogs - The Mirror</title>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,30 +28,34 @@
         }
         h1 {
             font-family: 'EB Garamond', serif;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 400;
-            text-transform: lowercase;
-            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 2rem;
             border-bottom: 1px solid var(--ink);
             padding-bottom: 1rem;
         }
-        .blog-list {
+        .section-list {
             list-style: none;
             padding: 0;
         }
-        .blog-item {
-            margin-bottom: 1.5rem;
+        .section-item {
+            margin-bottom: 2rem;
         }
-        .blog-link {
+        .section-title {
             font-family: 'EB Garamond', serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--ink);
             text-decoration: none;
-            text-transform: capitalize;
+            display: block;
         }
-        .blog-link:hover {
+        a.section-title:hover {
             text-decoration: underline;
+        }
+        .unlinked {
+            color: var(--ink-faded);
+            cursor: default;
         }
         .back-link {
             margin-top: 4rem;
@@ -71,13 +75,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>what is going to happen next?</h1>
-        <ul class="blog-list">
-            <li class="blog-item">
-                <a href="blogs/the_next_ai_wave.html" class="blog-link">The Next AI Wave: Computers Get Bodies</a>
+        <h1>Blogs</h1>
+        <ul class="section-list">
+            <li class="section-item">
+                <a href="next/" class="section-title">what is going to happen next?</a>
+            </li>
+            <li class="section-item">
+                <span class="section-title unlinked">what has already happened?</span>
+            </li>
+            <li class="section-item">
+                <span class="section-title unlinked">who is earning how much?</span>
+            </li>
+            <li class="section-item">
+                <span class="section-title unlinked">who is friends with who?</span>
             </li>
         </ul>
-        <a href="../" class="back-link">← Back to Data</a>
+        <a href="../" class="back-link">← Back to The Mirror</a>
     </div>
 </body>
 </html>
