@@ -146,6 +146,17 @@
             position: relative;
         }
 
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15); /* Faint red vertical line */
+            z-index: 0;
+        }
+
         .journal-line {
             border-bottom: 1px solid rgba(0,0,0,0.1);
             height: 3rem;
