@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Mirror</title>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     
     <style>
         /* 1. The Physical Colors */
@@ -25,8 +25,7 @@
             color: var(--ink);
             font-family: 'Lora', serif;
             line-height: 1.8;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -35,11 +34,10 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 0 10vh 0;
+            padding: 10vh 0 10vh 0;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
         }
 
         /* 2. Top Section: Title & Video */
@@ -47,7 +45,7 @@
             display: flex;
             align-items: center;
             gap: 4rem;
-            margin-bottom: 0;
+            margin-bottom: 2rem;
         }
 
         .text-content {
@@ -125,7 +123,7 @@
         }
 
         .ghost-text {
-            position: absolute;
+            position: fixed;
             top: 2vh;
             left: 50%;
             transform: translateX(-50%);
@@ -139,6 +137,26 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             z-index: 0;
+        }
+
+        /* Journal Section */
+        .journal-container {
+            margin-top: 6rem;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            height: 3rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.3rem;
+            padding-left: 1rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #2a2a2a;
+            letter-spacing: 0.02em;
         }
 
         /* Responsive Design for Mobile */
@@ -155,6 +173,29 @@
             .video-container {
                 width: 100%;
             }
+        }
+
+        .mirror-subscribe {
+            padding: 0;
+            max-width: 600px;
+            background-color: transparent;
+        }
+        .mirror-btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--ink);
+            color: var(--paper);
+            text-decoration: none;
+            font-family: 'EB Garamond', serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            border: 1px solid var(--ink);
+        }
+        .mirror-btn:hover {
+            background-color: transparent;
+            color: var(--ink);
         }
     </style>
 </head>
@@ -200,30 +241,19 @@
             </div>
         </div>
 
-        <style>
-            .mirror-subscribe {
-                padding: 0;
-                max-width: 600px;
-                background-color: transparent;
-            }
-            .mirror-btn {
-                display: inline-block;
-                padding: 0.6rem 1.2rem;
-                background-color: var(--ink);
-                color: var(--paper);
-                text-decoration: none;
-                font-family: 'EB Garamond', serif;
-                font-size: 0.8rem;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                transition: all 0.3s ease;
-                border: 1px solid var(--ink);
-            }
-            .mirror-btn:hover {
-                background-color: transparent;
-                color: var(--ink);
-            }
-        </style>
+        <!-- Journal Journal Section -->
+        <div class="journal-container">
+            <div class="journal-line">Organisation of knowledge</div>
+            <div class="journal-line">coming soon</div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+            <div class="journal-line"></div>
+        </div>
 
     </div>
 
