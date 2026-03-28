@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Areas of AI - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.5rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2a2a2a;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.4rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+        <div class="journal-line" style="color: #555; border-bottom: 2px solid rgba(0,0,0,0.1);">what are all different areas of ai people are working on</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">everyone is talking about AI. Elon Musk, our governments, Pope Leo, your neighbour.</div>
+        <div class="journal-line">that alone tells you how big this change is — and it is happening right now.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line" style="color: #555;">— listing and tracking down the sub-areas —</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">0. investing in AI</div>
+        <div class="journal-line">     the money that makes everything else possible. shapes what gets built and what doesn't.</div>
+        <div class="journal-line">     — venture capital: a16z, Sequoia, Khosla, Benchmark, general catalyst</div>
+        <div class="journal-line">     — corporate bets: Microsoft ($13B in OpenAI), Google, Amazon, Apple</div>
+        <div class="journal-line">     — sovereign wealth: UAE, Saudi Arabia, Singapore — nations buying into the future</div>
+        <div class="journal-line">     — Wall Street: Nvidia stock, AI ETFs, analyst coverage, public market bets</div>
+        <div class="journal-line">     — government funding: DARPA, NSF, national AI initiatives</div>
+        <div class="journal-line">     — startup ecosystem: YCombinator, accelerators, seed rounds</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">1. fueling AI</div>
+        <div class="journal-line">     the physical world that keeps AI running. often invisible, always essential.</div>
+        <div class="journal-line">     — energy: data centre power demands, nuclear revival, solar farms for compute</div>
+        <div class="journal-line">     — water: cooling infrastructure, water consumption of large training runs</div>
+        <div class="journal-line">     — real estate: hyperscale data centre construction, land acquisition</div>
+        <div class="journal-line">     — annotation manpower: the human labellers behind every model — Scale AI, Remotasks</div>
+        <div class="journal-line">     — RLHF workforce: contractors in Kenya, Philippines, India doing feedback work</div>
+        <div class="journal-line">     — rare earth & supply chain: minerals for chips, geopolitics of hardware</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">2. making & understanding AI</div>
+        <div class="journal-line">     building the capability and trying to understand what we've built.</div>
+        <div class="journal-line">     — foundation model labs: OpenAI, Anthropic, Google DeepMind, Meta AI, xAI, Mistral</div>
+        <div class="journal-line">     — hardware & chips: Nvidia, AMD, TSMC, Google TPUs, custom silicon</div>
+        <div class="journal-line">     — cloud infrastructure: AWS, Azure, Google Cloud, CoreWeave</div>
+        <div class="journal-line">     — data: datasets, labelling, synthetic data — Scale AI, Appen</div>
+        <div class="journal-line">     — tooling & frameworks: PyTorch, JAX, Hugging Face, vLLM, LangChain</div>
+        <div class="journal-line">     — open source models: Llama, Mistral, community ecosystem</div>
+        <div class="journal-line">     — interpretability: mechanistic understanding of what's inside models</div>
+        <div class="journal-line">     — alignment & safety: MIRI, ARC, Redwood Research, DeepMind safety</div>
+        <div class="journal-line">     — benchmarking & evaluation: how do we even measure capability</div>
+        <div class="journal-line">     — ML theory: the mathematics underneath all of it</div>
+        <div class="journal-line">     — science communication: Karpathy, newsletters, journalists making it legible</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">4. deploying AI</div>
+        <div class="journal-line">     the layer between labs and end users. building products on top of models.</div>
+        <div class="journal-line">     — AI-native consumer apps: Perplexity, Midjourney, Character.ai, ElevenLabs</div>
+        <div class="journal-line">     — coding tools: Cursor, GitHub Copilot, Replit</div>
+        <div class="journal-line">     — enterprise AI: Microsoft Copilot, Salesforce, ServiceNow</div>
+        <div class="journal-line">     — vertical SaaS: Harvey (law), Abridge (medicine), Glean (enterprise search)</div>
+        <div class="journal-line">     — agent frameworks: autonomous pipelines, workflow automation</div>
+        <div class="journal-line">     — API layer: the middleware between labs and builders</div>
+        <div class="journal-line">     — edge AI compute: running models on-device, not in the cloud.</div>
+        <div class="journal-line">          Apple Neural Engine, Qualcomm AI, Samsung, Rabbit r1, Frame glasses.</div>
+        <div class="journal-line">          lower latency, privacy-preserving, works offline. a big and underrated frontier.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">5. using AI</div>
+        <div class="journal-line">     every domain of human work, being transformed. this is the granular tracker.</div>
+        <div class="journal-line">     — software engineering</div>
+        <div class="journal-line">     — creative writing & journalism</div>
+        <div class="journal-line">     — visual art & design</div>
+        <div class="journal-line">     — music & audio</div>
+        <div class="journal-line">     — film & video</div>
+        <div class="journal-line">     — medicine: diagnosis, drug discovery, genomics, radiology</div>
+        <div class="journal-line">     — mathematics: theorem proving, research assistance</div>
+        <div class="journal-line">     — science: physics, chemistry, biology, materials</div>
+        <div class="journal-line">     — robotics & physical AI</div>
+        <div class="journal-line">     — autonomous driving</div>
+        <div class="journal-line">     — space exploration</div>
+        <div class="journal-line">     — education</div>
+        <div class="journal-line">     — law</div>
+        <div class="journal-line">     — finance & trading</div>
+        <div class="journal-line">     — agriculture</div>
+        <div class="journal-line">     — manufacturing</div>
+        <div class="journal-line">     — language & translation</div>
+        <div class="journal-line">     — defence & cyber war: AI-guided weapons, autonomous drones, cyber offence & defence,</div>
+        <div class="journal-line">          battlefield intelligence, Palantir, DARPA, nation-state AI arms race</div>
+        <div class="journal-line">     — gaming & interactive media: NPC intelligence, procedural worlds, game design co-pilots,</div>
+        <div class="journal-line">          AI dungeon masters, real-time character behaviour, Inworld AI, Ubisoft Neo NPC</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">6. governing AI</div>
+        <div class="journal-line">     not against it — trying to shape how it develops and who it serves.</div>
+        <div class="journal-line">     — national policy: US executive orders, China AI regulations, UK approach</div>
+        <div class="journal-line">     — supranational: EU AI Act, UN AI governance bodies</div>
+        <div class="journal-line">     — standards bodies: NIST, ISO AI standards</div>
+        <div class="journal-line">     — policy think tanks: CSET, GovAI, Centre for AI Safety</div>
+        <div class="journal-line">     — international coordination: AI Safety Summits, Bletchley Declaration</div>
+        <div class="journal-line">     — corporate governance: internal ethics boards, responsible AI teams</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">7. resisting AI</div>
+        <div class="journal-line">     people who want to slow it down or stop specific uses. legitimate concerns.</div>
+        <div class="journal-line">     — labour & unions: writers, actors, illustrators — SAG-AFTRA, WGA strikes</div>
+        <div class="journal-line">     — artists & copyright: lawsuits, visual artists, Getty Images</div>
+        <div class="journal-line">     — religious & ethical voices: Pope Leo, faith communities</div>
+        <div class="journal-line">     — academic critics: Timnit Gebru, Gary Marcus, Emily Bender</div>
+        <div class="journal-line">     — pause & slowdown movements: Future of Life Institute letter</div>
+        <div class="journal-line">     — anti-surveillance: facial recognition bans, biometric data fights</div>
+        <div class="journal-line">     — environmental: AI energy and water consumption concerns</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">8. second order AI impact</div>
+        <div class="journal-line">     not what AI does — what AI does to us. the ripple effects on how we live.</div>
+        <div class="journal-line">     — psychology: attention, cognition, dependency, the outsourcing of thinking</div>
+        <div class="journal-line">     — identity: what does it mean to be human when machines can do what we do</div>
+        <div class="journal-line">     — relationships: AI companions, loneliness, parasocial bonds with models</div>
+        <div class="journal-line">     — work & meaning: if AI does the work, what do people do with their days</div>
+        <div class="journal-line">     — culture: who makes art, who owns stories, what is authenticity now</div>
+        <div class="journal-line">     — education & childhood: kids growing up with AI tutors. what does that produce</div>
+        <div class="journal-line">     — inequality: AI amplifying the gap between those who use it well and those who don't</div>
+        <div class="journal-line">     — political: deepfakes, information warfare, trust in institutions eroding</div>
+        <div class="journal-line">     — spiritual: is this a tool or something more. where does consciousness fit</div>
+
+        <!-- Empty lines to fill space -->
+        <script>
+            for(let i=0; i<15; i++) {
+                document.write('<div class="journal-line"></div>');
+            }
+        </script>
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
