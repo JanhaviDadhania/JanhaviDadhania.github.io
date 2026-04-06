@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redesign of Superhuman Workflows Now That AI Is Here 0/&lt; - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.4rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #2a2a2a;
+            line-height: 1.2;
+            white-space: pre-wrap;
+        }
+        .page-title {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 0 2rem 0.75rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.4rem;
+            color: #2a2a2a;
+            line-height: 1.05;
+        }
+        .table-wrap {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem 2rem 1.25rem;
+        }
+        .rich-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3rem;
+            padding: 0.7rem 2rem 0.8rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #2a2a2a;
+            line-height: 1.25;
+        }
+        .rich-line img {
+            width: 1.35rem;
+            height: 1.35rem;
+            vertical-align: -0.2rem;
+            margin: 0 0.15rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            color: #2a2a2a;
+        }
+        th, td {
+            border: 1px solid rgba(0,0,0,0.12);
+            padding: 0.75rem 0.9rem;
+            vertical-align: top;
+            text-align: left;
+            background: rgba(255,255,255,0.18);
+        }
+        th {
+            font-weight: 600;
+        }
+        .image-slot {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem 2rem 1.25rem;
+        }
+        .image-slot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 1px solid rgba(0,0,0,0.12);
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.2rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="journal-container">
+        <div class="page-title">redesign of superhuman workflows now that AI is here</div>
+            <div class="journal-line">current workflows were designed with the assumption that cognitive agents proficient in natural langugage cognition does not exist.</div>
+        <div class="journal-line">But now that they are here, the workflows WILL change. how do we want our newer systems to be?</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">state of current systems</div>
+        <div class="rich-line">this is how any engineering division in company looks like. CXOs decide where does company want to move. low level executive decides what do we need to do to acheive that goal. That passes down to engineering directors(maangers of managers). engineering directors go on meetings with all managers(experts of their own areas for example data-science, frontend, backend, devOps etc). Till here most work happens in documents, sheets or niche personalised softwares.</div>
+        <div class="rich-line">Individual team managers work involve lots of meetings <img src="https://cdn.simpleicons.org/zoom" alt="Zoom logo"> <img src="https://cdn.simpleicons.org/googlemeet" alt="Google Meet logo"> <img src="https://cdn.simpleicons.org/microsoftteams" alt="Microsoft Teams logo"> <img src="https://cdn.simpleicons.org/slack" alt="Slack logo">, documents <img src="https://cdn.simpleicons.org/googledocs" alt="Google Docs logo">, excel sheets to track <img src="https://cdn.simpleicons.org/googlesheets" alt="Google Sheets logo">.</div>
+        <div class="rich-line">Staff and principle engineers works at the same level but more on technical side. Even their daily life goes around same tools.</div>
+        <div class="rich-line">Under them are L1 L2 and L3 engineers who works with long list of software tools. slack, github, IDEs, jenkins, argoCD, grafana, looker, jira, confluence, terraform, snowflake, databricks.....</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>role</th>
+                        <th>tasks &amp; tools</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>L1 L2 L3 engineers</td>
+                        <td>it works on my machine. IDEs, personal scripts, personal notes, personal todos, docker desktop, local kube clusters, GitHub, Slack, Google docs, Chrome.</td>
+                    </tr>
+                    <tr>
+                        <td>staff/principle engineers</td>
+                        <td>brainstorming, whiteboarding, architecture, testing if systems blow up. miro, excalidraw, confluence docs, zoom/meet calls, slack threads, jira epics, excel, google docs.</td>
+                    </tr>
+                    <tr>
+                        <td>team managers</td>
+                        <td>1:1s with everyone, zoom/calendar, HR feedback platforms, jira tracking, calls with PMs, sales, customer support, getting those people to talk to their team.</td>
+                    </tr>
+                    <tr>
+                        <td>product managers</td>
+                        <td>PRDs, product analytics softwares, calls with engineers, managers and staff. sits in the tension between shipping pressure and engineering constraints.</td>
+                    </tr>
+                    <tr>
+                        <td>deploy / infra</td>
+                        <td>jenkinds, github actions, argoCD, terraform, graphana, cloud management.</td>
+                    </tr>
+                    <tr>
+                        <td>alerts / ops</td>
+                        <td>pagers, datadog, on call duties.</td>
+                    </tr>
+                    <tr>
+                        <td>engineering directors</td>
+                        <td>managers of managers. think about headcounts, how much are we spending on what, and talk to executives.</td>
+                    </tr>
+                    <tr>
+                        <td>product designers</td>
+                        <td>UI/UX. figma.</td>
+                    </tr>
+                    <tr>
+                        <td>security</td>
+                        <td>i dn't know much about them.</td>
+                    </tr>
+                    <tr>
+                        <td>testers</td>
+                        <td>x0||x|</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="rich-line">most tools junior devs use can now be connected to LLMs. So most things junior engineers do can be done by agents.(not just a guess anymore, its real).</div>
+        <div class="rich-line">Every junior engineers productivity will increase many many x goign forward. We will either have very few junior engineers working in companies or oen junior engineer might be producing 5 engineers output. THIS WILL DIRECTLY AFFECT EVERYONE WORKING ABOVE THEM.</div>
+        <div class="rich-line">For everyone above junior engineers two things will happend. first, they will also have agent as an assistant and second they will have lot less people to manager and lot more work to review.</div>
+        <div class="image-slot">
+            <img src="../../../Frame%201081.png" alt="Current systems workflow sketch">
+        </div>
+        <div class="journal-line"></div>
+        <div class="journal-line">new design</div>
+        <div class="journal-line">junior engineers will now instead of working with tools themselves, monitor agents working on them. they might monitor 5-6 agents at a time and fill in wherever agent requires human judgement. They will be instructing and observing more instead of doing.</div>
+        <div class="journal-line">So tools that lets us instruct(message apps, audio message apps) and observe(dashboard, analytics, alerts app) will see themselves getting integrated more.</div>
+        <div class="journal-line">tables devices and microphone devices which are perfect for instruction and observations will be in demand. (not just hardware, even instruct and observe softwares will be produced more).</div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+    </div>
+    <a href="../" class="back-link">← Back to Next</a>
+</body>
+</html>
