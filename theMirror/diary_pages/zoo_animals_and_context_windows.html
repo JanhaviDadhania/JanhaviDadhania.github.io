@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Us Animals and Context Windows - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            max-width: 860px;
+            padding: 60px 40px 100px 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            min-height: 3.2rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.45rem;
+            padding-left: 0;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.75rem;
+            font-weight: 500;
+            color: #2a2a2a;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .title-line {
+            font-size: 2.4rem;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(0,0,0,0.15);
+            color: #1a1a1a;
+            min-height: 4rem;
+            margin-bottom: 0.2rem;
+        }
+        .epistemic {
+            font-size: 1.4rem;
+            color: #888;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-style: italic;
+        }
+        .section-header {
+            font-weight: 700;
+            font-size: 1.9rem;
+            margin-top: 0.4rem;
+            border-bottom: 1.5px solid rgba(0,0,0,0.12);
+            color: #1a1a1a;
+        }
+        .spacer {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            min-height: 2rem;
+        }
+        .footnote-section {
+            margin-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.15);
+        }
+        .footnote-line {
+            border-bottom: none;
+            font-size: 1.4rem;
+            color: #666;
+            min-height: 2.6rem;
+            line-height: 1.5;
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-container {
+                padding: 40px 20px 80px 20px;
+            }
+            .journal-line {
+                font-size: 1.4rem;
+            }
+            .title-line {
+                font-size: 1.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+
+        <div class="journal-line title-line">Us Animals and Context Windows</div>
+        <div class="journal-line epistemic">epistemic status: high confidence on the architectural argument, speculative on the deeper implications</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line">The default when someone builds a multi-agent system is to put a manager at the top. There is a boss agent that receives the task, breaks it into pieces, delegates to workers, collects results, synthesises. This architecture is so natural it barely feels like a choice — it mirrors how we structure human organisations, how we think about delegation, how we've always drawn org charts.</div>
+        <div class="journal-line">I want to argue it is wrong, or at least, that it fails at the exact point where we need it to work: scale.</div>
+        <div class="journal-line">More specifically, I want to trace a pattern that appears in thermodynamics, in evolutionary biology, in the architecture of neural networks, and in the internal economics of a 200k-token context window — a pattern suggesting that centralisation is not just suboptimal but architecturally self-defeating, and that distributed coordination is not just one design option among many but the only design that survives.</div>
+        <div class="journal-line">This is not a new argument. Hayek made it in 1945 about price systems. Biologists have been making it about ecosystems since Darwin. But it has not been made carefully about agentic AI systems, and I think the agentic case reveals something the biological and economic cases obscured: the failure mode of centralisation is not just inefficiency, it is a specific and predictable collapse, and we can now describe its mechanism precisely.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">The Standard Architecture and Why It Feels Right</div>
+        <div class="spacer"></div>
+        <div class="journal-line">When you build a multi-agent system today, the natural move is manager + workers. The manager gets the task. It has a plan. It issues instructions. Workers execute and return results. The manager synthesises. This is how most agent frameworks are scaffolded, how most people I talk to think about it instinctively.</div>
+        <div class="journal-line">The appeal is obvious. It mirrors human organisational intuition. We have bosses. Bosses delegate. Workers report up. More practically, it gives you a clear locus of coordination: one agent holds the plan, maintains coherence, knows what everyone is doing.</div>
+        <div class="journal-line">I held this view until I started thinking carefully about what the manager is actually doing inside a 200,000-token context window.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">The Context Window as the Crack</div>
+        <div class="spacer"></div>
+        <div class="journal-line">200,000 tokens is roughly 600 pages. That sounds like a lot. But consider what a manager agent in a complex multi-agent system needs to hold simultaneously:</div>
+        <div class="journal-line">  — the original task specification</div>
+        <div class="journal-line">  — project context and architecture docs</div>
+        <div class="journal-line">  — tool and MCP documentation (growing with every added capability)</div>
+        <div class="journal-line">  — the conversation history of its coordination with workers</div>
+        <div class="journal-line">  — the returned results from each worker</div>
+        <div class="journal-line">  — its own working reasoning</div>
+        <div class="journal-line">Every tool you add to an agent's toolkit is appended to the system prompt. More capable = less room to read. The manager, precisely because it must coordinate everything, must carry everything — and carrying everything degrades the quality of reasoning about any particular thing. The context window is a zero-sum resource. [1]</div>
+        <div class="journal-line">Now consider a three-layer hierarchy: manager delegating to sub-managers delegating to workers. Each layer of indirection adds coordination overhead, result summarisation loss, and context bloat at every level. The manager at the top, responsible for the highest-level coherence, has the least room to think clearly about any particular piece.</div>
+        <div class="journal-line">There is a precise name for what happens here. In centralised systems, the centre maintains low entropy while peripheral nodes accumulate chaos. Leadership stays disconnected from local conditions until collapse. The manager agent maintains apparent coherence — it has a plan, it issues instructions — while the actual work is happening in an increasingly impoverished environment. What looks like coordination is actually information loss propagating upward.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">What Nature Figured Out First</div>
+        <div class="spacer"></div>
+        <div class="journal-line">The pattern I keep running into is this: every system that has survived and scaled across the full range of biological complexity — cells, immune systems, ant colonies, ecosystems — is distributed. Not partially distributed. Structurally, fundamentally distributed in a way that makes centralisation impossible by design.</div>
+        <div class="journal-line">This is not an accident. Ilya Prigogine showed that complex order can spontaneously emerge in systems far from equilibrium — systems that continuously take in energy, process it, and dissipate it. [2] He called these dissipative structures. The key property is that they maintain their organisation not despite entropy production but through it. A hurricane is not fighting thermodynamics. A living cell is not fighting thermodynamics. They are thermodynamics, doing something interesting.</div>
+        <div class="journal-line">What does a dissipative structure have that a decision tree doesn't? Feedback from the leaf nodes. In a decision tree, entropy is reduced top-down. The structure, once created, is rigid. Leaf nodes send no signal upward. When the environment changes, the tree has no mechanism for self-modification.</div>
+        <div class="journal-line">In a neural network — and here the analogy to distributed agent systems becomes exact — adjustments propagate upward from leaf nodes. The system continuously reduces uncertainty by incorporating local information from every node. The structure is not imposed from above; it emerges from below. This is why neural networks adapt to distributions that decision trees cannot handle: the leaf nodes are not just executors, they are informants.</div>
+        <div class="journal-line">An ant colony does not have a general issuing march orders. The queen lays eggs; that is the extent of her executive function. Workers navigate by pheromone — a stigmergic coordination mechanism where each agent reads and writes to a shared environment rather than communicating directly. [3] No ant knows the global plan. The global plan does not exist until the behaviour of thousands of locally-responding ants produces it as an emergent property.</div>
+        <div class="journal-line">The immune system defends against threats it has never seen before. No central database of pathogens is consulted. Individual cells respond to local molecular signals, and the collective response is adaptive in a way that could not have been designed top-down because the top doesn't know what threat is coming.</div>
+        <div class="journal-line">I keep coming back to the same question: if centralisation is so natural and efficient, why did 3.8 billion years of selection pressure produce none of it?</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">The Dictator Constraint</div>
+        <div class="spacer"></div>
+        <div class="journal-line">I wrote a note to myself a while back that I want to quote because it captures something precisely: "no manager big enough to know everything about the system, otherwise he will become dictator."</div>
+        <div class="journal-line">This looks like it might be a political warning. It is actually an architectural observation. A manager who truly knows everything — who holds the complete world model, the full state, the plans of every worker — has, by definition, filled their context window with coordination overhead. They are no longer capable of novel reasoning. They are a router. And a router, however sophisticated, is qualitatively different from an agent.</div>
+        <div class="journal-line">More dangerously: a manager that accumulates all information gravitates toward centralising all decisions. Workers stop making local judgments and route everything upward. The more the manager knows, the more it seems efficient to have it decide everything. Workers atrophy. You end up with a system where one agent is bottlenecking every decision in the network, running in a context window crowded with everything it has tried to know.</div>
+        <div class="journal-line">This is exactly the failure mode of centralised political systems. The disconnection of leadership from local conditions is not a defect of bad leaders; it is what happens when you ask one node to hold a world model too large for any node. Hayek in 1945 — arguing that no central planner can aggregate and act on all the distributed knowledge that exists locally in a market — was not making an argument about knowledge in the abstract. He was describing context window limits before context windows existed.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">Borrowed Robustness vs Intrinsic Robustness</div>
+        <div class="spacer"></div>
+        <div class="journal-line">Someone might argue: centralised AI systems do not face selection pressure. They have engineers who maintain them, data centres that power them, companies that fund them. The brutal fitness test of evolution does not apply.</div>
+        <div class="journal-line">This is true, but it misidentifies what kind of robustness we want. There are two kinds.</div>
+        <div class="journal-line">Intrinsic robustness: the system survives because the architecture itself is self-sustaining. Remove the parent, the system continues. A rainforest does not need anyone to keep it running.</div>
+        <div class="journal-line">Borrowed robustness: the system survives because something external maintains it. A tiger in a zoo does not go extinct — but it is not fit in the way a wild tiger is fit. It has borrowed the ecosystem's robustness without earning it.</div>
+        <div class="journal-line">Centralised agentic systems are zoo animals. Their apparent robustness is the robustness of the engineering team keeping the central coordinator alive. The moment the central coordinator fails — a context overflow, a model degradation, a routing error — the entire system fails with it. Distributed systems, even under the same parent, fail more gracefully: individual nodes fail, others route around, the system degrades proportionally rather than catastrophically.</div>
+        <div class="journal-line">And note: the parent is itself distributed. Human civilisation. Competing labs. Markets. The thing that actually persists at every level of the stack is distributed. Centralisation is always local and temporary — it exists inside distributed containers, and it survives only as long as those containers hold.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">What Distributed Actually Looks Like</div>
+        <div class="spacer"></div>
+        <div class="journal-line">I want to be concrete about what I am actually arguing for, because "distributed" is easy to gesture at and hard to specify.</div>
+        <div class="journal-line">The sub-agent architecture that already exists in systems like Claude Code is the beginning of the right direction. A parent distributes tasks to workers. Each worker has its own full context window — 200k tokens for its own task alone. Workers do not share context with each other. The parent does not drown in 3× the context. Each component, operating in isolation, performs better on its specific task than it would if it were aware of everything. This is the isolation win: not a consolation prize but the actual mechanism.</div>
+        <div class="journal-line">But sub-agents with a manager at the top is still a centralised topology. The further direction is what I have been thinking of as the soup architecture: a system where agents operate at different levels of task/coordination ratio — some spending most of their context on their own task and a little on coordination, some the reverse, and that ratio varying continuously. Not a hierarchy. A network with variable coupling.</div>
+        <div class="journal-line">The communication mechanism matters here. Direct agent-to-agent messaging replicates the problems of centralised communication. Stigmergic coordination — agents reading and writing to a shared environment rather than messaging each other — scales differently. No agent needs to know the full state. Global coherence emerges from local interaction.</div>
+        <div class="journal-line">This is not a production architecture yet. I don't know if it is achievable with current tooling. But the neural network analogy suggests it is: we already have systems where millions of parameters update in parallel, reading local gradients, producing global coherent behaviour. The architecture exists. We have not yet applied it to agent coordination.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">The Branching Insight</div>
+        <div class="spacer"></div>
+        <div class="journal-line">One more thing, orthogonal to the distributed/centralised argument but in some ways more profound.</div>
+        <div class="journal-line">Branching — forking context at a decision point, exploring multiple timelines, selecting the best outcome — breaks a constraint that has governed intelligence since thinking began. Every philosopher, scientist, engineer in history made a decision and lived with it. The sunk cost of time meant commitment was inevitable. You had one timeline.</div>
+        <div class="journal-line">Branching eliminates sunk cost entirely. This is not a software feature; it is a different shape of reasoning. Biology never had access to it — not because biological systems are not parallel, but because the parallel processes do not share a selection criterion that allows comparison and merger.</div>
+        <div class="journal-line">In a distributed agentic system, branching is particularly natural. Different workers can explore different solution paths in parallel, full-context, without polluting each other's reasoning. A selection mechanism evaluates outcomes and commits to the best path. The cost of exploration collapses. The incentive to commit early disappears.</div>
+        <div class="journal-line">I do not think we have begun to understand what this means for how reasoning should be structured.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">What I Would Build Differently</div>
+        <div class="spacer"></div>
+        <div class="journal-line">Some concrete implications, with appropriate uncertainty:</div>
+        <div class="journal-line">Minimise the manager's context obligations. If you need a coordinating agent, its only job should be task decomposition and result evaluation. It should not carry intermediate states.</div>
+        <div class="journal-line">Prefer stigmergy over messaging. Shared state that agents read and write, rather than direct inter-agent communication. Context spent reading shared state is task-relevant; context spent on messages is coordination overhead.</div>
+        <div class="journal-line">Make worker isolation a design principle. Workers that don't know about other workers produce better work on their task. This is counterintuitive and underappreciated.</div>
+        <div class="journal-line">Plan for the coordinator's failure. Most current systems fail totally when the manager's context overflows. A well-designed distributed system degrades gracefully.</div>
+        <div class="journal-line">Embrace the soup at sufficient scale. For large enough systems, a pure hierarchy is probably wrong. Something closer to the multi-manager multi-worker topology is probably right. I don't know what the phase transition looks like.</div>
+        <div class="spacer"></div>
+
+        <div class="journal-line section-header">Open Questions</div>
+        <div class="spacer"></div>
+        <div class="journal-line">The argument up to the architectural critique of centralisation I am fairly confident in. Beyond that I am genuinely uncertain.</div>
+        <div class="journal-line">I don't know when a manager-worker architecture is the right choice. For small, well-scoped, clearly-hierarchical tasks, the overhead of distributed coordination is probably not worth it. The question is where the crossover point is. My intuition is that it comes earlier than most people expect.</div>
+        <div class="journal-line">I don't know how to implement stigmergic coordination at the agent level practically. The pheromone trail in an ant colony is low-bandwidth and local. What is the equivalent in a system of language model agents?</div>
+        <div class="journal-line">I don't know whether the emergent global coherence I am gesturing at — the kind that appears in neural networks, in ant colonies, in markets — is achievable with goal-directed agents on human timescales. Natural distributed systems are slow. They fail catastrophically sometimes. Whether we can engineer fast distributed coordination without a manager is genuinely open.</div>
+        <div class="journal-line">What I am confident of: the default architecture will hit a wall, and the wall is the manager's context window. The interesting question is not whether this happens but when, and what we do about it.</div>
+        <div class="spacer"></div>
+
+        <div class="footnote-section">
+            <div class="journal-line footnote-line">[1] The zero-sum nature of the context window is the mild version. The more pernicious version: reasoning quality on any specific task degrades as total context load increases — a less well-understood phenomenon that deserves empirical attention.</div>
+            <div class="journal-line footnote-line">[2] Prigogine's work on dissipative structures won the Nobel Prize in Chemistry in 1977. The core claim — that open systems far from equilibrium can spontaneously increase their internal organisation — was controversial for decades and is now foundational to complexity science. The relevant books are Order Out of Chaos (with Isabelle Stengers, 1984) and The End of Certainty (1996).</div>
+            <div class="journal-line footnote-line">[3] "Stigmergy" was coined by Pierre-Paul Grassé in 1959 studying termite construction. The insight: termites are not following orders or communicating a plan — they are responding to the physical structure previous termites have built. The environment mediates coordination. This is distinct from direct agent-to-agent communication and from central planning.</div>
+        </div>
+
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
