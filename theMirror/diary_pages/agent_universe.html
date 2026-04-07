@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Map of the Agent Universe - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.5rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2a2a2a;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.4rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+        <div class="journal-line" style="color: #555; border-bottom: 2px solid rgba(0,0,0,0.1);">the map of the agent universe</div>
+        <div class="journal-line"></div>
+
+        <!-- Empty lines to fill space -->
+        <script>
+            for(let i=0; i<20; i++) {
+                document.write('<div class="journal-line"></div>');
+            }
+        </script>
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
