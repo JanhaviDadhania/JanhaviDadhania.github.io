@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Thinking Assistant's Design - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.4rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #2a2a2a;
+            line-height: 1.2;
+            white-space: pre-wrap;
+        }
+        .section-title {
+            color: #555;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.2rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+        <div class="journal-line section-title">my thinking assistant's design</div>
+        <div class="journal-line">i have a graph of topics i am interested in. some of them connects directly, some through intermediate nodes, some don't connect, some form clusters, some are scared around.</div>
+        <div class="journal-line">Each of my thought(long thought, short thought) corresponds to part of this graph. Otherways around, I traverse the part of the graph with different algorithms to generate different thoughts.</div>
+        <div class="journal-line">&lt;image of topic nodes&gt;</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">I go deeper on each of those thoughts(part of graph). for example i am thinking on <b>software systems design using AI</b>, that is directly inspired from complex systemic designg of <b>biological systems</b>. This corresponds to <b>biology, software, design, math</b> topics. That is the subgraph.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line section-title">coffee talk buddy</div>
+        <div class="journal-line">I pass this thought to my coffee talk buddy. he goes and surf internet, reads my documents corresponding to those topics, reads my thought i just passed and talks to me while i drink coffee.</div>
+        <div class="journal-line">we do not constrain ourselve much at this point. we go wherever the talk takes us.and we keep noting down specific ideas we like, or we group our ideas and note them down.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">this breadth search distills into specific ideas in some time. these coffee chats sometimes lasts hour, sometimes days.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line section-title">deeper chat</div>
+        <div class="journal-line">then we go deeper into topics. we don't cover much depth here. and write one more set of notes.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">two thinngs come out of this. 1. article 2. testable hypothesis, set of experiments, set of projects ew wanna run.</div>
+        <div class="journal-line">i write article with article agent and reserch agent takes up project and tests it and anlayse finding and feeds back to top of the funnel.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+        <div class="journal-line"></div>
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
