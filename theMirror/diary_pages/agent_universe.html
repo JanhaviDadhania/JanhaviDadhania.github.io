@@ -77,9 +77,198 @@
         <div class="journal-line" style="color: #555; border-bottom: 2px solid rgba(0,0,0,0.1);">the map of the agent universe</div>
         <div class="journal-line"></div>
 
+        <div class="journal-line" style="font-weight: 700;">Silicons</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">Single silicon for building single project. (like claude for building thoughtee)</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">Multi agent system of talking silicons. (like v1 of shubham's silicon)</div>
+        <div class="journal-line">  |_ manager workers</div>
+        <div class="journal-line">  |_ distributed system of workers</div>
+        <div class="journal-line">  |_ multi manager multi worker system</div>
+        <div class="journal-line">       ( no manager big enough to know everything about the system</div>
+        <div class="journal-line">         otherwise he will become dictator )</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">1. single silicon: how is context managed?</div>
+        <div class="journal-line">200k tokens is 600 pages.</div>
+        <div class="journal-line">first claude saves all the messages i have sent and files it has read.</div>
+        <div class="journal-line">do you pass it in prompt everytime? FREAKING YES.</div>
+        <div class="journal-line">doesn't it keep piling up? kinda does.</div>
+        <div class="journal-line">and performance doesn't degrade? yeh, that's why the limit.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">persistent context — CLAUDE.md ( it can exist at sub directory level as well )</div>
+        <div class="journal-line">  project overview and architecture</div>
+        <div class="journal-line">  tech stack and conventions</div>
+        <div class="journal-line">  commands to run (build, test, lint)</div>
+        <div class="journal-line">  preferences and rules you've set</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">claude's todo.md</div>
+        <div class="journal-line">project settings.json (which tools are allowed)</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">and all the tools and MCP i connect, their skills and MCP documents</div>
+        <div class="journal-line">gets appended in prompt right? so more tools, i will be able to read lesser files.</div>
+        <div class="journal-line">Yes true. it happens.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">interesting thing.</div>
+        <div class="journal-line">so you can literally give claude 600 pages of prompt and it will perform as well.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">DEEPER.</div>
+        <div class="journal-line">how does this happen at architecture level.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">SUB AGENTS</div>
+        <div class="journal-line">get context from parent. returns summary. parent also gets little summary.</div>
+        <div class="journal-line">so now parent is not sharing 200k among 3 tasks i had to do.</div>
+        <div class="journal-line">parent is just distributing tasks and getting results.</div>
+        <div class="journal-line">worker is also not sharing context with other 2. it just does its own thing.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">each gets better.</div>
+        <div class="journal-line">IT IS WIN WIN</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">BRANCH</div>
+        <div class="journal-line">super human.</div>
+        <div class="journal-line">parallel universes.</div>
+        <div class="journal-line">it's like you decide to make a decision at time t1 and reach t2 (t2 > t1)</div>
+        <div class="journal-line">and then YOU FREAKING GO BACK TO TIME t1 again and decide something else</div>
+        <div class="journal-line">and go to time T3.</div>
+        <div class="journal-line">and come back and keep doing it.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">The Deeper Implication</div>
+        <div class="journal-line">This breaks a fundamental constraint of intelligence that has existed since the beginning of thinking.</div>
+        <div class="journal-line">Every philosopher, scientist, engineer in history made a decision and lived with it.</div>
+        <div class="journal-line">The sunk cost of time meant commitment was inevitable.</div>
+        <div class="journal-line">Branching eliminates sunk cost entirely.</div>
+        <div class="journal-line">You never have to commit until you've seen the actual outcomes of multiple timelines.</div>
+        <div class="journal-line">It's not just a software feature.</div>
+        <div class="journal-line">It's a different shape of reasoning that biology never had access to.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">SKILLS</div>
+        <div class="journal-line">like a bachelor's degree with lightspeed.</div>
+        <div class="journal-line">i need this claude to be able to draw, pass SKILL.md and it knows how to draw.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">MULTI AGENT SYSTEMS</div>
+        <div class="journal-line">  |_ manager workers</div>
+        <div class="journal-line">  |_ distributed system of workers</div>
+        <div class="journal-line">  |_ multi manager multi worker system</div>
+        <div class="journal-line">       ( no manager big enough to know everything about the system</div>
+        <div class="journal-line">         otherwise he will become dictator )</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">1. manager + tiny workers</div>
+        <div class="journal-line">manager can work on 100s of tasks simultaneously.</div>
+        <div class="journal-line">( can benchmark if one token one task works nice, what is the max tasks claude can work with )</div>
+        <div class="journal-line">and each task can be 200k again. wait.</div>
+        <div class="journal-line">what if i have manager delegating to manager and so on.</div>
+        <div class="journal-line">huh.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">2. distributed system of workers</div>
+        <div class="journal-line">each worker working on 200k token length.</div>
+        <div class="journal-line">and they spare tiny fraction of it to know what others are doing.</div>
+        <div class="journal-line">each one connected to few others.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">3. multi manager multi worker</div>
+        <div class="journal-line">a soup of whole spectrum of sessions.</div>
+        <div class="journal-line">each agent using n fraction for its own task, 10n fraction to talk.</div>
+        <div class="journal-line">and n varies from 0 to 1.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">RAGs</div>
+        <div class="journal-line">this is how theoretically LLMs can have infinite memory.</div>
+        <div class="journal-line">retrieve what is needed in context window of 200k.</div>
+        <div class="journal-line">and then fill back too.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">RAG primarily means pre-retrieval. LLM doesn't know it happened.</div>
+        <div class="journal-line">and TEXT to SQL is LLM writing prompt to retrieve. like a tool.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">claude for RAG is text embedding large from open AI.</div>
+        <div class="journal-line">so here it matters how are you embedding, both user's message and the document.</div>
+        <div class="journal-line">  simple embedding</div>
+        <div class="journal-line">  contextual embeddings.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">Anthropic's Recommended Embedding Provider</div>
+        <div class="journal-line">Voyage AI's embedding models. voyage-3-large for general text, voyage-code-3 for code.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">Anthropic's Contextual Retrieval — The Real Recommendation</div>
+        <div class="journal-line">reduces failed retrievals by 49%, and with reranking by 67%.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">core problem: traditional RAG destroys context.</div>
+        <div class="journal-line">when you chunk a document, individual chunks lose surrounding context.</div>
+        <div class="journal-line">a chunk saying "the revenue was $2.3 billion" doesn't know it came from Q3 2024 earnings.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">their solution — two things combined:</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">1. Contextual Embeddings</div>
+        <div class="journal-line">before embedding each chunk, use Claude to prepend a context snippet.</div>
+        <div class="journal-line">  original chunk: "Revenue was $2.3 billion"</div>
+        <div class="journal-line">  after: "From Q3 2024 earnings report, discussing financial results. Revenue was $2.3 billion"</div>
+        <div class="journal-line">now the embedding carries full context, not just the isolated fragment.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">2. Contextual BM25 (Hybrid Search)</div>
+        <div class="journal-line">embedding models miss exact matches. BM25 looks for specific text strings.</div>
+        <div class="journal-line">query "Error code TS-999" — embedding might miss the exact TS-999 match.</div>
+        <div class="journal-line">so combine both:</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">  Query → semantic search + BM25 exact match</div>
+        <div class="journal-line">       → Rank Fusion (RRF)</div>
+        <div class="journal-line">       → Top 150 chunks</div>
+        <div class="journal-line">       → Reranker</div>
+        <div class="journal-line">       → Top 20 chunks</div>
+        <div class="journal-line">       → Claude answers</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">The Full Anthropic-Recommended Stack</div>
+        <div class="journal-line">  Embedding model  → Voyage AI (voyage-3-large or voyage-code-3)</div>
+        <div class="journal-line">  Chunking         → contextual chunks (Claude adds context to each chunk)</div>
+        <div class="journal-line">  Retrieval        → hybrid: semantic + BM25 combined via rank fusion</div>
+        <div class="journal-line">  Reranking        → pass top 150 through reranker, keep top 20</div>
+        <div class="journal-line">  Generation       → Claude</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">One More Thing Anthropic Points Out</div>
+        <div class="journal-line">if your knowledge base is smaller than 200k tokens (about 500 pages),</div>
+        <div class="journal-line">just include the entire knowledge base in the prompt — no need for RAG at all.</div>
+        <div class="journal-line">prompt caching makes this approach significantly faster and more cost-effective.</div>
+        <div class="journal-line">so ironically — for small enough knowledge bases, RAG is overkill.</div>
+        <div class="journal-line">RAG only becomes necessary when you exceed 200k tokens.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">graph RAGs.</div>
+        <div class="journal-line">agentic RAGs.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">LLM MEMORY</div>
+        <div class="journal-line">Types of Memory in Agents</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">In-context — what's in the prompt right now. Expensive, limited, temporary.</div>
+        <div class="journal-line">RAG / Vector DB — external knowledge base. Searched semantically. Cheap, unlimited, read-only.</div>
+        <div class="journal-line">Key-value store — structured facts. Fast lookup. Like a cache. user_preference: dark_mode.</div>
+        <div class="journal-line">Episodic — logs of past interactions. "Last time this user asked X, we did Y."</div>
+        <div class="journal-line">In-weights — what the model already knows from training. Always there, can't be changed at runtime.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">1. KV caching prompt that is being used again and again.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">fine tuning</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">WHEN TO FINE TUNE WHEN TO USE RAG?</div>
+        <div class="journal-line">parameters to compare</div>
+        <div class="journal-line">  RAM</div>
+        <div class="journal-line">  compute</div>
+        <div class="journal-line">  inference time</div>
+        <div class="journal-line">  accuracy</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">how much data is enough to fine tune.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">pre-training ( only labs can do it. ) HOW THE FREAK THEY DO IT. ENTIRE ARTICLE ON IT OF COURSE.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">NEXT ARTICLE ANOTHER OF COURSE. gwen dissection. architecture. in pytorch.</div>
+        <div class="journal-line"></div>
+        <div class="journal-line">NEXT on model distillation again. how does thinking that we see happen in architecture.</div>
+        <div class="journal-line">IT AIN'T THE REAL THINKING OF COURSE.</div>
+
         <!-- Empty lines to fill space -->
         <script>
-            for(let i=0; i<20; i++) {
+            for(let i=0; i<10; i++) {
                 document.write('<div class="journal-line"></div>');
             }
         </script>
