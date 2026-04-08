@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>are agents turning machine? - The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.5rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2a2a2a;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.4rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+        <div class="journal-line" style="color: #555; border-bottom: 2px solid rgba(0,0,0,0.1);">are agents turning machine?</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">is that even a reasonable question? or is it off as if asking are carbs bad for me or not?</div>
+        <div class="journal-line">Sounds sensible but meaningless without context.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">this is the context for are agents turning machine or not?</div>
+        <div class="journal-line">Can an LLM-based agent, given unbounded memory and tool access, compute anything a Turing machine can?</div>
+        <div class="journal-line">that's not interesting.</div>
+        <div class="journal-line">better question is, can agents do things turning machines can't?</div>
+        <div class="journal-line">even better, can our brains do things turing machines can't?</div>
+        <div class="journal-line">second question is unsettled. haha.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line">another interesting question, can turing machines do everything?</div>
+        <div class="journal-line">we know one problem they can't solve.</div>
+        <div class="journal-line">halting problem.</div>
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
