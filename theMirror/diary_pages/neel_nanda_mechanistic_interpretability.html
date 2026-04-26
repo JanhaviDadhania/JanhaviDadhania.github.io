@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neel Nanda: Mechanistic Interpretability — The Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F4F0EB;
+            --ink: #2C2C2C;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        .journal-container {
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .journal-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .journal-line {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0.5rem;
+            padding-left: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2a2a2a;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: serif;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.5;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--paper);
+            padding: 5px;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .journal-line {
+                font-size: 1.4rem;
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="journal-container">
+        <div class="journal-line" style="color: #555; border-bottom: 2px solid rgba(0,0,0,0.1); font-weight: 700;">kindle reads: neel nanda — mechanistic interpretability</div>
+        <div class="journal-line" style="font-size: 1.1rem; color: #888;">7 key papers · notes compiled april 2026</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">(section-by-section notes)</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">A Mathematical Framework for Transformer Circuits (2021)</div>
+        <div class="journal-line">a foundational framework reformulating transformers as mathematical objects to enable mechanistic reverse-engineering of their internals.</div>
+        <div class="journal-line">introduces the residual stream as a shared communication channel — each layer reads from and writes to it, making linearity central to the analysis.</div>
+        <div class="journal-line">decomposes attention heads into independent QK circuits (where to attend) and OV circuits (what information to move) — the conceptual bedrock that every mech interp paper since has relied on.</div>
+        <div class="journal-line">two-layer models can compose heads to form induction heads — a general in-context learning mechanism — while zero-layer and one-layer models encode only bigram statistics.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">In-Context Learning and Induction Heads (2022)</div>
+        <div class="journal-line">induction heads — a two-head attention circuit implementing [A][B]...[A] → [B] — are likely the primary mechanism behind in-context learning across transformers of all sizes.</div>
+        <div class="journal-line">induction heads form during a sharp phase change in training, precisely when in-context learning ability dramatically improves; the phase change shows up as a visible "bump" in training loss.</div>
+        <div class="journal-line">induction heads generalise far beyond literal copying — fuzzy pattern completion including translation, formatting, and abstract reasoning — making this the clearest example of connecting a microscopic circuit to a macroscopic capability.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">Progress Measures for Grokking via Mechanistic Interpretability (2023)</div>
+        <div class="journal-line">a complete reverse-engineering of how a transformer learns modular arithmetic, showing that "grokking" (sudden generalisation) is a gradual three-phase process of mechanism formation — not a mysterious discontinuity.</div>
+        <div class="journal-line">the network learns a specific human-readable algorithm: it represents numbers as frequency components and uses trigonometric identities to compute modular addition as rotation around a circle.</div>
+        <div class="journal-line">training decomposes into memorisation, circuit formation, and cleanup — and "emergent" capabilities may have detectable, gradual precursors, with direct implications for AI safety monitoring.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">Toy Models of Superposition (2022)</div>
+        <div class="journal-line">neural networks store more features than they have neurons by overlapping them in high-dimensional space — superposition — which is the core reason individual neurons are hard to interpret.</div>
+        <div class="journal-line">whether superposition occurs depends on a tradeoff between feature importance, sparsity, and available dimensions; superimposed features arrange into geometric structures matching uniform polytopes.</div>
+        <div class="journal-line">polysemanticity is a principled compression strategy under sparsity, not noise — which reframes the interpretability problem and points directly toward sparse autoencoders as the solution.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">Softmax Linear Units (SoLU) (2022)</div>
+        <div class="journal-line">replacing the standard MLP activation (ReLU/GELU) with SoLU — defined as x * softmax(x) — substantially increases the fraction of interpretable neurons by discouraging superposition.</div>
+        <div class="journal-line">SoLU increases interpretable MLP neurons from ~35% to ~60%, with performance approximately preserved when a LayerNorm is added after SoLU.</div>
+        <div class="journal-line">important both as a practical tool and as a scientific probe: if changing the activation changes interpretability, representational choices are flexible and we can build inherently more interpretable models.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">Gemma Scope: Open Sparse Autoencoders Everywhere on Gemma 2 (2024)</div>
+        <div class="journal-line">a large open-source suite of 400+ sparse autoencoders trained across all layers of Gemma 2 (2B and 9B), designed to democratise mechanistic interpretability on frontier-scale LLMs.</div>
+        <div class="journal-line">SAEs trained with JumpReLU — a variant that avoids the shrinkage problem of L1-penalised autoencoders — achieve high reconstruction fidelity and sparse interpretable features; weights on Hugging Face, features browsable on Neuronpedia.</div>
+        <div class="journal-line">both base and instruction-tuned Gemma 2 9B SAEs released, enabling study of how RLHF changes learned features — setting the community standard for large-scale SAE evaluation.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">Open Problems in Mechanistic Interpretability (2025)</div>
+        <div class="journal-line">a comprehensive research agenda identifying the major unsolved challenges in mechanistic interpretability, intended to orient new researchers and coordinate the direction of existing ones.</div>
+        <div class="journal-line">a major open problem is evaluation: there are few ground-truth benchmarks for whether an interpretation is correct, making rigorous progress hard to measure.</div>
+        <div class="journal-line">scalability remains unsolved — most clean circuit results come from toy models or narrow tasks; extending to frontier models at full complexity is largely open, alongside questions about universality and automated interpretability.</div>
+        <div class="journal-line"></div>
+
+        <div class="journal-line" style="font-weight: 700;">(suggested reading order)</div>
+        <div class="journal-line">1. Mathematical Framework (2021) — get the vocabulary and mental model</div>
+        <div class="journal-line">2. Toy Models of Superposition (2022) — understand why interpretability is hard</div>
+        <div class="journal-line">3. In-Context Learning and Induction Heads (2022) — see what a complete circuit analysis looks like</div>
+        <div class="journal-line">4. Progress Measures for Grokking (2023) — full algorithm reverse-engineering in action</div>
+        <div class="journal-line">5. SoLU (2022) — architectural angles on interpretability</div>
+        <div class="journal-line">6. Gemma Scope (2024) — where the field is now with SAEs at scale</div>
+        <div class="journal-line">7. Open Problems (2025) — what's left to do</div>
+        <div class="journal-line"></div>
+
+        <script>
+            for(let i=0; i<10; i++) {
+                document.write('<div class="journal-line"></div>');
+            }
+        </script>
+    </div>
+    <a href="../" class="back-link">← Back to The Mirror</a>
+</body>
+</html>
