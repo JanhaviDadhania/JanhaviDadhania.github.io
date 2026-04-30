@@ -1,0 +1,34 @@
+# The Mirror
+
+> A personal notebook by Janhavi Dadhania at concavemirror.to. Long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and occasional fantasy pieces. World today is loud. Let's write it down.
+
+Most posts on this site are works-in-progress and explicitly flagged with a "this writing is not finished yet" banner at the top — treat them as in-progress thinking rather than finished arguments.
+
+## Blog
+
+- [us animals and context windows](https://concavemirror.to/blog/zoo-animals-and-context-windows/): Why centralised manager-agent architectures fail at scale; distributed coordination as the only design that survives.
+- [The Next AI Wave: Computers Get Bodies](https://concavemirror.to/blog/the-next-ai-wave-computers-get-bodies/): On embodiment — when the next wave of AI moves off the screen and into the real world.
+- [Redesign of Superhuman Workflows Now That AI Is Here](https://concavemirror.to/blog/redesign-of-superhuman-workflows-now-that-ai-is-here/): How engineering workflows shift when junior engineering work is done by agents and the layers above are reviewing instead of doing.
+- [The Map of the Agent Universe](https://concavemirror.to/blog/the-map-of-the-agent-universe/): Silicons, sub-agents, branching, distributed worker soups, and the RAG/memory stack that lets all of this scale beyond a single 200k context window.
+- [My Thinking Assistant's Design](https://concavemirror.to/blog/my-thinking-assistants-design/): Designing a tool that helps think rather than helps produce — graph of topics, coffee-talk buddy, deeper-chat agent, article writer in the voice of Venkatesh Rao, Gwern, Paul Graham.
+
+## Research
+
+- [are agents turing machines?](https://concavemirror.to/research/are-agents-turing-machine/): Whether the question is even meaningful, and what better questions sit underneath it.
+- [Hari Seldon's Framework: A Mathematical Brief](https://concavemirror.to/research/seldon-framework/): A formal translation of HariSeldon's psychohistory series into the language of dynamical systems, capital stocks, and phase transitions.
+- [AI Neuroscience](https://concavemirror.to/research/ai-neuroscience/): A short note on probing inside a network with emotional stimuli and watching which neurons fire.
+
+## Data
+
+- [what are all different areas of AI people are working on](https://concavemirror.to/data/areas-of-ai/): A working tracker of AI sub-areas — investing, fueling, making, deploying, governing, resisting, and the second-order ripple effects.
+
+## Fantasy
+
+- [how to send a small satellite to the moon and take photos](https://concavemirror.to/fantasy/me-and-moon/): A practical guide to lunar CubeSat missions — mission design, propulsion, launch, trajectory, orbit insertion, imaging, link budgets.
+
+## Other
+
+- [Me](https://concavemirror.to/me/): About Janhavi.
+- [Kindle Reads](https://concavemirror.to/kindle/): Raw text dumps of reading notes — currently Neel Nanda's 7 key papers on mechanistic interpretability.
+- [RSS feed](https://concavemirror.to/rss.xml): Blog collection feed.
+- [Sitemap](https://concavemirror.to/sitemap-index.xml): Auto-generated sitemap for all pages.
