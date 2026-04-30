@@ -1,26 +1,15 @@
 ---
 import IndexLayout from '@/layouts/IndexLayout.astro';
-import PostCard from '@/components/PostCard.astro';
 import { getPublishedEntries } from '@/lib/collections';
+import { groupIntoClusters } from '@/lib/clusters';
 
 const posts = await getPublishedEntries('research');
+const groups = groupIntoClusters('research', posts).map((g) => ({
+  id: g.id,
+  posts: g.posts.map((p) => ({
+    href: `/research/${p.slug}/`,
+    title: p.data.title,
+  })),
+}));
 ---
-<IndexLayout title="Research" description="grounding ideas in math, papers, and proof.">
-  {posts.length === 0 ? (
-    <p class="empty">No posts yet.</p>
-  ) : (
-    posts.map((post) => (
-      <PostCard
-        href={`/research/${post.slug}/`}
-        title={post.data.title}
-        summary={post.data.summary}
-        tags={post.data.tags}
-        date={post.data.date}
-      />
-    ))
-  )}
-</IndexLayout>
-
-<style>
-  .empty { color: var(--ink-faded); font-style: italic; }
-</style>
+<IndexLayout title="research" description="grounding ideas in math, papers, and proof." clusters={groups} />

@@ -1,0 +1,28 @@
+---
+// Fixed bottom-right "back to the mirror" link.
+// Used on every non-home page so the home is always one click away.
+---
+<a class="back-link" href="/">← back to the mirror</a>
+
+<style>
+  .back-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--paper);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--rule);
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+  .back-link:hover {
+    opacity: 1;
+  }
+</style>

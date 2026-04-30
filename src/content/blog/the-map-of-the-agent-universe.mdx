@@ -1,0 +1,219 @@
+---
+title: "the map of the agent universe"
+date: 2026-04-10
+tags: []
+summary: "Silicons, sub-agents, branching, distributed worker soups, and the RAG/memory stack that lets all of this scale beyond a single 200k context window."
+draft: false
+meta:
+  on_coffee: true
+  is_finished: false
+  opinion_strength: 8
+  evidence_strength: 6
+---
+
+<Section color="maroon" label="silicons">
+Single silicon for building single project. (like claude for building thoughtee)
+
+Multi agent system of talking silicons. (like v1 of shubham's silicon)
+
+```
+multi agent system
+  |_ manager workers
+  |_ distributed system of workers
+  |_ multi manager multi worker system
+       ( no manager big enough to know everything about the system
+         otherwise he will become dictator )
+```
+</Section>
+
+<Section color="green" label="1. single silicon: how is context managed?">
+200k tokens is 600 pages.
+
+first claude saves all the messages i have sent and files it has read.
+
+do you pass it in prompt everytime? FREAKING YES.
+
+doesn't it keep piling up? kinda does.
+
+and performance doesn't degrade? yeh, that's why the limit.
+
+**persistent context — CLAUDE.md** (it can exist at sub directory level as well)
+
+- project overview and architecture
+- tech stack and conventions
+- commands to run (build, test, lint)
+- preferences and rules you've set
+
+claude's `todo.md`. project `settings.json` (which tools are allowed). and all the tools and MCP i connect, their skills and MCP documents.
+
+gets appended in prompt right? so more tools, i will be able to read lesser files. Yes true. it happens.
+
+interesting thing.
+
+so you can literally give claude 600 pages of prompt and it will perform as well.
+
+DEEPER. how does this happen at architecture level.
+</Section>
+
+<Section color="blue" label="sub agents">
+get context from parent. returns summary. parent also gets little summary.
+
+so now parent is not sharing 200k among 3 tasks i had to do. parent is just distributing tasks and getting results.
+
+worker is also not sharing context with other 2. it just does its own thing.
+
+each gets better.
+
+IT IS WIN WIN.
+</Section>
+
+<Section color="pink" label="branch">
+super human. parallel universes.
+
+it's like you decide to make a decision at time t1 and reach t2 (t2 > t1) and then YOU FREAKING GO BACK TO TIME t1 again and decide something else and go to time T3.
+
+and come back and keep doing it.
+</Section>
+
+<Section color="gray" label="the deeper implication">
+This breaks a fundamental constraint of intelligence that has existed since the beginning of thinking.
+
+Every philosopher, scientist, engineer in history made a decision and lived with it. The sunk cost of time meant commitment was inevitable.
+
+Branching eliminates sunk cost entirely. You never have to commit until you've seen the actual outcomes of multiple timelines.
+
+It's not just a software feature. It's a different shape of reasoning that biology never had access to.
+</Section>
+
+<Section color="maroon" label="skills">
+like a bachelor's degree with lightspeed.
+
+i need this claude to be able to draw, pass `SKILL.md` and it knows how to draw.
+</Section>
+
+<Section color="green" label="multi agent systems">
+```
+multi agent systems
+  |_ manager workers
+  |_ distributed system of workers
+  |_ multi manager multi worker system
+       ( no manager big enough to know everything about the system
+         otherwise he will become dictator )
+```
+
+**1. manager + tiny workers**
+
+manager can work on 100s of tasks simultaneously. (can benchmark if one token one task works nice, what is the max tasks claude can work with)
+
+and each task can be 200k again. wait. what if i have manager delegating to manager and so on. huh.
+
+**2. distributed system of workers**
+
+each worker working on 200k token length. and they spare tiny fraction of it to know what others are doing. each one connected to few others.
+
+**3. multi manager multi worker**
+
+a soup of whole spectrum of sessions. each agent using n fraction for its own task, 10n fraction to talk. and n varies from 0 to 1.
+</Section>
+
+<Section color="blue" label="rags">
+this is how theoretically LLMs can have infinite memory.
+
+retrieve what is needed in context window of 200k. and then fill back too.
+
+RAG primarily means pre-retrieval. LLM doesn't know it happened. and TEXT to SQL is LLM writing prompt to retrieve. like a tool.
+
+claude for RAG is text embedding large from open AI. so here it matters how are you embedding, both user's message and the document.
+
+- simple embedding
+- contextual embeddings
+</Section>
+
+<Section color="pink" label="anthropic's recommended embedding provider">
+Voyage AI's embedding models. `voyage-3-large` for general text, `voyage-code-3` for code.
+</Section>
+
+<Section color="gray" label="anthropic's contextual retrieval — the real recommendation">
+reduces failed retrievals by 49%, and with reranking by 67%.
+
+**core problem:** traditional RAG destroys context. when you chunk a document, individual chunks lose surrounding context. a chunk saying "the revenue was $2.3 billion" doesn't know it came from Q3 2024 earnings.
+
+their solution — two things combined:
+
+**1. Contextual Embeddings**
+
+before embedding each chunk, use Claude to prepend a context snippet.
+
+- original chunk: "Revenue was $2.3 billion"
+- after: "From Q3 2024 earnings report, discussing financial results. Revenue was $2.3 billion"
+
+now the embedding carries full context, not just the isolated fragment.
+
+**2. Contextual BM25 (Hybrid Search)**
+
+embedding models miss exact matches. BM25 looks for specific text strings. query "Error code TS-999" — embedding might miss the exact TS-999 match.
+
+so combine both:
+
+```
+Query → semantic search + BM25 exact match
+     → Rank Fusion (RRF)
+     → Top 150 chunks
+     → Reranker
+     → Top 20 chunks
+     → Claude answers
+```
+</Section>
+
+<Section color="maroon" label="the full anthropic-recommended stack">
+```
+Embedding model  → Voyage AI (voyage-3-large or voyage-code-3)
+Chunking         → contextual chunks (Claude adds context to each chunk)
+Retrieval        → hybrid: semantic + BM25 combined via rank fusion
+Reranking        → pass top 150 through reranker, keep top 20
+Generation       → Claude
+```
+</Section>
+
+<Section color="green" label="one more thing anthropic points out">
+if your knowledge base is smaller than 200k tokens (about 500 pages), just include the entire knowledge base in the prompt — no need for RAG at all.
+
+prompt caching makes this approach significantly faster and more cost-effective.
+
+so ironically — for small enough knowledge bases, RAG is overkill. RAG only becomes necessary when you exceed 200k tokens.
+
+graph RAGs. agentic RAGs.
+</Section>
+
+<Section color="blue" label="llm memory">
+**Types of memory in agents:**
+
+- **In-context** — what's in the prompt right now. Expensive, limited, temporary.
+- **RAG / Vector DB** — external knowledge base. Searched semantically. Cheap, unlimited, read-only.
+- **Key-value store** — structured facts. Fast lookup. Like a cache. `user_preference: dark_mode`.
+- **Episodic** — logs of past interactions. "Last time this user asked X, we did Y."
+- **In-weights** — what the model already knows from training. Always there, can't be changed at runtime.
+
+1. KV caching prompt that is being used again and again.
+</Section>
+
+<Section color="pink" label="fine tuning — when to fine tune, when to use rag?">
+parameters to compare:
+
+- RAM
+- compute
+- inference time
+- accuracy
+
+how much data is enough to fine tune.
+
+pre-training (only labs can do it.) HOW THE FREAK THEY DO IT. ENTIRE ARTICLE ON IT OF COURSE.
+</Section>
+
+<Section color="gray" label="next">
+NEXT ARTICLE ANOTHER OF COURSE. gwen dissection. architecture. in pytorch.
+
+NEXT on model distillation again. how does thinking that we see happen in architecture.
+
+IT AIN'T THE REAL THINKING OF COURSE.
+</Section>

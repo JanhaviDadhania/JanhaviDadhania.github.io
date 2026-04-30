@@ -5,9 +5,13 @@ export const site = {
   tagline: "World today is loud. Let's write it down.",
   subtagline: 'come along as we document history in the making',
 
-  // Manually pinned featured post on the homepage.
-  // Format: '<collection>/<slug>'. Set to null to fall back to latest blog post.
-  featured_slug: 'blog/zoo-animals-and-context-windows' as string | null,
+  // Posts featured on the homepage's journal lines, in display order.
+  // Each entry is '<collection>/<slug>'. Add a slug here to surface a post
+  // on the home page; remove to hide. Up to 8 fit in the journal block —
+  // anything beyond that is silently ignored.
+  featured_slugs: [
+    'blog/zoo-animals-and-context-windows',
+  ] as string[],
 
   // External subscribe URL (homepage button).
   subscribe_url: 'https://janhavidadhania.substack.com/subscribe',

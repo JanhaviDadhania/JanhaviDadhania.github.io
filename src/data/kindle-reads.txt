@@ -1,74 +1,72 @@
-→ neel nanda: mechanistic interpretability (7 key papers)
+kindle reads: neel nanda — mechanistic interpretability
+7 key papers · notes compiled april 2026
 
-kindle reads: why tool ais want to be agent ais
-essay: gwern.net/tool-ai
+(section-by-section notes)
 
-(first-pass annotations — section by section)
+A Mathematical Framework for Transformer Circuits (2021)
 
-Epigraph (Wiener, 1960)
-opens with "We wish a slave to be intelligent...complete subservience and complete intelligence do not go together."
-hands you the whole argument before the essay starts.
-technique: thesis-as-epigraph. the quote does more work than most introductions.
+a foundational framework reformulating transformers as mathematical objects to enable mechanistic reverse-engineering of their internals.
 
-Setup / abstract
-states the problem directly — Tool AIs are proposed as safer, but this safety will not hold.
-no warming up. the stakes are on the table by paragraph one.
-technique: start with the adversarial frame, not the background.
+introduces the residual stream as a shared communication channel — each layer reads from and writes to it, making linearity central to the analysis.
 
-Economic section
-Amdahl's Law — humans as the bottleneck. as AI gets better, keeping humans in the loop becomes the thing slowing you down.
-then: YouTube, chess, drone warfare as examples.
-makes the argument feel inevitable rather than speculative. you're not thinking "maybe" — you're thinking "oh, this is already happening."
-technique: ground abstract economic logic in real, escalating examples. the escalation matters: YouTube is mundane, drone warfare is alarming.
+decomposes attention heads into independent QK circuits (where to attend) and OV circuits (what information to move) — the conceptual bedrock that every mech interp paper since has relied on.
 
-Intelligence section
-now argues agents are smarter by nature, not just cheaper.
-key move: agents are a superset of tools (an agent can choose to act like a tool when tools are best).
-closes the first escape hatch. good-enough isn't achievable without building the thing you were trying to avoid.
-technique: superset argument — use set theory logic to make the conclusion feel definitionally true.
+two-layer models can compose heads to form induction heads — a general in-context learning mechanism — while zero-layer and one-layer models encode only bigram statistics.
 
-Actions at every layer
-systematically shows that agency isn't one thing you add on top — it shows up at every layer.
-at the third layer you feel you can't escape. this isn't one argument; it's five independent arguments that each hold.
-technique: taxonomic exhaustion — don't make the case once, make it at every level of abstraction so there's nowhere to hide.
+In-Context Learning and Induction Heads (2022)
 
-No conclusion
-essay just ends with "See Also" links. no wrap-up, no restatement, no call to action.
-signals confidence. he doesn't feel the need to summarize because the argument is settled.
-technique: ending without a conclusion as a power move.
+induction heads — a two-head attention circuit implementing [A][B]...[A] → [B] — are likely the primary mechanism behind in-context learning across transformers of all sizes.
 
-(second-pass additions — things understood better after seeing the whole essay)
+induction heads form during a sharp phase change in training, precisely when in-context learning ability dramatically improves; the phase change shows up as a visible "bump" in training loss.
 
-the epigraph already contains the full argument. the entire essay is just proving Wiener's 1960 observation.
+induction heads generalise far beyond literal copying — fuzzy pattern completion including translation, formatting, and abstract reasoning — making this the clearest example of connecting a microscopic circuit to a macroscopic capability.
 
-"concede, then overwhelm" is the backbone. every section acknowledges the safety concern is real, then shows it doesn't matter.
-the concession happens fast; the overwhelm is slow and thorough.
+Progress Measures for Grokking via Mechanistic Interpretability (2023)
 
-the five-layer structure is an escape-proof cage. you'd have to defeat all five arguments independently.
+a complete reverse-engineering of how a transformer learns modular arithmetic, showing that "grokking" (sudden generalisation) is a gradual three-phase process of mechanism formation — not a mysterious discontinuity.
 
-he names his own rhetorical moves. "i'm using X to mean Y." this builds credibility and preempts attacks.
+the network learns a specific human-readable algorithm: it represents numbers as frequency components and uses trigonometric identities to compute modular addition as rotation around a circle.
 
-the examples escalate in moral weight on purpose. YouTube → chess → drone warfare.
-by the time he gets to drone warfare, the "inevitability" framing has picked up moral dread. you feel the stakes, not just the logic.
+training decomposes into memorisation, circuit formation, and cleanup — and "emergent" capabilities may have detectable, gradual precursors, with direct implications for AI safety monitoring.
 
-no conclusion = "i don't need to convince you of anything more." it works because by that point the reader has been walked through five independent proofs.
+Toy Models of Superposition (2022)
 
-(skills to steal)
+neural networks store more features than they have neurons by overlapping them in high-dimensional space — superposition — which is the core reason individual neurons are hard to interpret.
 
-1. put the thesis in the epigraph. find a quote that says your whole argument in one sentence.
+whether superposition occurs depends on a tradeoff between feature importance, sparsity, and available dimensions; superimposed features arrange into geometric structures matching uniform polytopes.
 
-2. start with the adversarial frame. open with the thing you're arguing against, stated as charitably as possible. then dismantle it.
+polysemanticity is a principled compression strategy under sparsity, not noise — which reframes the interpretability problem and points directly toward sparse autoencoders as the solution.
 
-3. escalate examples in moral weight. start mundane (YouTube), move toward alarming (drone warfare).
+Softmax Linear Units (SoLU) (2022)
 
-4. use the superset argument. if your position logically includes the alternative as a special case, the alternative can never beat you.
+replacing the standard MLP activation (ReLU/GELU) with SoLU — defined as x * softmax(x) — substantially increases the fraction of interpretable neurons by discouraging superposition.
 
-5. taxonomic exhaustion. don't make one argument. make five sub-arguments that each hold independently.
+SoLU increases interpretable MLP neurons from ~35% to ~60%, with performance approximately preserved when a LayerNorm is added after SoLU.
 
-6. concede fast, bury slow. acknowledge the counterargument in one sentence. then spend three paragraphs making it irrelevant.
+important both as a practical tool and as a scientific probe: if changing the activation changes interpretability, representational choices are flexible and we can build inherently more interpretable models.
 
-7. name your own rhetorical moves. "i'm using X to mean Y." builds credibility, preempts attacks.
+Gemma Scope: Open Sparse Autoencoders Everywhere on Gemma 2 (2024)
 
-8. double-flank. after making the positive case, make the negative case against the alternative.
+a large open-source suite of 400+ sparse autoencoders trained across all layers of Gemma 2 (2B and 9B), designed to democratise mechanistic interpretability on frontier-scale LLMs.
 
-9. end without a conclusion. if you've built the argument well enough, you don't need to restate it. just stop.
+SAEs trained with JumpReLU — a variant that avoids the shrinkage problem of L1-penalised autoencoders — achieve high reconstruction fidelity and sparse interpretable features; weights on Hugging Face, features browsable on Neuronpedia.
+
+both base and instruction-tuned Gemma 2 9B SAEs released, enabling study of how RLHF changes learned features — setting the community standard for large-scale SAE evaluation.
+
+Open Problems in Mechanistic Interpretability (2025)
+
+a comprehensive research agenda identifying the major unsolved challenges in mechanistic interpretability, intended to orient new researchers and coordinate the direction of existing ones.
+
+a major open problem is evaluation: there are few ground-truth benchmarks for whether an interpretation is correct, making rigorous progress hard to measure.
+
+scalability remains unsolved — most clean circuit results come from toy models or narrow tasks; extending to frontier models at full complexity is largely open, alongside questions about universality and automated interpretability.
+
+(suggested reading order)
+
+1. Mathematical Framework (2021) — get the vocabulary and mental model
+2. Toy Models of Superposition (2022) — understand why interpretability is hard
+3. In-Context Learning and Induction Heads (2022) — see what a complete circuit analysis looks like
+4. Progress Measures for Grokking (2023) — full algorithm reverse-engineering in action
+5. SoLU (2022) — architectural angles on interpretability
+6. Gemma Scope (2024) — where the field is now with SAEs at scale
+7. Open Problems (2025) — what's left to do

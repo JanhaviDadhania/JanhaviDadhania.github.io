@@ -1,6 +1,6 @@
 ---
 // The top-right metadata block in a post: coffee status, finished status,
-// opinion strength, and evidence-strength rating.
+// opinion strength, evidence strength, and the opinion-vs-evidence ratio.
 
 interface Props {
   meta: {
@@ -14,63 +14,68 @@ interface Props {
 const { meta } = Astro.props;
 const ratio = meta.opinion_strength === 0
   ? '0'
-  : (meta.evidence_strength / meta.opinion_strength).toFixed(2);
+  : (meta.evidence_strength / meta.opinion_strength).toFixed(2).replace(/^0/, '');
 ---
 <aside class="post-meta">
-  <dl>
+  <div class="left">
     <div class="row">
-      <dt>was i on coffee</dt>
-      <dd><span class="icon" aria-hidden="true">☕</span> {meta.on_coffee ? 'yes' : 'no'}</dd>
-    </div>
-    <div class="row">
-      <dt>is this finished</dt>
-      <dd><span class="icon" aria-hidden="true">🍄</span> {meta.is_finished ? 'yes' : 'no'}</dd>
+      <span class="label">was i on coffee</span>
+      <span class="icon" aria-hidden="true">☕</span>
+      <span class="value">{meta.on_coffee ? 'yes' : 'no'}</span>
     </div>
     <div class="row">
-      <dt>opinion strength at the start</dt>
-      <dd>{meta.opinion_strength}/10</dd>
+      <span class="label">is this finished</span>
+      <span class="icon" aria-hidden="true">🍄</span>
+      <span class="value">{meta.is_finished ? 'yes' : 'no'}</span>
     </div>
-    <div class="row">
-      <dt>analytical evidence i found</dt>
-      <dd>{meta.evidence_strength}/10</dd>
+    <div class="line">
+      how strong was the opinion at the beginning, {meta.opinion_strength}/10
     </div>
-    <div class="row ratio">
-      <dt>ratio of opinion vs evidence</dt>
-      <dd>{ratio}</dd>
+    <div class="line">
+      &amp; how much analytical evidence did i find for this opinion {meta.evidence_strength}/10
     </div>
-  </dl>
+  </div>
+  <div class="right">
+    <div class="line">ratio of opinion vs evidence: {ratio}</div>
+  </div>
 </aside>
 
 <style>
   .post-meta {
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    color: var(--ink-faded);
-  }
-
-  dl {
-    margin: 0;
     display: grid;
-    gap: 0.25rem;
+    grid-template-columns: 1fr auto;
+    gap: 0 var(--space-4);
+    font-family: var(--font-grotezk);
+    font-size: 0.95rem;
+    color: var(--ink);
+    line-height: 1.6;
   }
 
   .row {
     display: flex;
-    justify-content: space-between;
-    gap: var(--space-2);
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
   }
 
-  dt {
-    margin: 0;
-  }
+  .label { color: var(--ink); }
+  .value { font-weight: 500; }
+  .icon { font-size: 1rem; }
 
-  dd {
-    margin: 0;
-    font-weight: 500;
+  .line {
     color: var(--ink);
   }
 
-  .icon {
-    margin-right: 0.25rem;
+  .right {
+    text-align: right;
+    color: var(--ink);
+  }
+
+  @media (max-width: 800px) {
+    .post-meta {
+      grid-template-columns: 1fr;
+      gap: var(--space-2) 0;
+    }
+    .right { text-align: left; }
   }
 </style>

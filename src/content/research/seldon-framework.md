@@ -3,7 +3,7 @@ title: "Hari Seldon's Framework: A Mathematical Brief"
 date: 2026-01-01
 tags: []
 summary: "A formal translation of HariSeldon's 75-essay psychohistory series into the language of dynamical systems, capital stocks, and phase transitions."
-draft: true
+draft: false
 meta:
   on_coffee: false
   is_finished: true

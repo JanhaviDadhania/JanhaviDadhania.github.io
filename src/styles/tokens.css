@@ -24,6 +24,7 @@
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-body: 'Lora', Georgia, serif;
   --font-script: 'Dancing Script', cursive;
+  --font-grotezk: 'Apfel Grotezk', system-ui, -apple-system, sans-serif;
 
   /* Sizing */
   --container-max: 1200px;
