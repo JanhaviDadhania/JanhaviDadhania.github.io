@@ -1,0 +1,42 @@
+---
+// Top-of-post warning bar for in-progress writing.
+// Shown when the post's '<collection>/<slug>' is listed in
+// `unfinished_slugs` in src/site.config.ts.
+
+import { site } from '@/site.config';
+---
+<div class="unfinished-bar" role="note">
+  <p>
+    this writing is not finished yet. it will not make sense, it is random
+    chunks of ideas links to which are in my head right now.{' '}
+    <a href={site.subscribe_url} target="_blank" rel="noopener">subscribe</a>
+    {' '}to get notified when it is finished.
+  </p>
+</div>
+
+<style>
+  .unfinished-bar {
+    background: var(--section-maroon);
+    color: var(--section-on-color);
+    font-family: var(--font-grotezk);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding: 0.6rem var(--space-4);
+    text-align: center;
+  }
+
+  .unfinished-bar p {
+    margin: 0;
+    max-width: 80ch;
+    margin-inline: auto;
+  }
+
+  .unfinished-bar a {
+    color: var(--section-on-color);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  .unfinished-bar a:hover {
+    text-decoration: none;
+  }
+</style>
