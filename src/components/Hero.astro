@@ -1,0 +1,140 @@
+---
+import { site } from '@/site.config';
+import SocialRow from './SocialRow.astro';
+import PageNav from './PageNav.astro';
+---
+<section class="hero">
+  <div class="ghost-text" aria-hidden="true">{site.title.toUpperCase()}</div>
+
+  <div class="top">
+    <div class="text-content">
+      <p class="top-text">{site.tagline}</p>
+      <h1 class="title">{site.title}</h1>
+
+      <div class="subscribe">
+        <h3 class="sub">{site.subtagline}</h3>
+        <a href={site.subscribe_url} target="_blank" rel="noopener" class="mirror-btn">
+          Subscribe to {site.title}
+        </a>
+      </div>
+
+      <SocialRow />
+      <PageNav />
+    </div>
+
+    <div class="video-container">
+      <div class="video-wrapper">
+        <iframe
+          src={site.hero_video_url}
+          title="hero video"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; }
+
+  .ghost-text {
+    position: fixed;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-serif);
+    font-size: 18vw;
+    color: var(--ink);
+    opacity: 0.03;
+    white-space: nowrap;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 0;
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .text-content { flex: 1; }
+  .video-container { flex: 1.2; }
+
+  .top-text {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--ink-faded);
+    margin: 0 0 var(--space-2);
+    font-style: italic;
+  }
+
+  .title {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .subscribe { margin-top: var(--space-2); }
+  .sub {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: var(--space-2) 0;
+    font-style: italic;
+  }
+
+  .mirror-btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    border: 1px solid var(--ink);
+  }
+  .mirror-btn:hover {
+    background-color: transparent;
+    color: var(--ink);
+  }
+
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background-color: #111;
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  @media (max-width: 900px) {
+    .top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-6);
+    }
+    .title { font-size: 3.5rem; }
+    .video-container { width: 100%; }
+  }
+</style>

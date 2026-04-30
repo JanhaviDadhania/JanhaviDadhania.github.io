@@ -1,0 +1,37 @@
+---
+import { site } from '@/site.config';
+
+const links = [
+  { label: 'Instagram', href: site.social.instagram },
+  { label: 'Substack', href: site.social.substack },
+  { label: 'Twitter', href: site.social.twitter },
+  { label: 'LinkedIn', href: site.social.linkedin },
+];
+---
+<ul class="social-row">
+  {links.map((l) => (
+    <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>
+  ))}
+</ul>
+
+<style>
+  .social-row {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  .social-row a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+  }
+  .social-row a:hover { opacity: 1; }
+</style>

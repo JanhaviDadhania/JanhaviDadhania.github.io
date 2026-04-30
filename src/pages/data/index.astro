@@ -1,0 +1,15 @@
+---
+import IndexLayout from '@/layouts/IndexLayout.astro';
+import { getPublishedEntries } from '@/lib/collections';
+import { groupIntoClusters } from '@/lib/clusters';
+
+const posts = await getPublishedEntries('data');
+const groups = groupIntoClusters('data', posts).map((g) => ({
+  id: g.id,
+  posts: g.posts.map((p) => ({
+    href: `/data/${p.slug}/`,
+    title: p.data.title,
+  })),
+}));
+---
+<IndexLayout title="data" description="numbers, charts, and the maps behind them." clusters={groups} />

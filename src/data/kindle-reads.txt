@@ -1,0 +1,72 @@
+kindle reads: neel nanda — mechanistic interpretability
+7 key papers · notes compiled april 2026
+
+(section-by-section notes)
+
+A Mathematical Framework for Transformer Circuits (2021)
+
+a foundational framework reformulating transformers as mathematical objects to enable mechanistic reverse-engineering of their internals.
+
+introduces the residual stream as a shared communication channel — each layer reads from and writes to it, making linearity central to the analysis.
+
+decomposes attention heads into independent QK circuits (where to attend) and OV circuits (what information to move) — the conceptual bedrock that every mech interp paper since has relied on.
+
+two-layer models can compose heads to form induction heads — a general in-context learning mechanism — while zero-layer and one-layer models encode only bigram statistics.
+
+In-Context Learning and Induction Heads (2022)
+
+induction heads — a two-head attention circuit implementing [A][B]...[A] → [B] — are likely the primary mechanism behind in-context learning across transformers of all sizes.
+
+induction heads form during a sharp phase change in training, precisely when in-context learning ability dramatically improves; the phase change shows up as a visible "bump" in training loss.
+
+induction heads generalise far beyond literal copying — fuzzy pattern completion including translation, formatting, and abstract reasoning — making this the clearest example of connecting a microscopic circuit to a macroscopic capability.
+
+Progress Measures for Grokking via Mechanistic Interpretability (2023)
+
+a complete reverse-engineering of how a transformer learns modular arithmetic, showing that "grokking" (sudden generalisation) is a gradual three-phase process of mechanism formation — not a mysterious discontinuity.
+
+the network learns a specific human-readable algorithm: it represents numbers as frequency components and uses trigonometric identities to compute modular addition as rotation around a circle.
+
+training decomposes into memorisation, circuit formation, and cleanup — and "emergent" capabilities may have detectable, gradual precursors, with direct implications for AI safety monitoring.
+
+Toy Models of Superposition (2022)
+
+neural networks store more features than they have neurons by overlapping them in high-dimensional space — superposition — which is the core reason individual neurons are hard to interpret.
+
+whether superposition occurs depends on a tradeoff between feature importance, sparsity, and available dimensions; superimposed features arrange into geometric structures matching uniform polytopes.
+
+polysemanticity is a principled compression strategy under sparsity, not noise — which reframes the interpretability problem and points directly toward sparse autoencoders as the solution.
+
+Softmax Linear Units (SoLU) (2022)
+
+replacing the standard MLP activation (ReLU/GELU) with SoLU — defined as x * softmax(x) — substantially increases the fraction of interpretable neurons by discouraging superposition.
+
+SoLU increases interpretable MLP neurons from ~35% to ~60%, with performance approximately preserved when a LayerNorm is added after SoLU.
+
+important both as a practical tool and as a scientific probe: if changing the activation changes interpretability, representational choices are flexible and we can build inherently more interpretable models.
+
+Gemma Scope: Open Sparse Autoencoders Everywhere on Gemma 2 (2024)
+
+a large open-source suite of 400+ sparse autoencoders trained across all layers of Gemma 2 (2B and 9B), designed to democratise mechanistic interpretability on frontier-scale LLMs.
+
+SAEs trained with JumpReLU — a variant that avoids the shrinkage problem of L1-penalised autoencoders — achieve high reconstruction fidelity and sparse interpretable features; weights on Hugging Face, features browsable on Neuronpedia.
+
+both base and instruction-tuned Gemma 2 9B SAEs released, enabling study of how RLHF changes learned features — setting the community standard for large-scale SAE evaluation.
+
+Open Problems in Mechanistic Interpretability (2025)
+
+a comprehensive research agenda identifying the major unsolved challenges in mechanistic interpretability, intended to orient new researchers and coordinate the direction of existing ones.
+
+a major open problem is evaluation: there are few ground-truth benchmarks for whether an interpretation is correct, making rigorous progress hard to measure.
+
+scalability remains unsolved — most clean circuit results come from toy models or narrow tasks; extending to frontier models at full complexity is largely open, alongside questions about universality and automated interpretability.
+
+(suggested reading order)
+
+1. Mathematical Framework (2021) — get the vocabulary and mental model
+2. Toy Models of Superposition (2022) — understand why interpretability is hard
+3. In-Context Learning and Induction Heads (2022) — see what a complete circuit analysis looks like
+4. Progress Measures for Grokking (2023) — full algorithm reverse-engineering in action
+5. SoLU (2022) — architectural angles on interpretability
+6. Gemma Scope (2024) — where the field is now with SAEs at scale
+7. Open Problems (2025) — what's left to do

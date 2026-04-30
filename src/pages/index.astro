@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/Hero.astro';
+import { site } from '@/site.config';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy';
+type AnyPost = CollectionEntry<FeaturedCollection>;
+
+const visibleFilter = ({ data }: { data: { draft: boolean } }) => !data.draft;
+
+// Resolve featured slugs from site.config.ts → actual post entries.
+// Slugs that don't match a published post are silently dropped.
+const TOTAL_LINES = 8;
+const wanted = site.featured_slugs.slice(0, TOTAL_LINES);
+const collectionsNeeded = new Set(
+  wanted.map((s) => s.split('/')[0]).filter(Boolean) as FeaturedCollection[],
+);
+
+const lookup = new Map<string, AnyPost>();
+await Promise.all(
+  Array.from(collectionsNeeded).map(async (col) => {
+    const entries = await getCollection(col, visibleFilter);
+    for (const entry of entries) {
+      lookup.set(`${entry.collection}/${entry.slug}`, entry as AnyPost);
+    }
+  }),
+);
+
+const featured: AnyPost[] = wanted
+  .map((s) => lookup.get(s))
+  .filter((p): p is AnyPost => p !== undefined);
+
+const emptyLines = Math.max(0, TOTAL_LINES - featured.length);
+---
+<BaseLayout>
+  <main class="container">
+    <Hero />
+
+    <section class="journal">
+      {featured.map((post) => (
+        <a class="journal-line" href={`/${post.collection}/${post.slug}/`}>
+          <span class="journal-text">{post.data.title}</span>
+        </a>
+      ))}
+      {Array.from({ length: emptyLines }).map(() => (
+        <div class="journal-line empty"></div>
+      ))}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .container {
+    width: 90%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 10vh 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .journal {
+    margin-top: var(--space-12);
+    max-width: var(--content-max);
+    position: relative;
+  }
+  .journal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--rule-faint);
+    z-index: 0;
+  }
+
+  .journal-line {
+    border-bottom: 1px solid var(--rule);
+    height: 3rem;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 0 0.3rem 1rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .journal-line.empty { pointer-events: none; }
+
+  .journal-text {
+    font-family: var(--font-script);
+    font-size: 1.8rem;
+    color: #2a2a2a;
+    letter-spacing: 0.02em;
+  }
+</style>

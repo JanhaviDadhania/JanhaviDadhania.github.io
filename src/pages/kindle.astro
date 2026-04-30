@@ -1,0 +1,21 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import kindleText from '@/data/kindle-reads.txt?raw';
+---
+<PageLayout title="Kindle Reads" description="raw text dump for kindle.">
+  <article class="kindle">
+    <pre>{kindleText}</pre>
+  </article>
+</PageLayout>
+
+<style>
+  .kindle { max-width: var(--content-max); margin: 0 auto; }
+  pre {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.7;
+    margin: 0;
+  }
+</style>

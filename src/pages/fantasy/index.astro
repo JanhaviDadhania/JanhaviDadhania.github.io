@@ -1,0 +1,15 @@
+---
+import IndexLayout from '@/layouts/IndexLayout.astro';
+import { getPublishedEntries } from '@/lib/collections';
+import { groupIntoClusters } from '@/lib/clusters';
+
+const posts = await getPublishedEntries('fantasy');
+const groups = groupIntoClusters('fantasy', posts).map((g) => ({
+  id: g.id,
+  posts: g.posts.map((p) => ({
+    href: `/fantasy/${p.slug}/`,
+    title: p.data.title,
+  })),
+}));
+---
+<IndexLayout title="fantasy" description="loose threads, dreams, what-ifs." clusters={groups} />

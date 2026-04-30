@@ -1,0 +1,81 @@
+---
+// The top-right metadata block in a post: coffee status, finished status,
+// opinion strength, evidence strength, and the opinion-vs-evidence ratio.
+
+interface Props {
+  meta: {
+    on_coffee: boolean;
+    is_finished: boolean;
+    opinion_strength: number;
+    evidence_strength: number;
+  };
+}
+
+const { meta } = Astro.props;
+const ratio = meta.opinion_strength === 0
+  ? '0'
+  : (meta.evidence_strength / meta.opinion_strength).toFixed(2).replace(/^0/, '');
+---
+<aside class="post-meta">
+  <div class="left">
+    <div class="row">
+      <span class="label">was i on coffee</span>
+      <span class="icon" aria-hidden="true">☕</span>
+      <span class="value">{meta.on_coffee ? 'yes' : 'no'}</span>
+    </div>
+    <div class="row">
+      <span class="label">is this finished</span>
+      <span class="icon" aria-hidden="true">🍄</span>
+      <span class="value">{meta.is_finished ? 'yes' : 'no'}</span>
+    </div>
+    <div class="line">
+      how strong was the opinion at the beginning, {meta.opinion_strength}/10
+    </div>
+    <div class="line">
+      &amp; how much analytical evidence did i find for this opinion {meta.evidence_strength}/10
+    </div>
+  </div>
+  <div class="right">
+    <div class="line">ratio of opinion vs evidence: {ratio}</div>
+  </div>
+</aside>
+
+<style>
+  .post-meta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0 var(--space-4);
+    font-family: var(--font-grotezk);
+    font-size: 0.95rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .label { color: var(--ink); }
+  .value { font-weight: 500; }
+  .icon { font-size: 1rem; }
+
+  .line {
+    color: var(--ink);
+  }
+
+  .right {
+    text-align: right;
+    color: var(--ink);
+  }
+
+  @media (max-width: 800px) {
+    .post-meta {
+      grid-template-columns: 1fr;
+      gap: var(--space-2) 0;
+    }
+    .right { text-align: left; }
+  }
+</style>
