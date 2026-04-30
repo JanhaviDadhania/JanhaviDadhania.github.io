@@ -1,1 +1,19 @@
+# macOS
 .DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Astro
+dist/
+.astro/
+
+# Env
+.env
+.env.production
+.env.local
+
+# Editor
+.vscode/
+.idea/

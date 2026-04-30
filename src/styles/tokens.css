@@ -1,0 +1,41 @@
+/*
+ * Design tokens. All visual values used by components reference these vars.
+ * Edit here to retheme the site without touching components.
+ */
+
+:root {
+  /* Colors */
+  --paper: #F4F0EB;
+  --ink: #2C2C2C;
+  --ink-faded: #5A5A5A;
+  --ink-ghost: rgba(44, 44, 44, 0.03);
+  --rule: rgba(0, 0, 0, 0.1);
+  --rule-faint: rgba(255, 0, 0, 0.15);
+
+  /* Section header colors (the colored "tag-style" labels in posts) */
+  --section-maroon: #8B2055;
+  --section-green: #2D5F4E;
+  --section-gray: #6B6B6B;
+  --section-blue: #2B5CD4;
+  --section-pink: #C77DA0;
+  --section-on-color: #FFFFFF;
+
+  /* Typography */
+  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-script: 'Dancing Script', cursive;
+
+  /* Sizing */
+  --container-max: 1200px;
+  --content-max: 800px;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-12: 6rem;
+
+  /* Radii */
+  --radius-sm: 4px;
+}

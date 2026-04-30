@@ -1,0 +1,67 @@
+---
+import Tag from './Tag.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  summary?: string;
+  tags?: readonly string[];
+  date?: Date;
+}
+
+const { href, title, summary, tags = [], date } = Astro.props;
+const dateLabel = date
+  ? date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  : null;
+---
+<a class="card" href={href}>
+  <h3 class="card-title">{title}</h3>
+  {summary && <p class="card-summary">{summary}</p>}
+  <div class="card-meta">
+    {tags.length > 0 && (
+      <div class="card-tags">
+        {tags.map((t) => <Tag label={t} />)}
+      </div>
+    )}
+    {dateLabel && <time class="card-date">{dateLabel}</time>}
+  </div>
+</a>
+
+<style>
+  .card {
+    display: block;
+    text-decoration: none;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule);
+    color: inherit;
+    transition: opacity 0.2s ease;
+  }
+  .card:hover { opacity: 0.7; }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-1);
+  }
+
+  .card-summary {
+    color: var(--ink-faded);
+    margin: 0 0 var(--space-2);
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .card-tags { display: flex; flex-wrap: wrap; }
+
+  .card-date {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    color: var(--ink-faded);
+  }
+</style>

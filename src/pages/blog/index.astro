@@ -1,0 +1,29 @@
+---
+import IndexLayout from '@/layouts/IndexLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+import { getPublishedEntries } from '@/lib/collections';
+
+const posts = await getPublishedEntries('blog');
+---
+<IndexLayout title="Blog" description="long-form posts.">
+  {posts.length === 0 ? (
+    <p class="empty">No posts yet.</p>
+  ) : (
+    posts.map((post) => (
+      <PostCard
+        href={`/blog/${post.slug}/`}
+        title={post.data.title}
+        summary={post.data.summary}
+        tags={post.data.tags}
+        date={post.data.date}
+      />
+    ))
+  )}
+</IndexLayout>
+
+<style>
+  .empty {
+    color: var(--ink-faded);
+    font-style: italic;
+  }
+</style>

@@ -1,7 +1,0 @@
-branch,sub_branch,region,entity_category,year,entity,entity_inception_year,event_type,target,round_or_event,amount_usd,role,notes,source_url
-"making & understanding AI","data","US","data_company",2016,"Scale AI",2016,"entity_inception","","Company founded","","","Dominant provider of data-labeling and evaluation workflows for modern AI systems.","https://scale.com/"
-"making & understanding AI","data","Australia","data_company",1996,"Appen",1996,"entity_inception","","Company founded","","","Long-running data-labeling and language-data company used across multiple AI eras.","https://appen.com/"
-"making & understanding AI","data","Germany","data_company",2021,"LAION",2021,"entity_inception","","Organization founded","","","Open dataset organization behind influential image-text corpora used in open-model training.","https://laion.ai/"
-"making & understanding AI","data","US","data_company",2007,"Common Crawl",2007,"entity_inception","","Organization founded","","","Nonprofit web crawl dataset that became foundational internet-scale training data.","https://commoncrawl.org/"
-"making & understanding AI","data","US","data_company",2019,"Gretel",2019,"entity_inception","","Company founded","","","Synthetic data company focused on privacy-preserving AI data generation.","https://gretel.ai/"
-"making & understanding AI","data","US","data_company",2023,"DatologyAI",2023,"entity_inception","","Company founded","","","Data-curation startup centered on training-data quality and selection.","https://www.datology.ai/"

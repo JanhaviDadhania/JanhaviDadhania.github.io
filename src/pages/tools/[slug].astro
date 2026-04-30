@@ -1,0 +1,73 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+interface Props {
+  tool: CollectionEntry<'tools'>;
+}
+
+const { tool } = Astro.props;
+const { Content } = await tool.render();
+---
+<PageLayout title={tool.data.title} description={tool.data.summary}>
+  <article class="tool-page">
+    <header class="tool-header">
+      <h1>{tool.data.title}</h1>
+      <p class="summary">{tool.data.summary}</p>
+      {tool.data.link && (
+        <a class="visit" href={tool.data.link} target="_blank" rel="noopener">
+          Visit ↗
+        </a>
+      )}
+    </header>
+
+    {tool.data.images && tool.data.images.length > 0 && (
+      <div class="images">
+        {tool.data.images.map((src) => <img src={src} alt="" />)}
+      </div>
+    )}
+
+    <div class="tool-body">
+      <Content />
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .tool-page { max-width: var(--content-max); margin: 0 auto; }
+
+  .tool-header { margin-bottom: var(--space-6); }
+  .tool-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin: 0 0 var(--space-2);
+  }
+  .summary {
+    color: var(--ink-faded);
+    font-style: italic;
+    margin: 0 0 var(--space-2);
+  }
+  .visit {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .images {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+  .images img { border-radius: var(--radius-sm); }
+</style>

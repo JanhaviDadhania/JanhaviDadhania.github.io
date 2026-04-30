@@ -1,0 +1,76 @@
+---
+// The top-right metadata block in a post: coffee status, finished status,
+// opinion strength, and evidence-strength rating.
+
+interface Props {
+  meta: {
+    on_coffee: boolean;
+    is_finished: boolean;
+    opinion_strength: number;
+    evidence_strength: number;
+  };
+}
+
+const { meta } = Astro.props;
+const ratio = meta.opinion_strength === 0
+  ? '0'
+  : (meta.evidence_strength / meta.opinion_strength).toFixed(2);
+---
+<aside class="post-meta">
+  <dl>
+    <div class="row">
+      <dt>was i on coffee</dt>
+      <dd><span class="icon" aria-hidden="true">☕</span> {meta.on_coffee ? 'yes' : 'no'}</dd>
+    </div>
+    <div class="row">
+      <dt>is this finished</dt>
+      <dd><span class="icon" aria-hidden="true">🍄</span> {meta.is_finished ? 'yes' : 'no'}</dd>
+    </div>
+    <div class="row">
+      <dt>opinion strength at the start</dt>
+      <dd>{meta.opinion_strength}/10</dd>
+    </div>
+    <div class="row">
+      <dt>analytical evidence i found</dt>
+      <dd>{meta.evidence_strength}/10</dd>
+    </div>
+    <div class="row ratio">
+      <dt>ratio of opinion vs evidence</dt>
+      <dd>{ratio}</dd>
+    </div>
+  </dl>
+</aside>
+
+<style>
+  .post-meta {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--ink-faded);
+  }
+
+  dl {
+    margin: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  dt {
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .icon {
+    margin-right: 0.25rem;
+  }
+</style>

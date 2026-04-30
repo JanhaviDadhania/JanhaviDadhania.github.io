@@ -1,0 +1,60 @@
+---
+import IndexLayout from '@/layouts/IndexLayout.astro';
+import { getPublishedEntries } from '@/lib/collections';
+
+const tools = await getPublishedEntries('tools');
+---
+<IndexLayout title="Tools" description="things i made or use.">
+  {tools.length === 0 ? (
+    <p class="empty">No tools yet.</p>
+  ) : (
+    <div class="tool-grid">
+      {tools.map((t) => (
+        <a class="tool-card" href={`/tools/${t.slug}/`}>
+          {t.data.images?.[0] && (
+            <img class="tool-image" src={t.data.images[0]} alt="" />
+          )}
+          <h3 class="tool-title">{t.data.title}</h3>
+          <p class="tool-summary">{t.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  )}
+</IndexLayout>
+
+<style>
+  .empty { color: var(--ink-faded); font-style: italic; }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .tool-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    transition: opacity 0.2s ease;
+  }
+  .tool-card:hover { opacity: 0.7; }
+
+  .tool-image {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-2);
+  }
+  .tool-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    margin: 0 0 var(--space-1);
+  }
+  .tool-summary {
+    color: var(--ink-faded);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+</style>

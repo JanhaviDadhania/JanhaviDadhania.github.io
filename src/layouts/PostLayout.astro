@@ -1,0 +1,99 @@
+---
+import PageLayout from './PageLayout.astro';
+import PostMeta from '@/components/PostMeta.astro';
+import Tag from '@/components/Tag.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  tags?: readonly string[];
+  summary?: string;
+  meta: {
+    on_coffee: boolean;
+    is_finished: boolean;
+    opinion_strength: number;
+    evidence_strength: number;
+  };
+}
+
+const { title, date, tags = [], summary, meta } = Astro.props;
+const dateLabel = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<PageLayout title={title} description={summary}>
+  <article class="post graph-paper">
+    <header class="post-header">
+      <div class="post-title-block">
+        <h1 class="post-title">{title}</h1>
+        {tags.length > 0 && (
+          <div class="post-tags">
+            {tags.map((t) => <Tag label={t} />)}
+          </div>
+        )}
+        <time class="post-date">{dateLabel}</time>
+      </div>
+      <PostMeta meta={meta} />
+    </header>
+    <div class="post-body">
+      <slot />
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .post {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .graph-paper {
+    /* Subtle grid background to nod to the design's graph-paper aesthetic.
+       Refine in design pass. */
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+    padding: var(--space-6);
+    border-radius: var(--radius-sm);
+  }
+
+  .post-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .post-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin: 0 0 var(--space-2);
+    line-height: 1.1;
+  }
+
+  .post-tags {
+    margin-bottom: var(--space-2);
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .post-date {
+    font-family: var(--font-serif);
+    color: var(--ink-faded);
+    font-size: 0.9rem;
+  }
+
+  .post-body :global(p) {
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 800px) {
+    .post-header {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    .post-title { font-size: 2rem; }
+  }
+</style>

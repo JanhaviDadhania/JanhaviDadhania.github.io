@@ -1,0 +1,45 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageNav from '@/components/PageNav.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  showNav?: boolean;
+}
+
+const { title, description, showNav = true } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <main class="container">
+    <header class="page-header">
+      <a class="brand" href="/">The Mirror</a>
+      {showNav && <PageNav />}
+    </header>
+    <slot />
+  </main>
+</BaseLayout>
+
+<style>
+  .container {
+    width: 90%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 6vh 0 10vh;
+  }
+
+  .page-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .brand {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+---
+<PageLayout title="Me" description="about Janhavi.">
+  <article class="me">
+    <h1>Me</h1>
+    <p class="placeholder">
+      This page is under construction. Check back soon.
+    </p>
+  </article>
+</PageLayout>
+
+<style>
+  .me { max-width: var(--content-max); margin: 0 auto; }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    margin: 0 0 var(--space-3);
+  }
+  .placeholder {
+    color: var(--ink-faded);
+    font-style: italic;
+  }
+</style>
