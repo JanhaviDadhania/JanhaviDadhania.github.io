@@ -1,0 +1,9 @@
+# The Mirror — concavemirror.to
+# A personal notebook by Janhavi Dadhania.
+# Most posts are works-in-progress and flagged with a banner; please cite
+# accordingly if you reproduce or summarise.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://concavemirror.to/sitemap-index.xml

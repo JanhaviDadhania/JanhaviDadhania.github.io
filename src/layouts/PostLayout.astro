@@ -2,8 +2,12 @@
 import BaseLayout from './BaseLayout.astro';
 import PostMeta from '@/components/PostMeta.astro';
 import BackLink from '@/components/BackLink.astro';
+import UnfinishedBar from '@/components/UnfinishedBar.astro';
+import { site } from '@/site.config';
 
 interface Props {
+  /** '<collection>/<slug>' — used to look up unfinished status in site config. */
+  slug: string;
   title: string;
   date: Date;
   tags?: readonly string[];
@@ -18,7 +22,9 @@ interface Props {
 
 // `tags` is intentionally accepted in the props (schema requires it) but not
 // rendered on the post page — it's used for indexes and previews only.
-const { title, summary, meta } = Astro.props;
+const { slug, title, summary, meta } = Astro.props;
+
+const isUnfinished = site.unfinished_slugs.includes(slug);
 
 // Random horizontal margin per post: 50px base + 1..100px jitter on each side.
 // Evaluated at build time, so the value is stable for a given build but
@@ -27,7 +33,11 @@ const leftMargin = 50 + Math.floor(Math.random() * 100) + 1;
 const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
 ---
 <BaseLayout title={title} description={summary}>
-  <article class="post" style={`padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`}>
+  <article
+    class="post"
+    style={`--left-margin: ${leftMargin}px; --right-margin: ${rightMargin}px;`}
+  >
+    {isUnfinished && <UnfinishedBar />}
     <header class="post-header">
       <h1 class="post-title">{title}</h1>
       <div class="post-meta-wrap">
@@ -55,9 +65,13 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
 </style>
 
 <style>
+  /* The .post element is full-viewport-width with NO top/horizontal
+     padding — so the rules in the post-header touch the page edges and
+     each other without any gaps. Per-post random margins live only on
+     the inner content elements (title, meta-wrap, body). */
   .post {
     width: 100%;
-    padding: var(--space-4) var(--space-4) 6rem;
+    padding: 0 0 6rem;
     box-sizing: border-box;
     font-family: var(--font-grotezk);
   }
@@ -65,12 +79,12 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
   .post-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: end;
-    gap: 0 var(--space-6);
-    padding-bottom: var(--space-2);
+    align-items: stretch;            /* meta-wrap fills full row height */
+    gap: 0;
     margin-bottom: var(--space-4);
-    /* Faint red horizontal rule below the header — references the graph paper */
-    border-bottom: 1px solid var(--rule-faint);
+    /* Horizontal rule under the title — full-viewport width, sits flush
+       with the bottom of the grid row (no padding-bottom on header). */
+    border-bottom: 2px solid var(--ink);
   }
 
   .post-title {
@@ -80,22 +94,31 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
     line-height: 1.05;
     margin: 0;
     align-self: end;
+    padding-left: var(--left-margin);
+    padding-right: var(--space-4);
+    padding-top: var(--space-6);     /* breathing room above title */
+    padding-bottom: var(--space-2);  /* gap above horizontal rule */
   }
 
-  /* Vertical rule between title and meta block */
+  /* Vertical rule between title and meta — spans the full row height,
+     touching the top of the page and the horizontal rule below. */
   .post-meta-wrap {
-    border-left: 1px solid var(--rule-faint);
+    border-left: 2px solid var(--ink);
     padding-left: var(--space-4);
-    align-self: end;
+    padding-right: var(--right-margin);
+    padding-top: var(--space-4);     /* meta content not glued to viewport top */
+    padding-bottom: var(--space-2);
+    display: flex;
+    align-items: flex-end;           /* keep meta content visually at bottom */
   }
 
-  .post-body :global(p) {
-    margin: 0 0 0.4rem;
+  .post-body {
+    padding-left: var(--left-margin);
+    padding-right: var(--right-margin);
   }
 
-  .post-body :global(p:last-child) {
-    margin-bottom: 0;
-  }
+  .post-body :global(p) { margin: 0 0 0.4rem; }
+  .post-body :global(p:last-child) { margin-bottom: 0; }
 
   /* Footnotes section — sits at the end of body */
   .post-body :global(h2) {
@@ -112,12 +135,15 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
       gap: var(--space-3) 0;
       align-items: start;
     }
-    .post-title { font-size: 2rem; }
+    .post-title {
+      font-size: 2rem;
+      padding-right: var(--right-margin);
+    }
     .post-meta-wrap {
       border-left: none;
-      padding-left: 0;
+      padding-left: var(--left-margin);
       padding-top: var(--space-2);
-      border-top: 1px solid var(--rule-faint);
+      border-top: 2px solid var(--ink);
     }
   }
 </style>

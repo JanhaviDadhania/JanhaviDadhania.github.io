@@ -13,6 +13,21 @@ export const site = {
     'blog/zoo-animals-and-context-windows',
   ] as string[],
 
+  // Posts that show the "this writing is not finished yet" warning bar
+  // at the top. Add a slug to flag a post as unfinished; remove to hide
+  // the bar. Format: '<collection>/<slug>'.
+  unfinished_slugs: [
+    'blog/the-next-ai-wave-computers-get-bodies',
+    'blog/redesign-of-superhuman-workflows-now-that-ai-is-here',
+    'blog/the-map-of-the-agent-universe',
+    'blog/my-thinking-assistants-design',
+    'research/are-agents-turing-machine',
+    'research/seldon-framework',
+    'research/ai-neuroscience',
+    'data/areas-of-ai',
+    'fantasy/me-and-moon',
+  ] as string[],
+
   // External subscribe URL (homepage button).
   subscribe_url: 'https://janhavidadhania.substack.com/subscribe',
 
