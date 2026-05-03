@@ -1,0 +1,164 @@
+---
+// Free-form hand-drawn arrows between two sections, routed through one
+// of the post's gutters. Non-directional (no arrowheads) — just a
+// connector line indicating "these two sections are linked."
+//
+// Usage:
+//   <Arrow a="a-cleaner-model" b="side-note" side="right" />
+//
+// `a` and `b` are section IDs (slugified labels — see Section.astro).
+// Order is irrelevant. `side` chooses the gutter ("left" or "right").
+//
+// The component itself emits an invisible spec node. A single hoisted
+// <script> (deduped across all instances by Astro) finds every spec on
+// page load, draws the curves into a shared SVG overlay using rough.js,
+// and re-renders on resize / content reflow.
+
+interface Props {
+  a: string;
+  b: string;
+  side: 'left' | 'right';
+}
+
+const { a, b, side } = Astro.props;
+---
+<div class="arrow-spec" data-a={a} data-b={b} data-side={side} aria-hidden="true"></div>
+
+<style>
+  .arrow-spec { display: none; }
+</style>
+
+<style is:global>
+  .arrow-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+  }
+
+  @media (max-width: 700px) {
+    .arrow-overlay { display: none; }
+  }
+</style>
+
+<script>
+  import rough from 'roughjs';
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function getInkFaded(): string {
+    const v = getComputedStyle(document.documentElement)
+      .getPropertyValue('--ink-faded')
+      .trim();
+    return v || '#5A5A5A';
+  }
+
+  function ensureOverlay(article: HTMLElement): SVGSVGElement {
+    let overlay = article.querySelector(':scope > svg.arrow-overlay') as SVGSVGElement | null;
+    if (!overlay) {
+      overlay = document.createElementNS(SVG_NS, 'svg') as SVGSVGElement;
+      overlay.setAttribute('class', 'arrow-overlay');
+      overlay.setAttribute('aria-hidden', 'true');
+      article.appendChild(overlay);
+    }
+    return overlay;
+  }
+
+  function drawArrows() {
+    const article = document.querySelector('article.post') as HTMLElement | null;
+    if (!article) return;
+
+    const specs = article.querySelectorAll<HTMLElement>('.arrow-spec');
+    if (specs.length === 0) return;
+
+    const overlay = ensureOverlay(article);
+    const articleRect = article.getBoundingClientRect();
+
+    overlay.setAttribute('width', `${articleRect.width}`);
+    overlay.setAttribute('height', `${articleRect.height}`);
+    overlay.setAttribute('viewBox', `0 0 ${articleRect.width} ${articleRect.height}`);
+    while (overlay.firstChild) overlay.removeChild(overlay.firstChild);
+
+    const rc = rough.svg(overlay);
+    const stroke = getInkFaded();
+
+    specs.forEach((spec) => {
+      const aId = spec.dataset.a;
+      const bId = spec.dataset.b;
+      const side = (spec.dataset.side as 'left' | 'right') ?? 'right';
+      if (!aId || !bId) return;
+
+      const aEl = document.getElementById(aId);
+      const bEl = document.getElementById(bId);
+      if (!aEl || !bEl) return;
+
+      const aRect = aEl.getBoundingClientRect();
+      const bRect = bEl.getBoundingClientRect();
+
+      const aTop = aRect.top - articleRect.top;
+      const aBot = aRect.bottom - articleRect.top;
+      const bTop = bRect.top - articleRect.top;
+      const bBot = bRect.bottom - articleRect.top;
+
+      const aMid = (aTop + aBot) / 2;
+      const bMid = (bTop + bBot) / 2;
+      const upperY = Math.min(aMid, bMid);
+      const lowerY = Math.max(aMid, bMid);
+
+      let edgeX: number;
+      let ctrlX: number;
+      const dy = Math.max(0, lowerY - upperY);
+      const depth = Math.min(120, Math.max(40, dy * 0.15));
+
+      if (side === 'right') {
+        const aRight = aRect.right - articleRect.left;
+        const bRight = bRect.right - articleRect.left;
+        edgeX = Math.max(aRight, bRight);
+        ctrlX = edgeX + depth;
+      } else {
+        const aLeft = aRect.left - articleRect.left;
+        const bLeft = bRect.left - articleRect.left;
+        edgeX = Math.min(aLeft, bLeft);
+        ctrlX = edgeX - depth;
+      }
+
+      const path = `M ${edgeX} ${upperY} C ${ctrlX} ${upperY}, ${ctrlX} ${lowerY}, ${edgeX} ${lowerY}`;
+
+      const node = rc.path(path, {
+        stroke,
+        strokeWidth: 2.5,
+        roughness: 1.6,
+        bowing: 1,
+        fill: 'none',
+        disableMultiStroke: true,
+      });
+      overlay.appendChild(node);
+    });
+  }
+
+  let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+  function scheduleRedraw() {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(drawArrows, 100);
+  }
+
+  function init() {
+    drawArrows();
+
+    const article = document.querySelector('article.post');
+    if (article) {
+      const ro = new ResizeObserver(scheduleRedraw);
+      ro.observe(article);
+    }
+    window.addEventListener('resize', scheduleRedraw);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

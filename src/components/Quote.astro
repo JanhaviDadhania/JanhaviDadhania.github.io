@@ -30,8 +30,7 @@ const { author } = Astro.props;
 <style>
   .quote {
     margin: var(--space-3) 0;
-    padding: var(--space-1) 0 var(--space-1) var(--space-3);
-    border-left: 3px solid var(--rule);
+    padding: var(--space-1) 0;
   }
 
   .quote-body {
@@ -57,5 +56,6 @@ const { author } = Astro.props;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--ink-faded);
+    text-align: right;
   }
 </style>

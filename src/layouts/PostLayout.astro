@@ -70,6 +70,7 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
      each other without any gaps. Per-post random margins live only on
      the inner content elements (title, meta-wrap, body). */
   .post {
+    position: relative;          /* anchor for the Arrow SVG overlay */
     width: 100%;
     padding: 0 0 6rem;
     box-sizing: border-box;
