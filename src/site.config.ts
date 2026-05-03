@@ -10,6 +10,7 @@ export const site = {
   // on the home page; remove to hide. Up to 8 fit in the journal block —
   // anything beyond that is silently ignored.
   featured_slugs: [
+    'blog/if-plato-had-notebookLM',
     'blog/zoo-animals-and-context-windows',
   ] as string[],
 
