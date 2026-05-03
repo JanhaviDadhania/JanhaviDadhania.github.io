@@ -1,0 +1,61 @@
+---
+// An attributed quote — a short aphorism the post leans on.
+// Use <Quote> when you have an author; quick throwaway quotes can stay as
+// plain markdown `> ...` blockquotes.
+//
+// Visual idiom: left vertical rule + italic Lora body + uppercase grotezk
+// author. Sibling to <Excerpt>, which uses the same primitives (rule,
+// grotezk small-caps, font hierarchy) in a different arrangement.
+//
+// Usage:
+//   <Quote author="Plato">
+//     There neither is nor ever will be a treatise of mine on the subject.
+//   </Quote>
+//
+// Multi-paragraph quotes are supported.
+
+interface Props {
+  author: string;
+}
+
+const { author } = Astro.props;
+---
+<figure class="quote">
+  <blockquote class="quote-body">
+    <slot />
+  </blockquote>
+  <figcaption class="quote-author">{author}</figcaption>
+</figure>
+
+<style>
+  .quote {
+    margin: var(--space-3) 0;
+    padding: var(--space-1) 0;
+  }
+
+  .quote-body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .quote-body :global(p) {
+    margin: 0 0 0.6rem;
+  }
+
+  .quote-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .quote-author {
+    margin-top: var(--space-1);
+    font-family: var(--font-grotezk);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faded);
+    text-align: right;
+  }
+</style>
