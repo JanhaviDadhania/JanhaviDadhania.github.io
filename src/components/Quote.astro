@@ -1,0 +1,58 @@
+---
+// An attributed quote box. Use inside MDX posts when a quote has an author.
+// Quick throwaway quotes can still use plain markdown `> ...` blockquotes.
+//
+// Usage:
+//   <Quote author="Plato">
+//     There neither is nor ever will be a treatise of mine on the subject.
+//   </Quote>
+//
+// Multi-paragraph quotes are supported — pass blank-line-separated paragraphs
+// in the slot and MDX will render them as <p> elements.
+
+interface Props {
+  author: string;
+}
+
+const { author } = Astro.props;
+---
+<figure class="quote">
+  <blockquote class="quote-body">
+    <slot />
+  </blockquote>
+  <figcaption class="quote-author">— {author}</figcaption>
+</figure>
+
+<style>
+  .quote {
+    margin: var(--space-3) 0;
+    padding: var(--space-2) var(--space-3);
+    background: var(--quote-bg);
+    border: 1px solid var(--quote-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .quote-body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .quote-body :global(p) {
+    margin: 0 0 0.6rem;
+  }
+
+  .quote-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .quote-author {
+    margin-top: var(--space-1);
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-faded);
+    text-align: right;
+  }
+</style>

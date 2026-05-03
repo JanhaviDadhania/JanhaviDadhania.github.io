@@ -1,6 +1,6 @@
 ---
 import PostLayout from '@/layouts/PostLayout.astro';
-import Section from '@/components/Section.astro';
+import { postComponents } from '@/lib/postComponents';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -26,5 +26,5 @@ const { Content } = await post.render();
   summary={post.data.summary}
   meta={post.data.meta}
 >
-  <Content components={{ Section }} />
+  <Content components={postComponents} />
 </PostLayout>

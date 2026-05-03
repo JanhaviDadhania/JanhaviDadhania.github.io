@@ -20,6 +20,10 @@
   --section-pink: #C77DA0;
   --section-on-color: #FFFFFF;
 
+  /* Quote component (in-post attributed quote box) */
+  --quote-bg: #EAE2D6;
+  --quote-border: rgba(0, 0, 0, 0.08);
+
   /* Typography */
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-body: 'Lora', Georgia, serif;

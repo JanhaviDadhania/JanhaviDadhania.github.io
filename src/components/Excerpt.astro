@@ -1,0 +1,68 @@
+---
+// A passage from another work — a paper, book, dialogue — shown to readers
+// who haven't read the source. Different in feel from <Quote>: Excerpt is
+// upright Garamond inside a hairline box; Quote is italic Lora inside a
+// warm tinted box.
+//
+// Usage:
+//   <Excerpt author="Plato" source="The Republic, Book I">
+//     ...passage, possibly multi-paragraph...
+//   </Excerpt>
+//
+//   <Excerpt author="Immanuel Kant">
+//     ...source omitted when not specified...
+//   </Excerpt>
+
+interface Props {
+  author: string;
+  source?: string;
+}
+
+const { author, source } = Astro.props;
+const label = source ? `${author} · ${source}` : author;
+---
+<figure class="excerpt">
+  <figcaption class="excerpt-source">{label}</figcaption>
+  <blockquote class="excerpt-body">
+    <slot />
+  </blockquote>
+</figure>
+
+<style>
+  .excerpt {
+    margin: var(--space-3) 0;
+    padding: var(--space-2) var(--space-4) var(--space-3);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+  }
+
+  .excerpt-source {
+    font-family: var(--font-grotezk);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faded);
+    padding-bottom: var(--space-1);
+    margin: 0 calc(var(--space-4) * -1) var(--space-3);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .excerpt-body {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .excerpt-body :global(p) {
+    margin: 0 0 0.7rem;
+  }
+
+  .excerpt-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
