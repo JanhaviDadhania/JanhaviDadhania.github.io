@@ -114,7 +114,7 @@ The whole aim of the transcendental deduction of all à priori conceptions is to
 
 **Plato writes definitions being proposed, challenged, revised, and sometimes overturned. Kant gives the finished structure of the thought, already organised and compressed.** Even when the underlying idea is equally profound, the experience of reading is different. With Plato, you are present at the making of the argument. With Kant, you arrive after the argument has already been made and have to reconstruct the path backward from the conclusion.
 
-And it is not only Greek. The *Bhagavad Gita* is a dialogue too — Krishna walks Arjuna through dharma, karma, and virtue not by handing him conclusions but by answering his questions and letting him ask the next one. Two traditions, separated by continents and centuries, reach for the same form when the subject is hard.
+And it is not only Greek. The *Bhagavad Gita* is a dialogue too, Krishna walks Arjuna through dharma, karma, and virtue not by handing him conclusions but by answering his questions and letting him ask the next one.
 
 **What difference does the form make to the philosopher writing, and to the reader trying to understand? Does dialogue help us see philosophy as inquiry, while the treatise presents it as a finished system? Are some subjects better explored through hesitation and correction, while others are suited to a well-defined structure? If Plato and Kant are both writing about justice, knowledge, virtue, and the good life, why do they sound as if they belong to different intellectual worlds?**
 
@@ -126,11 +126,11 @@ Anyone who has read either will share the feeling I am describing.
 
 I started thinking rigorously about why dialogue feels more natural than book-or-lecture while using NotebookLM.
 
-I was reading a technical paper. With the tool, I understood what the paper was about, the approach it presented, and the context it sat in within ten minutes. With my older line-by-line approach, the same understanding would have taken four hours.
+I was reading a technical paper. With notebookLM, I understood what the paper was about, the approach it presented, and the context it sat in within ten minutes. With my older line-by-line approach, the same understanding would have taken four hours.
 
 Before LLMs, I had no way to interact with a book dynamically. I had to skim it myself: which section covered what, which sections to read for the high-level overview, which parts mattered most to the main idea, what context the authors were writing in. That alone took hours. Only then could I start making sense of the technical content.
 
-Now I can converse with a book. I can take Kant and question him back on his definitions and walk myself through the process of arriving there — the way Glaucon questioned Socrates.
+Now I can converse with a book. I can take Kant and question him back on his definitions and walk myself through the process of arriving there, the way Glaucon questioned Socrates.
 
 That is when the older puzzle became sharp again. Plato chose the dialogue form deliberately. The *Gita* used it. NotebookLM had just made me prefer it for technical papers. The form was not incidental. There must be a reason.
 
@@ -138,11 +138,11 @@ That is when the older puzzle became sharp again. Plato chose the dialogue form 
 
 <Section color="maroon" label="grounding it (intuition)">
 
-Two papers sit in this neighbourhood: [\[1\]](https://arxiv.org/abs/2307.08827) and [\[2\]](https://arxiv.org/abs/cs/0406061). The second strengthens the classical "two rational agents cannot agree to disagree" result and shows that they not only agree but reach agreement in a finite number of steps.
+These two papers defines conversations in mathematical form: [\[1\]](https://arxiv.org/abs/2307.08827) and [\[2\]](https://arxiv.org/abs/cs/0406061). The second strengthens the classical "<b>two rational agents cannot agree to disagree</b>" result and shows that they not only agree but reach agreement in a finite number of steps.
 
 Here is the picture I want to formalise.
 
-Talking is one agent transmitting some information and receiving some, driven by an internal motive — curiosity, a decision to make oneself aware of quantum mechanics, to make money, to find a partner, to make friends, to have fun. Restrict attention to the subset of conversations where the agents are exchanging information about a topic: a lecture, a debate with a friend on Iran vs. Israel, a group discussion on RCB vs. GT. This is the setup researchers already use. Two or more agents communicate, and the goal of optimal information transmission is the same as optimising entropy reduction. The more entropy each side reduces about the topic, the better the conversation went.
+Talking is one agent transmitting some information and receiving some, driven by an internal motive, curiosity, a decision to make oneself aware of quantum mechanics, to make money, to find a partner, to make friends, to have fun. Restrict attention to the subset of conversations where the agents are exchanging information about a topic: a lecture, a debate with a friend on Iran vs. Israel, a group discussion on RCB vs. GT. This is the setup researchers already use. Two or more agents communicate, and the goal of optimal information transmission is the same as optimising entropy reduction. <b>The more entropy each side reduces about the topic, the better the conversation went.</b>
 
 But there is a hidden state: **what each agent currently wants to know**. We have no clean way to transmit this directly, and it can drift as the conversation flows. You start a debate over whether Trump is a good person; the other person mentions a story they read in the paper; suddenly you are curious about his teenage years, and so are they. The target keeps moving, and tracking that target is part of what we do while conversing.
 
@@ -153,7 +153,7 @@ In a conversation you emit a small chunk of information, receive a small chunk, 
 
 The conversational form makes sure these two jobs happen hand in hand. A lecture cannot. A lecturer does not estimate the listener's hidden state at all; they decide what to send before knowing what the listener needs. Most of the time the listener does not even know what is coming, and so has not built the gap where the new information could fit. (This is why professors advise prior reading and coming with questions: questions are the gaps that get filled. With no gap, there is nowhere for the information to sit, and it bounces off.)
 
-Lecturing ten people is trying to estimate the hidden state of ten different listeners, take an average, and transmit toward the average. The averaging is hopeless. Sitting in a debate with eight people who are also trying to talk to you is worse — eight hidden variables to track on your side, eight on theirs, all updating in parallel. This never works, and everyone who has been in such a debate knows it. Debates are not really about transmitting information.
+Lecturing ten people is trying to estimate the hidden state of ten different listeners, take an average, and transmit toward the average. The averaging is hopeless. Sitting in a debate with eight people who are also trying to talk to you is worse, eight hidden variables to track on your side, eight on theirs, all updating in parallel. This never works, and everyone who has been in such a debate knows it. Debates are not really about transmitting information.
 
 </Section>
 
@@ -294,25 +294,11 @@ This is the formal version of what Plato seems to have known about justice, what
 
 </Section>
 
-<Section color="maroon" label="why I study agents">
+<Section color="maroon" label="why does it makes sense to formalise this using agents?">
 
 I want to build a system of two talking agents and show that conversation is the best way for them to update information about an external subject `T`.
 
 A professor can lecture, but most of what they transmit will be something the agent did not want to know at the moment it was delivered. Let the agent get curious. Let it see where its own gap is, ask the question that fills it, receive the information, and update. That is the closed-loop part. That is the part the math says is strictly better.
-
-This is why I study agents.
-
-</Section>
-
-<Section color="maroon" label="closing">
-
-Plato, in the *Seventh Letter*, complained that Dionysius did not get a full exposition from him and then later wrote up what he thought he had learned. Plato's response was, in effect, that anyone who thinks these matters can be packaged into a treatise has missed the point. Knowledge of this kind, he says, comes only "after much converse" and shared life, when insight is kindled in the soul.
-
-That is not just a refusal to write a book. It is a stronger claim: the highest philosophical understanding is not fully transmissible in static prose; it emerges through sustained dialectic, relationship, and practice.
-
-The *Gita* says the same thing, more briefly: learning happens through approaching the wise and *questioning* them.
-
-The math agrees with both of them.
 
 </Section>
 
