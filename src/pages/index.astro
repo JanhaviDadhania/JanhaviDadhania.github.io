@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/Hero.astro';
 import { site } from '@/site.config';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { fetchSubstackPosts } from '@/lib/substack';
 
 type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
 type AnyEntry = CollectionEntry<FeaturedCollection>;
@@ -43,7 +44,8 @@ const journalLines: JournalLine[] = wanted
     label: entry.collection,
   }));
 
-const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
+const substackPosts = await fetchSubstackPosts(20);
+const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 <BaseLayout>
   <main class="container">
@@ -58,10 +60,28 @@ const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
           </span>
         </a>
       ))}
-      {Array.from({ length: emptyLines }).map(() => (
-        <div class="journal-line empty"></div>
-      ))}
     </section>
+
+    {substackPosts.length > 0 && (
+      <section class="substack">
+        <h2 class="substack-heading">from substack</h2>
+        <ul class="substack-list">
+          {substackPosts.map((post) => (
+            <li class="substack-item">
+              <a
+                class="substack-link"
+                href={post.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="substack-title">{post.title}</span>
+                <span class="substack-date">{dateFmt.format(post.pubDate)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </main>
 </BaseLayout>
 
@@ -102,8 +122,6 @@ const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
     text-decoration: none;
     color: inherit;
   }
-  .journal-line.empty { pointer-events: none; }
-
   .journal-text {
     font-family: var(--font-script);
     font-style: italic;
@@ -114,5 +132,53 @@ const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
   .journal-label {
     color: var(--ink-faded);
     margin-right: 0.3rem;
+  }
+
+  .substack {
+    margin-top: 3rem;
+    max-width: var(--content-max);
+  }
+  .substack-heading {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .substack-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .substack-item {
+    border-bottom: 1px solid var(--rule);
+  }
+  .substack-link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .substack-link:hover .substack-title {
+    text-decoration: underline;
+  }
+  .substack-title {
+    font-family: var(--font-script);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: #2a2a2a;
+    letter-spacing: 0.01em;
+  }
+  .substack-date {
+    font-size: 0.85rem;
+    color: var(--ink-faded);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 </style>
