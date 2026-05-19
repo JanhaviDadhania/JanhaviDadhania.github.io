@@ -14,7 +14,7 @@ The Mirror collects long-form writing on AI architecture (agents, context window
 
 | Section | URL | What lives there |
 |---|---|---|
-| Home | `/` | Hero, embedded video, social row, manually pinned featured posts, latest Substack posts (pulled from RSS at build time) |
+| Home | `/` | Hero, embedded video, social row, manually pinned featured posts, latest Substack posts (cached snapshot — refresh with `npm run sync-substack`) |
 | Blog | `/blog/` | Long-form essays |
 | Research | `/research/` | Pieces grounded in math, papers, proof |
 | Data | `/data/` | Numbers, charts, the maps behind them |
@@ -39,10 +39,11 @@ src/
 │   ├── fantasy/*.md
 │   └── tools/*.mdx
 ├── site.config.ts      # featured posts, unfinished posts, social links
+├── data/
+│   └── substack.json   # cached Substack feed snapshot (regen via npm run sync-substack)
 ├── lib/
 │   ├── clusters.ts     # cluster groupings shown on each index page
-│   ├── collections.ts  # helper for fetching published entries
-│   └── substack.ts     # fetches + parses Substack RSS feed at build time
+│   └── collections.ts  # helper for fetching published entries
 ├── components/         # Section, PostMeta, BackLink, UnfinishedBar, etc.
 ├── layouts/            # BaseLayout, PageLayout, PostLayout, IndexLayout, ComingSoonLayout
 ├── pages/              # routes (one file per URL; [slug].astro for dynamic)
@@ -75,3 +76,4 @@ Pushed automatically by GitHub Actions on every push to `main` (`.github/workflo
 - **Pin a post on the home page** — add `'<collection>/<slug>'` to `featured_slugs` in `src/site.config.ts`. Up to 8 fit in the journal block.
 - **Mark a post as unfinished** — add `'<collection>/<slug>'` to `unfinished_slugs` in `src/site.config.ts`. A maroon warning bar appears at the top of the post.
 - **Group posts on an index page** — edit `src/lib/clusters.ts`. Posts not in any cluster auto-fall into a synthetic `rest` cluster.
+- **Refresh the Substack list on the home page** — run `npm run sync-substack` locally (Substack blocks GitHub Actions' IPs, so this can't be auto-fetched at build time) and commit the updated `src/data/substack.json`.
