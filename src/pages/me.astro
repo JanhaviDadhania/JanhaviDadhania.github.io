@@ -1,4 +1,55 @@
 ---
-import IndexLayout from '@/layouts/IndexLayout.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
 ---
-<IndexLayout title="me" description="about Janhavi." clusters={[]} />
+<PageLayout title="me" description="about Janhavi.">
+  <article class="me">
+    <img
+      class="me-photo"
+      src="/images/me/janhavi.png"
+      alt="Janhavi Dadhania"
+      width="320"
+      height="320"
+    />
+    <p class="me-bio">
+      I am Janhavi. Most recently I had been studying complex systems and
+      coding deep models &amp; AI agents. I write at the intersection of
+      history, philosophy and tech on my
+      <a href="https://janhavidadhania.substack.com" target="_blank" rel="noopener">substack</a>.
+      Reach out
+      <a href="mailto:janhavivdadhania@gmail.com">janhavivdadhania@gmail.com</a>
+      if you too share interest in complex systems and AI.
+    </p>
+  </article>
+</PageLayout>
+
+<style>
+  .me {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+  .me-photo {
+    width: 280px;
+    height: auto;
+    max-width: 100%;
+    border-radius: var(--radius-sm);
+    display: block;
+  }
+  .me-bio {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0;
+  }
+  .me-bio a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .me-bio a:hover { opacity: 0.65; }
+</style>

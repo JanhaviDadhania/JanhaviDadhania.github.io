@@ -30,6 +30,5 @@ Most posts on this site are works-in-progress and explicitly flagged with a "thi
 ## Other
 
 - [Me](https://concavemirror.to/me/): About Janhavi.
-- [Kindle Reads](https://concavemirror.to/kindle/): Raw text dumps of reading notes — currently Neel Nanda's 7 key papers on mechanistic interpretability.
 - [RSS feed](https://concavemirror.to/rss.xml): Blog collection feed.
 - [Sitemap](https://concavemirror.to/sitemap-index.xml): Auto-generated sitemap for all pages.

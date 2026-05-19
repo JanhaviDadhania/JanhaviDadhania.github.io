@@ -10,9 +10,9 @@
 // Order is irrelevant. `side` chooses the gutter ("left" or "right").
 //
 // The component itself emits an invisible spec node. A single hoisted
-// <script> (deduped across all instances by Astro) finds every spec on
-// page load, draws the curves into a shared SVG overlay using rough.js,
-// and re-renders on resize / content reflow.
+// script tag (deduped across all instances by Astro) finds every spec
+// on page load, draws the curves into a shared SVG overlay using
+// rough.js, and re-renders on resize / content reflow.
 
 interface Props {
   a: string;

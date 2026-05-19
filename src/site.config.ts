@@ -36,7 +36,6 @@ export const site = {
   hero_video_url: 'https://drive.google.com/file/d/1KjM9wwvNOyKcFdAgj0BHfsuz7EfqJGJ-/preview',
 
   social: {
-    instagram: 'https://www.instagram.com/janhavidadhania_/',
     substack: 'https://janhavidadhania.substack.com',
     twitter: 'https://x.com/DadhaniaJanhavi',
     linkedin: 'https://www.linkedin.com/in/janhavi-dadhania-485385166/',
@@ -50,6 +49,5 @@ export const site = {
     { label: 'Tools', href: '/tools/' },
     { label: 'Fantasy', href: '/fantasy/' },
     { label: 'Me', href: '/me/' },
-    { label: 'Kindle Reads', href: '/kindle/' },
   ],
 } as const;

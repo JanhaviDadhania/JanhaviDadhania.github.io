@@ -28,5 +28,24 @@ const pageDescription = description ?? site.tagline;
   </head>
   <body>
     <slot />
+    <a href="/kindle/" class="kindle-dot" aria-label="kindle reads"></a>
   </body>
 </html>
+
+<style is:global>
+  .kindle-dot {
+    position: fixed;
+    left: 6px;
+    bottom: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(120, 0, 0, 0.28);
+    z-index: 50;
+    transition: background-color 0.4s ease, transform 0.4s ease;
+  }
+  .kindle-dot:hover {
+    background-color: rgba(120, 0, 0, 0.9);
+    transform: scale(1.4);
+  }
+</style>
