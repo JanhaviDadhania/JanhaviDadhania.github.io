@@ -27,7 +27,6 @@ export const site = {
   // at the top. Add a slug to flag a post as unfinished; remove to hide
   // the bar. Format: '<collection>/<slug>'.
   unfinished_slugs: [
-    'blog/the-next-ai-wave-computers-get-bodies',
     'blog/the-map-of-the-agent-universe',
     'blog/how-i-organise-my-agents',
     'research/are-agents-turing-machine',

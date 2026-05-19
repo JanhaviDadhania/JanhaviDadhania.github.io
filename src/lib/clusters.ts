@@ -27,7 +27,6 @@ export const clusters: Record<ClusterCollection, ClusterDef[]> = {
     {
       id: 'left',
       slugs: [
-        'the-next-ai-wave-computers-get-bodies',
         'the-map-of-the-agent-universe',
       ],
     },

@@ -8,7 +8,6 @@ Most posts on this site are works-in-progress and explicitly flagged with a "thi
 
 - [If Plato had notebookLM](https://concavemirror.to/blog/if-plato-had-notebooklm/): Why dialogue beats treatise — framing conversation as optimal mutual entropy reduction, with a proof that interactive exchange strictly dominates one-way transmission whenever the listener's interests are private.
 - [us animals and context windows](https://concavemirror.to/blog/zoo-animals-and-context-windows/): Why centralised manager-agent architectures fail at scale; distributed coordination as the only design that survives.
-- [The Next AI Wave: Computers Get Bodies](https://concavemirror.to/blog/the-next-ai-wave-computers-get-bodies/): On embodiment — when the next wave of AI moves off the screen and into the real world.
 - [The Map of the Agent Universe](https://concavemirror.to/blog/the-map-of-the-agent-universe/): Silicons, sub-agents, branching, distributed worker soups, and the RAG/memory stack that lets all of this scale beyond a single 200k context window.
 - [How I Organise My Agents](https://concavemirror.to/blog/how-i-organise-my-agents/): Workflows vs agents vs complex researchers, and how Bismuth self-updates by writing new skill files when given a new tool.
 
