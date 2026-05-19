@@ -2,7 +2,9 @@
 
 A personal notebook by Janhavi Dadhania, published at **[concavemirror.to](https://concavemirror.to)**.
 
-> *World today is loud. Let's write it down.*
+> *World today is loud. Let's hold some of it still.*
+>
+> *come, know it with me.*
 
 The Mirror collects long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and the occasional fantasy piece (e.g. how to send a small satellite to the Moon).
 
@@ -12,7 +14,7 @@ The Mirror collects long-form writing on AI architecture (agents, context window
 
 | Section | URL | What lives there |
 |---|---|---|
-| Home | `/` | Hero, embedded video, social row, manually pinned featured posts |
+| Home | `/` | Hero, embedded video, social row, manually pinned featured posts, latest Substack posts (pulled from RSS at build time) |
 | Blog | `/blog/` | Long-form essays |
 | Research | `/research/` | Pieces grounded in math, papers, proof |
 | Data | `/data/` | Numbers, charts, the maps behind them |
@@ -39,7 +41,8 @@ src/
 ├── site.config.ts      # featured posts, unfinished posts, social links
 ├── lib/
 │   ├── clusters.ts     # cluster groupings shown on each index page
-│   └── collections.ts  # helper for fetching published entries
+│   ├── collections.ts  # helper for fetching published entries
+│   └── substack.ts     # fetches + parses Substack RSS feed at build time
 ├── components/         # Section, PostMeta, BackLink, UnfinishedBar, etc.
 ├── layouts/            # BaseLayout, PageLayout, PostLayout, IndexLayout, ComingSoonLayout
 ├── pages/              # routes (one file per URL; [slug].astro for dynamic)
