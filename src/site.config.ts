@@ -2,8 +2,8 @@
 
 export const site = {
   title: 'The Mirror',
-  tagline: "World today is loud. Let's write it down.",
-  subtagline: 'come along as we document history in the making',
+  tagline: "World today is loud. Let's hold some of it still.",
+  subtagline: 'come, know it with me.',
 
   // Posts featured on the homepage's journal lines, in display order.
   // Each entry is '<collection>/<slug>'. Add a slug here to surface a post

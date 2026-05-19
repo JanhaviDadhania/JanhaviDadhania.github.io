@@ -1,6 +1,6 @@
 # The Mirror
 
-> A personal notebook by Janhavi Dadhania at concavemirror.to. Long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and occasional fantasy pieces. World today is loud. Let's write it down.
+> A personal notebook by Janhavi Dadhania at concavemirror.to. Long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and occasional fantasy pieces. World today is loud. Let's hold some of it still.
 
 Most posts on this site are works-in-progress and explicitly flagged with a "this writing is not finished yet" banner at the top — treat them as in-progress thinking rather than finished arguments.
 

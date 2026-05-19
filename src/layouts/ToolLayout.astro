@@ -1,0 +1,149 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import BackLink from '@/components/BackLink.astro';
+import UnfinishedBar from '@/components/UnfinishedBar.astro';
+import { site } from '@/site.config';
+
+interface Props {
+  /** '<collection>/<slug>' — used to look up unfinished status in site config. */
+  slug: string;
+  title: string;
+  date: Date;
+  summary?: string;
+  category: string;
+  link?: string;
+}
+
+const { slug, title, summary, category, link } = Astro.props;
+const isUnfinished = site.unfinished_slugs.includes(slug);
+---
+<BaseLayout title={title} description={summary}>
+  <article class="tool-page">
+    {isUnfinished && <UnfinishedBar />}
+
+    <div class="tool-topbar">
+      <span class="tool-category">[{category}]</span>
+      {link && (
+        <a class="tool-visit" href={link} target="_blank" rel="noopener">
+          Visit ↗
+        </a>
+      )}
+    </div>
+
+    <header class="tool-header">
+      <h1 class="tool-title">{title}</h1>
+      {summary && <p class="tool-summary">{summary}</p>}
+    </header>
+
+    <div class="tool-body">
+      <slot />
+    </div>
+  </article>
+  <BackLink />
+</BaseLayout>
+
+<style is:global>
+  /* Graph paper background, same as post pages. Scoped via .tool-page so
+     non-tool pages stay plain. */
+  body:has(.tool-page) {
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(to right,  rgba(120, 0, 0, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(120, 0, 0, 0.07) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+</style>
+
+<style>
+  .tool-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-6) clamp(var(--space-4), 6vw, var(--space-12)) 6rem;
+    font-family: var(--font-grotezk);
+  }
+
+  /* ─── Top bar: category (left) + visit link (right) ───────────────── */
+  .tool-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-4);
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--ink-faded);
+  }
+  .tool-category { color: var(--ink-faded); }
+  .tool-visit {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease;
+  }
+  .tool-visit:hover { opacity: 0.6; }
+
+  /* ─── Header: title full-width, rule below ────────────────────────── */
+  .tool-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+  .tool-title {
+    font-family: var(--font-grotezk);
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .tool-summary {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink-faded);
+    margin: var(--space-2) 0 0;
+    max-width: var(--content-max);
+  }
+
+  /* ─── Body: plain text + figures ──────────────────────────────────── */
+  .tool-body {
+    max-width: var(--content-max);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    /* establish a block formatting context so floats stay inside */
+    overflow: auto;
+  }
+  .tool-body :global(p) {
+    margin: 0 0 var(--space-3);
+  }
+  .tool-body :global(h2) {
+    font-family: var(--font-grotezk);
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+    clear: both;
+  }
+  .tool-body :global(h3) {
+    font-family: var(--font-grotezk);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-1);
+    clear: both;
+  }
+  .tool-body :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .tool-body :global(a:hover) { opacity: 0.65; }
+
+  @media (max-width: 700px) {
+    .tool-title { font-size: 2rem; }
+    .tool-topbar { font-size: 0.7rem; letter-spacing: 0.2em; }
+  }
+</style>

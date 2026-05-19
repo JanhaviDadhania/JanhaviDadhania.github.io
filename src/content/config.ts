@@ -23,6 +23,17 @@ const blog = defineCollection({ type: 'content', schema: postSchema });
 const research = defineCollection({ type: 'content', schema: postSchema });
 const data = defineCollection({ type: 'content', schema: postSchema });
 const fantasy = defineCollection({ type: 'content', schema: postSchema });
-const tools = defineCollection({ type: 'content', schema: postSchema });
+
+// Tools have their own schema: plain-text + images, no opinion/evidence meta,
+// optional external "visit" link, and a category label.
+const toolSchema = z.object({
+  title: z.string(),
+  date: z.coerce.date(),
+  summary: z.string().optional(),
+  category: z.string(),                // e.g. 'agent', 'robot', 'intelligent app', 'workflow'
+  link: z.string().url().optional(),   // external URL surfaced as "Visit ↗"
+  draft: z.boolean().default(false),
+});
+const tools = defineCollection({ type: 'content', schema: toolSchema });
 
 export const collections = { blog, research, data, fantasy, tools };

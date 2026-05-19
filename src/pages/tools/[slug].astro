@@ -1,6 +1,6 @@
 ---
-import PostLayout from '@/layouts/PostLayout.astro';
-import { postComponents } from '@/lib/postComponents';
+import ToolLayout from '@/layouts/ToolLayout.astro';
+import { toolComponents } from '@/lib/toolComponents';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -18,13 +18,13 @@ interface Props {
 const { tool } = Astro.props;
 const { Content } = await tool.render();
 ---
-<PostLayout
+<ToolLayout
   slug={`${tool.collection}/${tool.slug}`}
   title={tool.data.title}
   date={tool.data.date}
-  tags={tool.data.tags}
   summary={tool.data.summary}
-  meta={tool.data.meta}
+  category={tool.data.category}
+  link={tool.data.link}
 >
-  <Content components={postComponents} />
-</PostLayout>
+  <Content components={toolComponents} />
+</ToolLayout>

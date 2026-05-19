@@ -31,47 +31,54 @@ const featured: AnyPost[] = wanted
   .map((s) => lookup.get(s))
   .filter((p): p is AnyPost => p !== undefined);
 
-const emptyLines = Math.max(0, TOTAL_LINES - featured.length);
-
 // Resolve featured tools.
 const toolsEntries = await getCollection('tools', visibleFilter);
 const toolsBySlug = new Map(toolsEntries.map((t) => [t.slug, t]));
 const featuredTools = site.featured_tools
   .map((slug) => toolsBySlug.get(slug))
   .filter((t): t is CollectionEntry<'tools'> => t !== undefined);
+
+// Merge blog/research/data/fantasy entries and tools into a single
+// flat list of journal lines, each tagged with its collection so we
+// can prefix the title with [collection] on the home page.
+interface JournalLine {
+  href: string;
+  title: string;
+  label: string;
+}
+
+const journalLines: JournalLine[] = [
+  ...featured.map((post) => ({
+    href: `/${post.collection}/${post.slug}/`,
+    title: post.data.title,
+    label: post.collection,
+  })),
+  ...featuredTools.map((tool) => ({
+    href: `/tools/${tool.slug}/`,
+    title: tool.data.title,
+    label: 'tools',
+  })),
+];
+
+const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
 ---
 <BaseLayout>
   <main class="container">
     <Hero />
 
     <section class="journal">
-      {featured.map((post) => (
-        <a class="journal-line" href={`/${post.collection}/${post.slug}/`}>
-          <span class="journal-text">{post.data.title}</span>
+      {journalLines.map((line) => (
+        <a class="journal-line" href={line.href}>
+          <span class="journal-text">
+            <span class="journal-label">[{line.label}]</span>
+            {' '}{line.title}
+          </span>
         </a>
       ))}
       {Array.from({ length: emptyLines }).map(() => (
         <div class="journal-line empty"></div>
       ))}
     </section>
-
-    {featuredTools.length > 0 && (
-      <section class="tools-strip" aria-labelledby="tools-heading">
-        <h2 id="tools-heading" class="tools-heading">tools</h2>
-        <ul class="tools-list">
-          {featuredTools.map((tool) => (
-            <li>
-              <a class="tools-link" href={`/tools/${tool.slug}/`}>
-                <span class="tools-name">{tool.data.title}</span>
-                {tool.data.summary && (
-                  <span class="tools-summary"> — {tool.data.summary}</span>
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
   </main>
 </BaseLayout>
 
@@ -120,42 +127,8 @@ const featuredTools = site.featured_tools
     color: #2a2a2a;
     letter-spacing: 0.02em;
   }
-
-  .tools-strip {
-    margin-top: var(--space-12);
-    max-width: var(--content-max);
-  }
-  .tools-heading {
-    font-family: var(--font-serif);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
+  .journal-label {
     color: var(--ink-faded);
-    font-weight: 400;
-    margin: 0 0 var(--space-3);
+    margin-right: 0.3rem;
   }
-  .tools-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .tools-link {
-    color: var(--ink);
-    text-decoration: none;
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-  }
-  .tools-name {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-  }
-  .tools-summary {
-    color: var(--ink-faded);
-    font-style: italic;
-  }
-  .tools-link:hover .tools-name { opacity: 0.6; }
 </style>

@@ -1,0 +1,80 @@
+---
+// Image + caption block for tool pages.
+//
+//   <Figure
+//     src="/images/tools/bismuth/dashboard.png"
+//     alt="agent dashboard"
+//     caption="live task tree"
+//     size="narrow"   // narrow | wide | full   (default: wide)
+//     side="right"    // left | right            (default: right; ignored for full)
+//   />
+//
+// narrow/wide float to the chosen side; surrounding paragraphs flow on the
+// remaining area. `full` spans the content column and breaks any active float.
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  size?: 'narrow' | 'wide' | 'full';
+  side?: 'left' | 'right';
+}
+
+const { src, alt, caption, size = 'wide', side = 'right' } = Astro.props;
+---
+<figure class={`tool-figure tool-figure--${size} tool-figure--${side}`}>
+  <img src={src} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .tool-figure {
+    margin: 0 0 var(--space-4);
+  }
+  .tool-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-sm);
+  }
+  .tool-figure figcaption {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--ink-faded);
+    margin-top: var(--space-1);
+  }
+
+  /* ─── Sizes ───────────────────────────────────────────────────────── */
+  .tool-figure--narrow { width: 33%; }
+  .tool-figure--wide   { width: 50%; }
+  .tool-figure--full   { width: 100%; clear: both; }
+
+  /* ─── Float behaviour (narrow + wide only) ────────────────────────── */
+  .tool-figure--narrow.tool-figure--right,
+  .tool-figure--wide.tool-figure--right {
+    float: right;
+    margin-left: var(--space-5);
+    margin-right: 0;
+  }
+  .tool-figure--narrow.tool-figure--left,
+  .tool-figure--wide.tool-figure--left {
+    float: left;
+    margin-right: var(--space-5);
+    margin-left: 0;
+  }
+
+  /* On narrow screens, all figures stack full-width — floating with little
+     surrounding text becomes cramped. */
+  @media (max-width: 700px) {
+    .tool-figure--narrow,
+    .tool-figure--wide {
+      float: none;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: var(--space-3);
+    }
+  }
+</style>
