@@ -23,19 +23,6 @@ const blog = defineCollection({ type: 'content', schema: postSchema });
 const research = defineCollection({ type: 'content', schema: postSchema });
 const data = defineCollection({ type: 'content', schema: postSchema });
 const fantasy = defineCollection({ type: 'content', schema: postSchema });
-
-// Tools have a simpler shape: a card with title, description, optional image(s)
-// and an external link.
-const tools = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    summary: z.string(),
-    images: z.array(z.string()).optional(),
-    link: z.string().url().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
+const tools = defineCollection({ type: 'content', schema: postSchema });
 
 export const collections = { blog, research, data, fantasy, tools };

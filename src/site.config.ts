@@ -14,6 +14,15 @@ export const site = {
     'blog/zoo-animals-and-context-windows',
   ] as string[],
 
+  // Tools featured on the homepage's tools strip, in display order.
+  // Each entry is just the tool slug. Slugs that don't match a published
+  // tool are silently dropped.
+  featured_tools: [
+    'bismuth',
+    'robot-io',
+    'seldon',
+  ] as string[],
+
   // Posts that show the "this writing is not finished yet" warning bar
   // at the top. Add a slug to flag a post as unfinished; remove to hide
   // the bar. Format: '<collection>/<slug>'.
