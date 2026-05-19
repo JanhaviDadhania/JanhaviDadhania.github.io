@@ -30,9 +30,16 @@ function pick(block: string, tag: string): string {
 export async function fetchSubstackPosts(limit = 20): Promise<SubstackPost[]> {
   try {
     const res = await fetch(FEED_URL, {
-      headers: { 'User-Agent': 'concavemirror-build' },
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
+      },
     });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.warn(`[substack] feed fetch failed: ${res.status} ${res.statusText}`);
+      return [];
+    }
     const xml = await res.text();
     const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
     const posts: SubstackPost[] = items.map((block) => ({
@@ -41,11 +48,14 @@ export async function fetchSubstackPosts(limit = 20): Promise<SubstackPost[]> {
       pubDate: new Date(pick(block, 'pubDate')),
       description: pick(block, 'description'),
     }));
-    return posts
+    const result = posts
       .filter((p) => p.title && p.link)
       .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
       .slice(0, limit);
-  } catch {
+    console.log(`[substack] fetched ${result.length} posts`);
+    return result;
+  } catch (err) {
+    console.warn(`[substack] feed fetch threw: ${(err as Error).message}`);
     return [];
   }
 }
