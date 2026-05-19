@@ -29,6 +29,7 @@ export const site = {
   unfinished_slugs: [
     'blog/the-next-ai-wave-computers-get-bodies',
     'blog/the-map-of-the-agent-universe',
+    'blog/how-i-organise-my-agents',
     'research/are-agents-turing-machine',
     'research/seldon-framework',
     'research/ai-neuroscience',
