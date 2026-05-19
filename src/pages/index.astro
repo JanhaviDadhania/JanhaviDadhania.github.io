@@ -4,61 +4,44 @@ import Hero from '@/components/Hero.astro';
 import { site } from '@/site.config';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy';
-type AnyPost = CollectionEntry<FeaturedCollection>;
+type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
+type AnyEntry = CollectionEntry<FeaturedCollection>;
 
 const visibleFilter = ({ data }: { data: { draft: boolean } }) => !data.draft;
 
-// Resolve featured slugs from site.config.ts → actual post entries.
-// Slugs that don't match a published post are silently dropped.
+// Resolve featured entries from site.config.ts in the order they're listed.
+// Each entry is '<collection>/<slug>'. Tools are mixed in alongside blog/
+// research/data/fantasy posts so the home page order is fully explicit.
 const TOTAL_LINES = 8;
-const wanted = site.featured_slugs.slice(0, TOTAL_LINES);
+const wanted = site.featured.slice(0, TOTAL_LINES);
 const collectionsNeeded = new Set(
   wanted.map((s) => s.split('/')[0]).filter(Boolean) as FeaturedCollection[],
 );
 
-const lookup = new Map<string, AnyPost>();
+const lookup = new Map<string, AnyEntry>();
 await Promise.all(
   Array.from(collectionsNeeded).map(async (col) => {
     const entries = await getCollection(col, visibleFilter);
     for (const entry of entries) {
-      lookup.set(`${entry.collection}/${entry.slug}`, entry as AnyPost);
+      lookup.set(`${entry.collection}/${entry.slug}`, entry as AnyEntry);
     }
   }),
 );
 
-const featured: AnyPost[] = wanted
-  .map((s) => lookup.get(s))
-  .filter((p): p is AnyPost => p !== undefined);
-
-// Resolve featured tools.
-const toolsEntries = await getCollection('tools', visibleFilter);
-const toolsBySlug = new Map(toolsEntries.map((t) => [t.slug, t]));
-const featuredTools = site.featured_tools
-  .map((slug) => toolsBySlug.get(slug))
-  .filter((t): t is CollectionEntry<'tools'> => t !== undefined);
-
-// Merge blog/research/data/fantasy entries and tools into a single
-// flat list of journal lines, each tagged with its collection so we
-// can prefix the title with [collection] on the home page.
 interface JournalLine {
   href: string;
   title: string;
   label: string;
 }
 
-const journalLines: JournalLine[] = [
-  ...featured.map((post) => ({
-    href: `/${post.collection}/${post.slug}/`,
-    title: post.data.title,
-    label: post.collection,
-  })),
-  ...featuredTools.map((tool) => ({
-    href: `/tools/${tool.slug}/`,
-    title: tool.data.title,
-    label: 'tools',
-  })),
-];
+const journalLines: JournalLine[] = wanted
+  .map((key) => lookup.get(key))
+  .filter((e): e is AnyEntry => e !== undefined)
+  .map((entry) => ({
+    href: `/${entry.collection}/${entry.slug}/`,
+    title: entry.data.title,
+    label: entry.collection,
+  }));
 
 const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
 ---
@@ -123,9 +106,10 @@ const emptyLines = Math.max(0, TOTAL_LINES - journalLines.length);
 
   .journal-text {
     font-family: var(--font-script);
-    font-size: 1.8rem;
+    font-style: italic;
+    font-size: 1.6rem;
     color: #2a2a2a;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
   }
   .journal-label {
     color: var(--ink-faded);

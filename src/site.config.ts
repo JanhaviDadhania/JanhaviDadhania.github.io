@@ -5,22 +5,16 @@ export const site = {
   tagline: "World today is loud. Let's hold some of it still.",
   subtagline: 'come, know it with me.',
 
-  // Posts featured on the homepage's journal lines, in display order.
-  // Each entry is '<collection>/<slug>'. Add a slug here to surface a post
-  // on the home page; remove to hide. Up to 8 fit in the journal block —
-  // anything beyond that is silently ignored.
-  featured_slugs: [
+  // Items featured on the homepage's journal lines, in display order.
+  // Each entry is '<collection>/<slug>' (e.g. 'blog/foo', 'tools/bismuth').
+  // Up to 8 fit in the journal block — anything beyond that is silently
+  // ignored. Slugs that don't match a published entry are silently dropped.
+  featured: [
+    'tools/robot-io',
     'blog/if-plato-had-notebooklm',
+    'tools/bismuth',
+    'tools/seldon',
     'blog/zoo-animals-and-context-windows',
-  ] as string[],
-
-  // Tools featured on the homepage's tools strip, in display order.
-  // Each entry is just the tool slug. Slugs that don't match a published
-  // tool are silently dropped.
-  featured_tools: [
-    'bismuth',
-    'robot-io',
-    'seldon',
   ] as string[],
 
   // Posts that show the "this writing is not finished yet" warning bar
