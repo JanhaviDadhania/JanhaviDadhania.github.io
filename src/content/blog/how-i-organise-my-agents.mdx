@@ -3,7 +3,7 @@ title: "How I Organise My Agents"
 date: 2026-05-19
 tags: [agents, workflows, bismuth]
 summary: "How I split workflows, agents, and complex researchers — and why I prompt every agent to keep a folder for learning new skills on its own."
-draft: true
+draft: false
 meta:
   on_coffee: true
   is_finished: false
@@ -25,13 +25,17 @@ I have set up a very high-level prompt of what I want it to do; the agent figure
 
 One drawback of having an agent over chained prompts is that **agents are unpredictable**. Prompts take one decision at a time, which can be logged; agents take 20 decisions at a time without logging.
 
+Recently I added screen, motor (hand), speaker, microphone, and camera to Bismuth. I texted Bismuth the path to my [hardware CLI app](/tools/robot-io/) and said: I want you to have these 5 additional sensors and output channels, integrate them into yourself. That was it. Ten minutes later, Bismuth had all of it wired in. I don't know every step it took to get there — I couldn't have audited 20+ decisions in 10 minutes if I'd tried.
+
 ## Complex researchers
 
-_Still working this category out for myself — it's the third bucket I keep wanting to separate from "agents" but haven't pinned down cleanly. Roughly: open-ended, multi-step research where the output is a write-up rather than a completed action. More here once I have a concrete example of my own running._
+The third category sits in between workflows and agents — multi-step research systems where the output is a write-up rather than an action. They take a question or a theme, dig through a corpus, follow chains of related ideas, and return something readable. The loop is narrower than a general agent's: read, traverse, write.
+
+[Seldon](/tools/seldon/) is my version. It treats my notes as a graph of ideas, runs a traversal algorithm to a chosen depth, and asks an LLM to write an article from the resulting sub-graph. Different traversal strategies should produce differently shaped articles — that's the running experiment.
 
 ## Self-updation
 
-I took the self-updation idea from [team-of-silicons](https://github.com/unlikefraction/team-of-silicons). I always prompt my agents to have a directory for learning new skills, so they can self-update. If my agent ever encounters an important skill it needs to have — for example, it got access to an external camera and screen, and I have not explicitly prompted it to use it — it learns on its own to integrate this new feature via these additional skills folders. Once learnt, it stays a permanent part of it.
+I took the self-updation idea from [team-of-silicons](https://github.com/unlikefraction/team-of-silicons). I always prompt my agents to have a directory for learning new skills, so they can self-update. The hardware integration above is the cleanest example of this I have: I never told Bismuth *how* to talk to a webcam, a servo, or a speaker. I gave it the CLI, told it what I wanted, and it figured out the rest — wrote new skill files into the skills folder, and they have stayed there. Next time Bismuth needs the camera, it doesn't have to learn again.
 
 **The agent updates itself permanently.**
 
