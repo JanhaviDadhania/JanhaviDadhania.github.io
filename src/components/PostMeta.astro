@@ -1,10 +1,9 @@
 ---
-// The top-right metadata block in a post: coffee status, finished status,
-// opinion strength, evidence strength, and the opinion-vs-evidence ratio.
+// The top-right metadata block in a post: finished status, opinion strength,
+// evidence strength, and the opinion-vs-evidence ratio.
 
 interface Props {
   meta: {
-    on_coffee: boolean;
     is_finished: boolean;
     opinion_strength: number;
     evidence_strength: number;
@@ -18,11 +17,6 @@ const ratio = meta.opinion_strength === 0
 ---
 <aside class="post-meta">
   <div class="left">
-    <div class="row">
-      <span class="label">was i on coffee</span>
-      <span class="icon" aria-hidden="true">☕</span>
-      <span class="value">{meta.on_coffee ? 'yes' : 'no'}</span>
-    </div>
     <div class="row">
       <span class="label">is this finished</span>
       <span class="icon" aria-hidden="true">🍄</span>

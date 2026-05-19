@@ -12,7 +12,6 @@ const postSchema = z.object({
   cover_image: z.string().optional(),
   draft: z.boolean().default(false),
   meta: z.object({
-    on_coffee: z.boolean(),
     is_finished: z.boolean(),
     opinion_strength: z.number().int().min(0).max(10),
     evidence_strength: z.number().int().min(0).max(10),

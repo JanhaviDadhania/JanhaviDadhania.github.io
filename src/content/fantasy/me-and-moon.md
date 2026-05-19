@@ -5,7 +5,6 @@ tags: []
 summary: "A practical guide to doing one of the hardest things humans have ever attempted — but in miniature."
 draft: false
 meta:
-  on_coffee: true
   is_finished: true
   opinion_strength: 6
   evidence_strength: 8
