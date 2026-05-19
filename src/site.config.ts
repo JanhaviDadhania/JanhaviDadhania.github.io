@@ -28,9 +28,7 @@ export const site = {
   // the bar. Format: '<collection>/<slug>'.
   unfinished_slugs: [
     'blog/the-next-ai-wave-computers-get-bodies',
-    'blog/redesign-of-superhuman-workflows-now-that-ai-is-here',
     'blog/the-map-of-the-agent-universe',
-    'blog/my-thinking-assistants-design',
     'research/are-agents-turing-machine',
     'research/seldon-framework',
     'research/ai-neuroscience',
