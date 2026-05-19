@@ -75,6 +75,7 @@ public/
 
 ## Manual updates that are easy to forget
 
+- **`src/data/substack.json`** — cached snapshot of the Substack RSS feed shown on the home page. Substack 403s GitHub Actions IPs, so we cannot fetch at build time. Refresh by running `npm run sync-substack` locally and committing the regenerated file. If the file is missing or empty, the home page silently hides the section.
 - **`public/llms.txt`** — static llmstxt.org-format index of the site's posts. **Must be updated by hand** when posts are added, removed, renamed, or get a new summary. Currently lists every published post. Could be auto-generated from content collections at build time as a follow-up; not done yet.
 - **`public/robots.txt`** — allow-all + sitemap pointer. Rarely needs updating, but if you ever add paths that should be hidden, edit here.
 - **`featured_slugs` and `unfinished_slugs`** in `site.config.ts` — silently drop slugs that don't match a published post (intentional, keeps the home resilient). If a featured post seems missing, check the slug + that the post is `draft: false`.
@@ -85,9 +86,10 @@ public/
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321
-npm run build    # writes to dist/
-npm run preview  # serves the production build locally
+npm run dev             # http://localhost:4321
+npm run build           # writes to dist/
+npm run preview         # serves the production build locally
+npm run sync-substack   # refresh src/data/substack.json from the Substack RSS feed (run locally, then commit)
 ```
 
 ## Verification before claiming "done"

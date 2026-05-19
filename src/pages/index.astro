@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/Hero.astro';
 import { site } from '@/site.config';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import substackData from '@/data/substack.json';
 
 type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
 type AnyEntry = CollectionEntry<FeaturedCollection>;
@@ -43,6 +44,13 @@ const journalLines: JournalLine[] = wanted
     label: entry.collection,
   }));
 
+const substackPosts = (substackData.posts ?? []).map((p) => ({
+  ...p,
+  pubDate: new Date(p.pubDate),
+}));
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+  month: 'short', day: 'numeric', year: 'numeric',
+});
 ---
 <BaseLayout>
   <main class="container">
@@ -59,79 +67,28 @@ const journalLines: JournalLine[] = wanted
       ))}
     </section>
 
-    <section class="substack" id="substack-section" hidden>
-      <h2 class="substack-heading">from substack</h2>
-      <ul class="substack-list" id="substack-list"></ul>
-    </section>
+    {substackPosts.length > 0 && (
+      <section class="substack">
+        <h2 class="substack-heading">from substack</h2>
+        <ul class="substack-list">
+          {substackPosts.map((post) => (
+            <li class="substack-item">
+              <a
+                class="substack-link"
+                href={post.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="substack-title">{post.title}</span>
+                <span class="substack-date">{dateFmt.format(post.pubDate)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </main>
 </BaseLayout>
-
-<script is:inline>
-  (async () => {
-    const FEED = 'https://janhavidadhania.substack.com/feed';
-    const PROXIES = [
-      (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-      (u) => 'https://corsproxy.io/?' + encodeURIComponent(u),
-    ];
-
-    async function loadXml() {
-      for (const build of PROXIES) {
-        try {
-          const res = await fetch(build(FEED), { cache: 'no-store' });
-          if (!res.ok) continue;
-          const text = await res.text();
-          if (text && text.includes('<item')) return text;
-        } catch {}
-      }
-      return null;
-    }
-
-    const xml = await loadXml();
-    if (!xml) return;
-
-    const doc = new DOMParser().parseFromString(xml, 'text/xml');
-    const items = Array.from(doc.querySelectorAll('item')).slice(0, 20);
-    if (!items.length) return;
-
-    const list = document.getElementById('substack-list');
-    const section = document.getElementById('substack-section');
-    if (!list || !section) return;
-
-    const dateFmt = new Intl.DateTimeFormat('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-    });
-
-    for (const item of items) {
-      const title = item.querySelector('title')?.textContent?.trim() ?? '';
-      const link = item.querySelector('link')?.textContent?.trim() ?? '';
-      const pubDate = item.querySelector('pubDate')?.textContent?.trim() ?? '';
-      if (!title || !link) continue;
-
-      const li = document.createElement('li');
-      li.className = 'substack-item';
-      const a = document.createElement('a');
-      a.className = 'substack-link';
-      a.href = link;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      const titleSpan = document.createElement('span');
-      titleSpan.className = 'substack-title';
-      titleSpan.textContent = title;
-      const dateSpan = document.createElement('span');
-      dateSpan.className = 'substack-date';
-      if (pubDate) {
-        const d = new Date(pubDate);
-        if (!isNaN(d.getTime())) dateSpan.textContent = dateFmt.format(d);
-      }
-      a.appendChild(titleSpan);
-      a.appendChild(dateSpan);
-      li.appendChild(a);
-      list.appendChild(li);
-    }
-
-    section.hidden = false;
-  })();
-</script>
 
 <style>
   .container {
@@ -201,10 +158,10 @@ const journalLines: JournalLine[] = wanted
     padding: 0;
     margin: 0;
   }
-  :global(.substack-item) {
+  .substack-item {
     border-bottom: 1px solid var(--rule);
   }
-  :global(.substack-link) {
+  .substack-link {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -213,17 +170,17 @@ const journalLines: JournalLine[] = wanted
     text-decoration: none;
     color: inherit;
   }
-  :global(.substack-link:hover .substack-title) {
+  .substack-link:hover .substack-title {
     text-decoration: underline;
   }
-  :global(.substack-title) {
+  .substack-title {
     font-family: var(--font-script);
     font-style: italic;
     font-size: 1.4rem;
     color: #2a2a2a;
     letter-spacing: 0.01em;
   }
-  :global(.substack-date) {
+  .substack-date {
     font-size: 0.85rem;
     color: var(--ink-faded);
     white-space: nowrap;
