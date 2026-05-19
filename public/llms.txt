@@ -1,6 +1,6 @@
 # The Mirror
 
-> A personal notebook by Janhavi Dadhania at concavemirror.to. Long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and occasional fantasy pieces. World today is loud. Let's write it down.
+> A personal notebook by Janhavi Dadhania at concavemirror.to. Long-form writing on AI architecture (agents, context windows, distributed coordination), reading notes, mathematical models of civilizational dynamics, and occasional fantasy pieces. World today is loud. Let's hold some of it still.
 
 Most posts on this site are works-in-progress and explicitly flagged with a "this writing is not finished yet" banner at the top — treat them as in-progress thinking rather than finished arguments.
 
@@ -8,10 +8,8 @@ Most posts on this site are works-in-progress and explicitly flagged with a "thi
 
 - [If Plato had notebookLM](https://concavemirror.to/blog/if-plato-had-notebooklm/): Why dialogue beats treatise — framing conversation as optimal mutual entropy reduction, with a proof that interactive exchange strictly dominates one-way transmission whenever the listener's interests are private.
 - [us animals and context windows](https://concavemirror.to/blog/zoo-animals-and-context-windows/): Why centralised manager-agent architectures fail at scale; distributed coordination as the only design that survives.
-- [The Next AI Wave: Computers Get Bodies](https://concavemirror.to/blog/the-next-ai-wave-computers-get-bodies/): On embodiment — when the next wave of AI moves off the screen and into the real world.
-- [Redesign of Superhuman Workflows Now That AI Is Here](https://concavemirror.to/blog/redesign-of-superhuman-workflows-now-that-ai-is-here/): How engineering workflows shift when junior engineering work is done by agents and the layers above are reviewing instead of doing.
 - [The Map of the Agent Universe](https://concavemirror.to/blog/the-map-of-the-agent-universe/): Silicons, sub-agents, branching, distributed worker soups, and the RAG/memory stack that lets all of this scale beyond a single 200k context window.
-- [My Thinking Assistant's Design](https://concavemirror.to/blog/my-thinking-assistants-design/): Designing a tool that helps think rather than helps produce — graph of topics, coffee-talk buddy, deeper-chat agent, article writer in the voice of Venkatesh Rao, Gwern, Paul Graham.
+- [How I Organise My Agents](https://concavemirror.to/blog/how-i-organise-my-agents/): Workflows vs agents vs complex researchers, and how Bismuth self-updates by writing new skill files when given a new tool.
 
 ## Research
 
@@ -30,6 +28,5 @@ Most posts on this site are works-in-progress and explicitly flagged with a "thi
 ## Other
 
 - [Me](https://concavemirror.to/me/): About Janhavi.
-- [Kindle Reads](https://concavemirror.to/kindle/): Raw text dumps of reading notes — currently Neel Nanda's 7 key papers on mechanistic interpretability.
 - [RSS feed](https://concavemirror.to/rss.xml): Blog collection feed.
 - [Sitemap](https://concavemirror.to/sitemap-index.xml): Auto-generated sitemap for all pages.

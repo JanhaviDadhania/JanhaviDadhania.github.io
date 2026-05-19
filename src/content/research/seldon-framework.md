@@ -5,7 +5,6 @@ tags: []
 summary: "A formal translation of HariSeldon's 75-essay psychohistory series into the language of dynamical systems, capital stocks, and phase transitions."
 draft: false
 meta:
-  on_coffee: false
   is_finished: true
   opinion_strength: 5
   evidence_strength: 5

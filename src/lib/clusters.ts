@@ -27,15 +27,12 @@ export const clusters: Record<ClusterCollection, ClusterDef[]> = {
     {
       id: 'left',
       slugs: [
-        'the-next-ai-wave-computers-get-bodies',
-        'redesign-of-superhuman-workflows-now-that-ai-is-here',
         'the-map-of-the-agent-universe',
       ],
     },
     {
       id: 'right',
       slugs: [
-        'my-thinking-assistants-design',
         'zoo-animals-and-context-windows',
       ],
     },

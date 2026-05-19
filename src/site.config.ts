@@ -2,15 +2,18 @@
 
 export const site = {
   title: 'The Mirror',
-  tagline: "World today is loud. Let's write it down.",
-  subtagline: 'come along as we document history in the making',
+  tagline: "World today is loud. Let's hold some of it still.",
+  subtagline: 'come, know it with me.',
 
-  // Posts featured on the homepage's journal lines, in display order.
-  // Each entry is '<collection>/<slug>'. Add a slug here to surface a post
-  // on the home page; remove to hide. Up to 8 fit in the journal block —
-  // anything beyond that is silently ignored.
-  featured_slugs: [
+  // Items featured on the homepage's journal lines, in display order.
+  // Each entry is '<collection>/<slug>' (e.g. 'blog/foo', 'tools/bismuth').
+  // Up to 8 fit in the journal block — anything beyond that is silently
+  // ignored. Slugs that don't match a published entry are silently dropped.
+  featured: [
+    'tools/robot-io',
     'blog/if-plato-had-notebooklm',
+    'tools/bismuth',
+    'tools/seldon',
     'blog/zoo-animals-and-context-windows',
   ] as string[],
 
@@ -18,10 +21,8 @@ export const site = {
   // at the top. Add a slug to flag a post as unfinished; remove to hide
   // the bar. Format: '<collection>/<slug>'.
   unfinished_slugs: [
-    'blog/the-next-ai-wave-computers-get-bodies',
-    'blog/redesign-of-superhuman-workflows-now-that-ai-is-here',
     'blog/the-map-of-the-agent-universe',
-    'blog/my-thinking-assistants-design',
+    'blog/how-i-organise-my-agents',
     'research/are-agents-turing-machine',
     'research/seldon-framework',
     'research/ai-neuroscience',
@@ -36,7 +37,6 @@ export const site = {
   hero_video_url: 'https://drive.google.com/file/d/1KjM9wwvNOyKcFdAgj0BHfsuz7EfqJGJ-/preview',
 
   social: {
-    instagram: 'https://www.instagram.com/janhavidadhania_/',
     substack: 'https://janhavidadhania.substack.com',
     twitter: 'https://x.com/DadhaniaJanhavi',
     linkedin: 'https://www.linkedin.com/in/janhavi-dadhania-485385166/',
@@ -50,6 +50,5 @@ export const site = {
     { label: 'Tools', href: '/tools/' },
     { label: 'Fantasy', href: '/fantasy/' },
     { label: 'Me', href: '/me/' },
-    { label: 'Kindle Reads', href: '/kindle/' },
   ],
 } as const;

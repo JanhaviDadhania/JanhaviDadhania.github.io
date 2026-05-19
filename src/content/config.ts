@@ -12,7 +12,6 @@ const postSchema = z.object({
   cover_image: z.string().optional(),
   draft: z.boolean().default(false),
   meta: z.object({
-    on_coffee: z.boolean(),
     is_finished: z.boolean(),
     opinion_strength: z.number().int().min(0).max(10),
     evidence_strength: z.number().int().min(0).max(10),
@@ -24,18 +23,16 @@ const research = defineCollection({ type: 'content', schema: postSchema });
 const data = defineCollection({ type: 'content', schema: postSchema });
 const fantasy = defineCollection({ type: 'content', schema: postSchema });
 
-// Tools have a simpler shape: a card with title, description, optional image(s)
-// and an external link.
-const tools = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    summary: z.string(),
-    images: z.array(z.string()).optional(),
-    link: z.string().url().optional(),
-    draft: z.boolean().default(false),
-  }),
+// Tools have their own schema: plain-text + images, no opinion/evidence meta,
+// optional external "visit" link, and a category label.
+const toolSchema = z.object({
+  title: z.string(),
+  date: z.coerce.date(),
+  summary: z.string().optional(),
+  category: z.string(),                // e.g. 'agent', 'robot', 'intelligent app', 'workflow'
+  link: z.string().url().optional(),   // external URL surfaced as "Visit ↗"
+  draft: z.boolean().default(false),
 });
+const tools = defineCollection({ type: 'content', schema: toolSchema });
 
 export const collections = { blog, research, data, fantasy, tools };

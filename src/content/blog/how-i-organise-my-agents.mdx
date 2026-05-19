@@ -1,0 +1,43 @@
+---
+title: "How I Organise My Agents"
+date: 2026-05-19
+tags: [agents, workflows, bismuth]
+summary: "How I split workflows, agents, and complex researchers — and why I prompt every agent to keep a folder for learning new skills on its own."
+draft: false
+meta:
+  is_finished: false
+  opinion_strength: 6
+  evidence_strength: 4
+---
+
+In my mind, I separate **workflows** and **agents**. And also have a third category of **complex researchers**. I took this organisation schema from Anthropic's [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents).
+
+## Workflows
+
+On a high level, workflows are rigidly built systems with prompts. I have a workflow that generates carousels from the idea I give it. It passes through a bunch of chained prompts and returns a carousel at the end. I use this to get the mundane work of creating carousels for my social media posts done.
+
+## Agents
+
+Agents are for solving problems that I can't define rigid steps for. My personal assistant [Bismuth](/tools/bismuth/) is a two-agent system. It writes down and organises everything I produce — todos, ideas, project visions, goals, blogs, schedule, shopping list, people I follow, to-read, book reviews, and much more. It listens to me from chat, camera, microphone, and a Dropbox folder.
+
+I have set up a very high-level prompt of what I want it to do; the agent figures out how it will get it done. I do not explicitly tell it to use terminal for this, browser for that, save file for this, get an STT Python library for this, use camera for this. Instead I simply give it access to all the tools.
+
+One drawback of having an agent over chained prompts is that **agents are unpredictable**. Prompts take one decision at a time, which can be logged; agents take 20 decisions at a time without logging.
+
+Recently I added screen, motor (hand), speaker, microphone, and camera to Bismuth. I texted Bismuth the path to my [hardware CLI app](/tools/robot-io/) and said: I want you to have these 5 additional sensors and output channels, integrate them into yourself. That was it. Ten minutes later, Bismuth had all of it wired in. I don't know every step it took to get there — I couldn't have audited 20+ decisions in 10 minutes if I'd tried.
+
+## Complex researchers
+
+The third category sits in between workflows and agents — multi-step research systems where the output is a write-up rather than an action. They take a question or a theme, dig through a corpus, follow chains of related ideas, and return something readable. The loop is narrower than a general agent's: read, traverse, write.
+
+[Seldon](/tools/seldon/) is my version. It treats my notes as a graph of ideas, runs a traversal algorithm to a chosen depth, and asks an LLM to write an article from the resulting sub-graph. Different traversal strategies should produce differently shaped articles — that's the running experiment.
+
+## Self-updation
+
+I took the self-updation idea from [team-of-silicons](https://github.com/unlikefraction/team-of-silicons). I always prompt my agents to have a directory for learning new skills, so they can self-update. The hardware integration above is the cleanest example of this I have: I never told Bismuth *how* to talk to a webcam, a servo, or a speaker. I gave it the CLI, told it what I wanted, and it figured out the rest — wrote new skill files into the skills folder, and they have stayed there. Next time Bismuth needs the camera, it doesn't have to learn again.
+
+**The agent updates itself permanently.**
+
+## Future work: automatic recovery
+
+My current agents can adapt to a changing environment by learning newer skills, like animals adapting. But they yet cannot self-recover. If part of an agent is randomly deleted, it cannot regenerate. I plan to add this feature — figuring out what is the best way to implement it.
