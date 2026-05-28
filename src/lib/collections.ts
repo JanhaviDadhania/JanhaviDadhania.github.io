@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-type PostCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
+type PostCollection = 'blog' | 'rabbit-holes' | 'data' | 'fantasy' | 'tools';
 
 // Returns published (non-draft) entries from a collection, sorted newest first.
 export async function getPublishedEntries<T extends PostCollection>(
