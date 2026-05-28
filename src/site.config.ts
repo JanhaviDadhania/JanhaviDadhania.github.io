@@ -23,8 +23,8 @@ export const site = {
   unfinished_slugs: [
     'blog/the-map-of-the-agent-universe',
     'blog/how-i-organise-my-agents',
-    'research/seldon-framework',
-    'research/ai-neuroscience',
+    'rabbit-holes/seldon-framework',
+    'rabbit-holes/ai-neuroscience',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
   ] as string[],
@@ -43,7 +43,7 @@ export const site = {
 
   // Order of top-level page links displayed below socials on home and in nav.
   page_nav: [
-    { label: 'Research', href: '/research/' },
+    { label: 'Rabbit Holes', href: '/rabbit-holes/' },
     { label: 'Data', href: '/data/' },
     { label: 'Blog', href: '/blog/' },
     { label: 'Tools', href: '/tools/' },

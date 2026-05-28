@@ -5,14 +5,14 @@ import { site } from '@/site.config';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import substackData from '@/data/substack.json';
 
-type FeaturedCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
+type FeaturedCollection = 'blog' | 'rabbit-holes' | 'data' | 'fantasy' | 'tools';
 type AnyEntry = CollectionEntry<FeaturedCollection>;
 
 const visibleFilter = ({ data }: { data: { draft: boolean } }) => !data.draft;
 
 // Resolve featured entries from site.config.ts in the order they're listed.
 // Each entry is '<collection>/<slug>'. Tools are mixed in alongside blog/
-// research/data/fantasy posts so the home page order is fully explicit.
+// rabbit-holes/data/fantasy posts so the home page order is fully explicit.
 const TOTAL_LINES = 8;
 const wanted = site.featured.slice(0, TOTAL_LINES);
 const collectionsNeeded = new Set(

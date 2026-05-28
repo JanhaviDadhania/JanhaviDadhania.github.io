@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 
-// Shared schema for long-form post collections (blog, research, data, fantasy).
-// Today they share this schema. When research diverges later, replace its
+// Shared schema for long-form post collections (blog, rabbit-holes, data, fantasy).
+// Today they share this schema. When rabbit-holes diverges later, replace its
 // definition below with `postSchema.extend({ ... })` — only this file changes.
 const postSchema = z.object({
   title: z.string(),
@@ -19,7 +19,7 @@ const postSchema = z.object({
 });
 
 const blog = defineCollection({ type: 'content', schema: postSchema });
-const research = defineCollection({ type: 'content', schema: postSchema });
+const rabbitHoles = defineCollection({ type: 'content', schema: postSchema });
 const data = defineCollection({ type: 'content', schema: postSchema });
 const fantasy = defineCollection({ type: 'content', schema: postSchema });
 
@@ -35,4 +35,4 @@ const toolSchema = z.object({
 });
 const tools = defineCollection({ type: 'content', schema: toolSchema });
 
-export const collections = { blog, research, data, fantasy, tools };
+export const collections = { blog, 'rabbit-holes': rabbitHoles, data, fantasy, tools };

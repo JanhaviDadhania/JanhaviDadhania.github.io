@@ -13,7 +13,7 @@
 
 import type { CollectionEntry } from 'astro:content';
 
-export type ClusterCollection = 'blog' | 'research' | 'data' | 'fantasy' | 'tools';
+export type ClusterCollection = 'blog' | 'rabbit-holes' | 'data' | 'fantasy' | 'tools';
 
 export interface ClusterDef {
   /** Internal id — used as a stable React-style key, not displayed. */
@@ -40,7 +40,7 @@ export const clusters: Record<ClusterCollection, ClusterDef[]> = {
 
   // No deliberate clustering yet — everything falls into "rest".
   // Add cluster definitions here when you want explicit grouping.
-  research: [],
+  'rabbit-holes': [],
   data: [],
   fantasy: [],
   tools: [],

@@ -4,7 +4,7 @@ import { postComponents } from '@/lib/postComponents';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('research');
+  const posts = await getCollection('rabbit-holes');
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  post: CollectionEntry<'research'>;
+  post: CollectionEntry<'rabbit-holes'>;
 }
 
 const { post } = Astro.props;
