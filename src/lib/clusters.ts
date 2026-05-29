@@ -25,12 +25,6 @@ export interface ClusterDef {
 export const clusters: Record<ClusterCollection, ClusterDef[]> = {
   blog: [
     {
-      id: 'left',
-      slugs: [
-        'the-map-of-the-agent-universe',
-      ],
-    },
-    {
       id: 'right',
       slugs: [
         'zoo-animals-and-context-windows',
