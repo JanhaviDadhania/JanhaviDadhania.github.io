@@ -1,15 +1,146 @@
 ---
 title: "AI Neuroscience"
-date: 2026-01-01
+date: 2026-05-24
 tags: []
-summary: "A one-line note: probe inside a network with emotional stimuli and watch which neurons fire — neuroscience methods for AI internals."
+summary: "The story of how we learned to read what's inside a language model — from OpenAI's failed first attempt to superposition, SAEs, and circuit tracing."
 draft: false
 meta:
-  is_finished: true
-  opinion_strength: 5
-  evidence_strength: 5
+  is_finished: false
+  opinion_strength: 4
+  evidence_strength: 8
 ---
 
-<Section color="maroon" label="add probes inside network">
-add probes inside network and feed it emo stuff and see emo neurons light up.
+This is the story of how the field of mechanistic interpretability got to where it is now, told in five acts. Each act answers a question the previous one made unavoidable.
+
+The short version: we tried to read neural networks one neuron at a time and it didn't work. The neurons turned out to be doing many things at once. So we found a way to *unmix* them. Then we found a way to *trace* what they were doing. And now we are figuring out how to *name* what each of them does. There are still more questions than answers, but the path looks real.
+
+---
+
+<Section color="maroon" label="Act 1 — try to read neurons">
+
+*The first attempt was the most natural one.*
+
+If a neural network is made of neurons, and we want to know what it is doing, the obvious move is to look at what each neuron responds to. This was the dominant approach for vision models in the 2010s — feature visualisation, activation maximisation, finding "the cat neuron." When large language models arrived, OpenAI tried the same thing on them.
+
+In May 2023, **OpenAI** published *"Language models can explain neurons in language models"* (Bills et al., 2023). They used GPT-4 to look at the activations of neurons in GPT-2 and write English explanations of what each neuron seemed to fire for. They scored the explanations by asking GPT-4 to predict the neuron's activation on held-out text using only the explanation, and seeing how close that prediction came to the real activation.
+
+It worked, sort of. They got readable explanations for a non-trivial fraction of neurons. They open-sourced the entire dataset of neuron explanations for GPT-2.
+
+But the underlying picture was uncomfortable. A lot of neurons just didn't have a clean explanation. They would fire on inputs that *looked* unrelated — a neuron that responded to French words *and* mathematical inequalities *and* legal phrases. The hypothesis that each neuron has one job — *monosemanticity* — clearly wasn't holding.
+
+So why not? Why do neurons mix concepts?
+
+- Paper: [Language models can explain neurons in language models (OpenAI, 2023)](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html)
+- Code + data: [openai/automated-interpretability](https://github.com/openai/automated-interpretability)
+
 </Section>
+
+<Section color="green" label="Act 2 — superposition explains the mess">
+
+*Why each neuron is doing many jobs at once.*
+
+The cleanest answer came from **Anthropic** the same year. In their 2022 paper *"Toy Models of Superposition"* (Elhage et al.), they showed that when a network has more features it wants to represent than it has neurons to dedicate to each one, it packs multiple features into the same neuron — provided those features are sparse enough to rarely co-occur.
+
+This is *superposition*. It is the reason individual neurons are hard to interpret: each one is a linear combination of several actual features. Polysemanticity isn't noise. It's compression.
+
+Once you have this framing, the interpretability problem changes shape. The right unit of analysis isn't the neuron — it's the *feature direction* in activation space. You need a way to recover those feature directions from the superposed soup the neurons present.
+
+Paper: [Toy Models of Superposition (Anthropic, 2022)](https://transformer-circuits.pub/2022/toy_model/index.html)
+
+</Section>
+
+<Section color="blue" label="Act 3 — SAEs separate the features">
+
+*Borrowing an old idea from neuroscience.*
+
+The fix turned out to be **sparse coding** — an idea originally from neuroscience. **Bruno Olshausen** and **David Field** showed in 1996 that if you train a network to reconstruct natural images using a sparse linear combination of basis functions, the basis functions you get out look like the receptive fields of neurons in the primary visual cortex (V1). Olshausen later founded the **Redwood Center for Theoretical Neuroscience** at UC Berkeley, which has been one of the homes of sparse coding ever since.
+
+Three decades later, that same trick was applied to LLM activations.
+
+The first paper to do it for language models was *"Sparse Autoencoders Find Highly Interpretable Features in Language Models"* (Cunningham, Ewart, Riggs Smith, Huben, Sharkey, 2023) — independent researchers and Apollo Research. They trained a Sparse Autoencoder (SAE) on the activations of a layer of a small LLM. An SAE is a wide-but-sparse bottleneck: it takes the dense activation vector, expands it into a much larger dictionary, and forces only a few entries in the dictionary to fire for any given input. The dictionary entries it learns — the SAE features — turn out to be far more monosemantic than the original neurons.
+
+Anthropic followed within weeks with *"Towards Monosemanticity"* (Bricken et al., 2023), which scaled the approach on a one-layer transformer and showed many cleanly interpretable features. Then *"Scaling Monosemanticity"* (Templeton et al., 2024) ran it on Claude 3 Sonnet itself — they found a feature for the Golden Gate Bridge, features for code errors, features for sycophancy. You could *steer* the model by clamping a feature on, and watch its outputs shift.
+
+SAEs are the current state of the art for separating superposed features. They are not perfect — there is active debate about whether they find "canonical" feature directions or just one of many possible decompositions (see Leask et al., *"Sparse Autoencoders Do Not Find Canonical Units of Analysis"*, 2025) — but they are the best tool we have.
+
+- [Cunningham et al., *Sparse Autoencoders Find Highly Interpretable Features* (2023)](https://arxiv.org/abs/2309.08600)
+- [Bricken et al., *Towards Monosemanticity* (Anthropic, 2023)](https://transformer-circuits.pub/2023/monosemantic-features/index.html)
+- [Templeton et al., *Scaling Monosemanticity* (Anthropic, 2024)](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html)
+- [Leask et al., *SAEs Do Not Find Canonical Units of Analysis* (2025)](https://arxiv.org/abs/2502.04878)
+- Sparse coding origins: [Olshausen & Field, *Emergence of simple-cell receptive field properties by learning a sparse code for natural images* (Nature, 1996)](https://www.nature.com/articles/381607a0)
+- Open SAE suite: [Gemma Scope (DeepMind, 2024)](https://arxiv.org/abs/2408.05147) — 400+ SAEs on Gemma 2
+
+</Section>
+
+<Section color="pink" label="Act 4 — circuit tracing connects features into computations">
+
+*Once you have clean features, you can trace what the model does with them.*
+
+Separating features is one half of the problem. The other half is: how does the model *use* them? Which feature triggers which other feature? What is the computational graph that runs when the model produces a particular output?
+
+This is **circuit tracing**, and Anthropic's May 2025 release is the current reference work. They built a method that takes a prompt + completion and produces a graph of which features at which layers are causally responsible for the output. You can see the model think.
+
+The released work comes with open-source tooling — a circuit tracer library — that lets external researchers run the same analysis on their own SAEs.
+
+- [Anthropic, *Circuit Tracing* (May 2025)](https://transformer-circuits.pub/2025/attribution-graphs/methods.html)
+- Open-source library: [decoderesearch/circuit-tracer](https://github.com/decoderesearch/circuit-tracer)
+- The conceptual foundation: [Elhage et al., *A Mathematical Framework for Transformer Circuits* (Anthropic, 2021)](https://transformer-circuits.pub/2021/framework/index.html)
+
+</Section>
+
+<Section color="gray" label="Act 5 — naming the features (auto-interp / verbaliser)">
+
+*The next problem is scale. There are millions of features. Who labels them all?*
+
+Once you have SAEs producing hundreds of thousands of features per layer, you need an automated way to name them. The pipeline is called **auto-interpretation** — sometimes shortened to *auto-interp* or *verbalised features*.
+
+The idea is straightforward: take the inputs on which a feature fires most strongly, pass them to an LLM, ask the LLM what they have in common, and use that as the feature's label. The output is a one-line natural-language description per feature, plus a confidence score.
+
+The lineage goes back to OpenAI's Bills et al. (Act 1) — they did this for raw neurons. The current version, applied to SAE features instead, was popularised by Anthropic's *Scaling Monosemanticity* and then opened up by **EleutherAI** and others.
+
+- [EleutherAI / Caden Juang et al., *Open Source Automated Interpretability for Sparse Autoencoder Features* (2024)](https://arxiv.org/abs/2410.13928)
+- [Neuronpedia](https://neuronpedia.org) — interactive browser for SAE features with auto-interp labels
+- [Goodfire AI](https://goodfire.ai) — productionised SAE tooling and labelling pipelines
+
+_(If there is an earlier or more specific "verbaliser" paper I'm missing here, janhavi — drop the link and I'll splice it in.)_
+
+</Section>
+
+## The state of it
+
+Five years ago, the question was: can we read what a language model is doing? The honest answer was no.
+
+Today the answer is: partially, and getting better quickly. We can take a model, train SAEs on its layers, label the features automatically, trace which features cause which outputs, and steer behaviour by clamping features on or off. None of this is a complete solution — SAEs may not find canonical features, circuit tracing is computationally heavy, auto-interp labels are noisy — but the loop is closed.
+
+The field's main open problems are documented in *"Open Problems in Mechanistic Interpretability"* (Sharkey, Conmy, McGrath et al., 2025) — [arxiv.org/abs/2501.16496](https://arxiv.org/abs/2501.16496). Read this if you want to know where to push next.
+
+## The people doing this work
+
+| Person | Org | Why they matter |
+|---|---|---|
+| [Chris Olah](https://colah.github.io/) | Anthropic (Head of Interpretability, co-founder) | Invented mechanistic interpretability as a field. Distill.pub Circuits thread. |
+| [Neel Nanda](https://www.neelnanda.io/) | Google DeepMind (Mech Interp Team Lead) | Built Gemma Scope, runs MATS streams, the most accessible front door to the field. |
+| [Arthur Conmy](https://x.com/ArthurConmy) | Google DeepMind | MATS empirical interpretability stream mentor. Co-author on Open Problems. |
+| [Lee Sharkey](https://www.lesharkey.com/) | Apollo Research (CSO) | Lead author on Open Problems. Early SAE work. |
+| [Marius Hobbhahn](https://www.mariushobbhahn.com/) | Apollo Research (CEO, co-founder) | Solved Stephen Casper's public challenges → MATS → founded Apollo. The model trajectory. |
+| [Stephen Casper](https://stephencasper.com/) | MIT CSAIL | Posts public mech interp challenges. Co-author on Open Problems. |
+| [Joseph Bloom](https://www.jbloomaus.com/) | Decode Research / Independent | Co-author with Nanda and Conmy on attention SAEs. Proof you don't need an institution. |
+| [Tom McGrath](https://twitter.com/tom_mc_grath) | Anthropic + Goodfire AI (co-founder) | Goodfire AI runs SAE hackathons with Apart. Co-author on Open Problems. |
+| [Jesse Hoogland](https://www.jessehoogland.com/) | Timaeus (founder) | Invented "developmental interpretability" as a subfield. |
+| [Evan Hubinger](https://www.alignmentforum.org/users/evhub) | Anthropic (Alignment Science) | Mentors MATS scholars at Anthropic. Deceptive alignment focus. |
+| [Trenton Bricken](https://twitter.com/TrentonBricken) | Anthropic | First author on *Towards Monosemanticity*. |
+| [Adly Templeton](https://twitter.com/adlytempleton) | Anthropic | First author on *Scaling Monosemanticity*. |
+| [Hoagy Cunningham](https://x.com/hoagycunningham) | Apollo Research | First author on the original SAE-for-LLMs paper. |
+| [Bruno Olshausen](https://redwood.berkeley.edu/people/bruno-olshausen/) | UC Berkeley / Redwood Center for Theoretical Neuroscience | The 1996 sparse coding paper that everything in Act 3 traces back to. |
+
+## Where to read more
+
+- [transformer-circuits.pub](https://transformer-circuits.pub/) — Anthropic's interpretability research hub. Most of Acts 2, 3, 4, 5 live here.
+- [Neuronpedia](https://neuronpedia.org) — browse SAE features interactively.
+- [LessWrong / Alignment Forum](https://www.alignmentforum.org/) — where current debates happen.
+- [Distill Circuits thread](https://distill.pub/2020/circuits/) — pre-LLM mech interp on vision models. Origin of the modern toolkit.
+- [ARENA curriculum](https://arena.education/) — practical curriculum to learn the tools.
+
+---
+
+_v1, 2026-05-24. Open gaps to fill: the specific "verbaliser" paper janhavi had in mind; confirmation that the Cunningham SAE paper authors I listed are correct; whether to add a section on **steering** as a separate act._
