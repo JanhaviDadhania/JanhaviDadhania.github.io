@@ -25,6 +25,7 @@ export const site = {
     'blog/how-i-organise-my-agents',
     'research/seldon-framework',
     'research/ai-neuroscience',
+    'research/complex-systems',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
   ] as string[],
