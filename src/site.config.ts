@@ -26,6 +26,7 @@ export const site = {
     'research/seldon-framework',
     'research/ai-neuroscience',
     'research/consciousness',
+    'research/complex-systems',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
   ] as string[],
