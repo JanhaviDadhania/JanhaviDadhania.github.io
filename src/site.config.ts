@@ -29,6 +29,7 @@ export const site = {
     'research/complex-systems',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
+    'fantasy/guilt-of-selfish',
   ] as string[],
 
   // External subscribe URL (homepage button).
