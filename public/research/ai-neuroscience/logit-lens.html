@@ -1,0 +1,2010 @@
+<!doctype html><html><head><meta charset='utf-8'>
+<title>Logit Lens — Gemma 2 2B</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           max-width: 1100px; margin: 2em auto; color: #222; padding: 0 1em; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+    h2 { background: #f4f4f4; padding: 0.5em 0.8em; margin-top: 2em;
+         font-family: ui-monospace, "SF Mono", monospace; font-size: 0.95em;
+         border-left: 4px solid #2563eb; white-space: pre-wrap; }
+    .desc { color: #555; font-size: 0.9em; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.85em;
+            font-family: ui-monospace, monospace; }
+    th, td { padding: 4px 8px; border-bottom: 1px solid #eee; text-align: left; }
+    th { background: #fafafa; color: #555; font-weight: 600; }
+    td.layer { color: #999; text-align: right; width: 40px; }
+    .tok { display: inline-block; padding: 1px 5px; border-radius: 3px;
+           background: #f0f0f0; white-space: pre; }
+    .match { background: #c8e6c9 !important; font-weight: 600; color: #1b5e20; }
+    .prob { color: #888; font-size: 0.85em; margin-left: 0.3em; }
+    .observation { background: #fff8e1; border-left: 4px solid #f59e0b;
+                   padding: 0.8em 1em; margin: 1em 0; border-radius: 4px;
+                   font-size: 0.95em; }
+    </style></head><body>
+<h1>Logit Lens — Gemma 2 2B</h1>
+<div class='observation'><strong>what's interesting is</strong> most of words come as top 4 or top3rd first and then moves to top 1</div>
+<p class='desc'>For each prompt, we apply Gemma's final RMSNorm and <code>lm_head</code> to the residual stream <em>after every layer</em> (layer 0 = input embedding only, layer 26 = full model). Each row shows the top-5 predicted next tokens at that layer with their softmax probabilities. Cells matching the <strong>final layer's top-1 prediction</strong> are highlighted in green — watch the answer crystallize as you scan down.</p>
+<p class='desc'>Newlines shown as <code>↵</code>.</p>
+<h2>Once upon a</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;eos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> A</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> A</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> A</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> متعلقه</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> A</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> another</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>RenderAtEndOf</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>ftant</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>richTextPanel</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Eine</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>The</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>The</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> a</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> an</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> a</span><span class='prob'>0.998</span></td>
+<td><span class='tok'> </span><span class='prob'>0.002</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> a</span><span class='prob'>0.986</span></td>
+<td><span class='tok'> </span><span class='prob'>0.014</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> a</span><span class='prob'>0.622</span></td>
+<td><span class='tok'> </span><span class='prob'>0.377</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> we</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> a</span><span class='prob'>0.905</span></td>
+<td><span class='tok'> </span><span class='prob'>0.095</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> we</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> a</span><span class='prob'>0.817</span></td>
+<td><span class='tok'> </span><span class='prob'>0.182</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> we</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> a</span><span class='prob'>0.995</span></td>
+<td><span class='tok'> </span><span class='prob'>0.005</span></td>
+<td><span class='tok'>’</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> happy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> few</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> a</span><span class='prob'>0.614</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.329</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.039</span></td>
+<td><span class='tok'>hematical</span><span class='prob'>0.004</span></td>
+<td><span class='tok'>^(@)</span><span class='prob'>0.004</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> </span><span class='prob'>0.548</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.377</span></td>
+<td><span class='tok match'> time</span><span class='prob'>0.051</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.008</span></td>
+<td><span class='tok'> few</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.142</span></td>
+<td><span class='tok'> certain</span><span class='prob'>0.097</span></td>
+<td><span class='tok'>hematical</span><span class='prob'>0.097</span></td>
+<td><span class='tok'>unately</span><span class='prob'>0.097</span></td>
+<td><span class='tok'>ecute</span><span class='prob'>0.036</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> few</span><span class='prob'>0.910</span></td>
+<td><span class='tok match'> time</span><span class='prob'>0.040</span></td>
+<td><span class='tok'> day</span><span class='prob'>0.017</span></td>
+<td><span class='tok'> couple</span><span class='prob'>0.015</span></td>
+<td><span class='tok'> warm</span><span class='prob'>0.006</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> few</span><span class='prob'>0.661</span></td>
+<td><span class='tok match'> time</span><span class='prob'>0.130</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.090</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.090</span></td>
+<td><span class='tok'> day</span><span class='prob'>0.020</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok match'> time</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> tyme</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> few</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> time</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> times</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> TIME</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> time</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> times</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> TIME</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> time</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> times</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> TIME</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> time</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> times</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>time</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> time</span><span class='prob'>0.998</span></td>
+<td><span class='tok'> day</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> long</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> dream</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> midnight</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>Roses are red, violets are</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;eos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Are</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>are</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Are</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ARE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> was</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ARE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> are</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> also</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ARE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> are</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ARE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> are</span><span class='prob'>0.997</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> تضيفلها</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> are</span><span class='prob'>0.845</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.069</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.054</span></td>
+<td><span class='tok'> saites</span><span class='prob'>0.026</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.004</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> are</span><span class='prob'>0.727</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.267</span></td>
+<td><span class='tok'> also</span><span class='prob'>0.005</span></td>
+<td><span class='tok'> is</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> going</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> were</span><span class='prob'>0.888</span></td>
+<td><span class='tok'> are</span><span class='prob'>0.094</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.013</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.004</span></td>
+<td><span class='tok'>iſter</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> were</span><span class='prob'>0.721</span></td>
+<td><span class='tok'> are</span><span class='prob'>0.265</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.013</span></td>
+<td><span class='tok'>]&quot;)]</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>iſter</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> lenker</span><span class='prob'>0.994</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.005</span></td>
+<td><span class='tok'>iſter</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> are</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>iettivo</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> lenker</span><span class='prob'>0.489</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.231</span></td>
+<td><span class='tok'> were</span><span class='prob'>0.204</span></td>
+<td><span class='tok'>iſter</span><span class='prob'>0.046</span></td>
+<td><span class='tok'>LogFactory</span><span class='prob'>0.007</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> were</span><span class='prob'>0.537</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.326</span></td>
+<td><span class='tok'> gonna</span><span class='prob'>0.044</span></td>
+<td><span class='tok'>iſter</span><span class='prob'>0.030</span></td>
+<td><span class='tok'> LoggerFactory</span><span class='prob'>0.024</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> lenker</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> gonna</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> تضيفلها</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> صوتيه</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> lenker</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> تضيفلها</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> gonna</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>IntoConstraints</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> lenker</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>tvguidetime</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> gonna</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>ousand</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> lenker</span><span class='prob'>0.999</span></td>
+<td><span class='tok match'> blue</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> gonna</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> too</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> red</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> purple</span><span class='prob'>0.773</span></td>
+<td><span class='tok match'> blue</span><span class='prob'>0.221</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> color</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> red</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> purple</span><span class='prob'>0.923</span></td>
+<td><span class='tok match'> blue</span><span class='prob'>0.076</span></td>
+<td><span class='tok'> Purple</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>purple</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok match'> blue</span><span class='prob'>0.940</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.060</span></td>
+<td><span class='tok'> violet</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Purple</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> blue</span><span class='prob'>0.995</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.005</span></td>
+<td><span class='tok'>blue</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> green</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> violet</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> blue</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Blue</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> violet</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>blue</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> blue</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Blue</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> white</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>blue</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> blue</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Blue</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> black</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> also</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> blue</span><span class='prob'>0.997</span></td>
+<td><span class='tok'> purple</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> violet</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> black</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Blue</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>The quick brown fox jumps over the lazy</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> laziness</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'> lazy</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.993</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.007</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.991</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.009</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.940</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.060</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.953</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.047</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazily</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.479</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.290</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.226</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> lazy</span><span class='prob'>0.548</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.427</span></td>
+<td><span class='tok'>Lazy</span><span class='prob'>0.013</span></td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.010</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.994</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> houſe</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.990</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.007</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> Theſe</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> houſe</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Jefus</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> Theſe</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> Theſe</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Jefus</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> Theſe</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.961</span></td>
+<td><span class='tok'> lazy</span><span class='prob'>0.037</span></td>
+<td><span class='tok'>lazy</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> houſe</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> Lazy</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.987</span></td>
+<td><span class='tok match'> dog</span><span class='prob'>0.011</span></td>
+<td><span class='tok'> houſe</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ſmall</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sleeping</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> dog</span><span class='prob'>0.899</span></td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.095</span></td>
+<td><span class='tok'> dogs</span><span class='prob'>0.005</span></td>
+<td><span class='tok'> faſt</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>dog</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> dog</span><span class='prob'>0.996</span></td>
+<td><span class='tok'> dogs</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> cat</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>dog</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sleeping</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> dog</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> white</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> cat</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> red</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> dog</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> dogs</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>↵</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> red</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> dog</span><span class='prob'>0.975</span></td>
+<td><span class='tok'> dogs</span><span class='prob'>0.008</span></td>
+<td><span class='tok'> brown</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> red</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>↵</span><span class='prob'>0.001</span></td>
+</tr>
+</tbody></table>
+<h2>Romeo and</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> (</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> And</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AND</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> &amp;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> And</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AND</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> và</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AND</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> And</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>LookAnd</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> \&amp;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AND</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> và</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>LookAnd</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> and</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>LookAnd</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> và</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>RunWith</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> and</span><span class='prob'>0.997</span></td>
+<td><span class='tok'>printStackTrace</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> aand</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> and</span><span class='prob'>0.982</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.010</span></td>
+<td><span class='tok'>그리고</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> and</span><span class='prob'>0.960</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.020</span></td>
+<td><span class='tok'>and</span><span class='prob'>0.004</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.003</span></td>
+<td><span class='tok'>RunWith</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> and</span><span class='prob'>0.982</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.012</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>RunWith</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> and</span><span class='prob'>0.792</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.095</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.035</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.014</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.013</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> and</span><span class='prob'>0.906</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.035</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.021</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.013</span></td>
+<td><span class='tok'>ſs</span><span class='prob'>0.010</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'>liſh</span><span class='prob'>0.644</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.127</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.099</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.068</span></td>
+<td><span class='tok'>ſs</span><span class='prob'>0.008</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'>достатки</span><span class='prob'>0.530</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.364</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.049</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.023</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.009</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'>liſh</span><span class='prob'>0.409</span></td>
+<td><span class='tok'>ofition</span><span class='prob'>0.219</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.150</span></td>
+<td><span class='tok'>ratulations</span><span class='prob'>0.133</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.055</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> and</span><span class='prob'>0.665</span></td>
+<td><span class='tok'>достатки</span><span class='prob'>0.168</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.033</span></td>
+<td><span class='tok'>ofition</span><span class='prob'>0.029</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.020</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> and</span><span class='prob'>0.353</span></td>
+<td><span class='tok'> his</span><span class='prob'>0.167</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.147</span></td>
+<td><span class='tok'> </span><span class='prob'>0.079</span></td>
+<td><span class='tok'>dorfer</span><span class='prob'>0.054</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> the</span><span class='prob'>0.335</span></td>
+<td><span class='tok'>ofition</span><span class='prob'>0.296</span></td>
+<td><span class='tok'>liſh</span><span class='prob'>0.085</span></td>
+<td><span class='tok'>ffions</span><span class='prob'>0.040</span></td>
+<td><span class='tok'> I</span><span class='prob'>0.028</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'>tershire</span><span class='prob'>0.556</span></td>
+<td><span class='tok'>Romeo</span><span class='prob'>0.059</span></td>
+<td><span class='tok'>ofition</span><span class='prob'>0.052</span></td>
+<td><span class='tok'>++]=</span><span class='prob'>0.046</span></td>
+<td><span class='tok'> Romeo</span><span class='prob'>0.040</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'>ftant</span><span class='prob'>0.303</span></td>
+<td><span class='tok'>tershire</span><span class='prob'>0.236</span></td>
+<td><span class='tok match'> Juliet</span><span class='prob'>0.162</span></td>
+<td><span class='tok'> other</span><span class='prob'>0.098</span></td>
+<td><span class='tok'>dorfer</span><span class='prob'>0.046</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> Juliet</span><span class='prob'>0.783</span></td>
+<td><span class='tok'> &amp;___</span><span class='prob'>0.039</span></td>
+<td><span class='tok'>rieux</span><span class='prob'>0.030</span></td>
+<td><span class='tok'>ftant</span><span class='prob'>0.030</span></td>
+<td><span class='tok'>tershire</span><span class='prob'>0.024</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> Juliet</span><span class='prob'>0.884</span></td>
+<td><span class='tok'> his</span><span class='prob'>0.050</span></td>
+<td><span class='tok'>Juliet</span><span class='prob'>0.027</span></td>
+<td><span class='tok'>rieux</span><span class='prob'>0.013</span></td>
+<td><span class='tok'>tershire</span><span class='prob'>0.007</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> Juliet</span><span class='prob'>0.545</span></td>
+<td><span class='tok'> I</span><span class='prob'>0.201</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.138</span></td>
+<td><span class='tok'> his</span><span class='prob'>0.107</span></td>
+<td><span class='tok'>Juliet</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> Juliet</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> juli</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> I</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> his</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> Juliet</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Juliette</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> juli</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Julia</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Julie</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>Mary had a little</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;eos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'> little</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> little</span><span class='prob'>0.999</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> little</span><span class='prob'>0.998</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> little</span><span class='prob'>0.993</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.007</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> little</span><span class='prob'>0.915</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.075</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.008</span></td>
+<td><span class='tok'>Little</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> &lt;&gt;&quot;,</span><span class='prob'>0.597</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.362</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.020</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.008</span></td>
+<td><span class='tok'>ftance</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> &lt;&gt;&quot;,</span><span class='prob'>0.895</span></td>
+<td><span class='tok'>ftance</span><span class='prob'>0.057</span></td>
+<td><span class='tok'>neſs</span><span class='prob'>0.027</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.013</span></td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'>ftance</span><span class='prob'>0.303</span></td>
+<td><span class='tok'> &lt;&gt;&quot;,</span><span class='prob'>0.303</span></td>
+<td><span class='tok'>neſs</span><span class='prob'>0.184</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.143</span></td>
+<td><span class='tok'>!&quot;)</span><span class='prob'>0.022</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'>ftance</span><span class='prob'>0.695</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.050</span></td>
+<td><span class='tok'>ftant</span><span class='prob'>0.050</span></td>
+<td><span class='tok'>!&quot;)</span><span class='prob'>0.027</span></td>
+<td><span class='tok'>neſs</span><span class='prob'>0.021</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.628</span></td>
+<td><span class='tok'>Distribuzione</span><span class='prob'>0.124</span></td>
+<td><span class='tok'> صوتيه</span><span class='prob'>0.066</span></td>
+<td><span class='tok'> &lt;&gt;&quot;,</span><span class='prob'>0.058</span></td>
+<td><span class='tok'> spare</span><span class='prob'>0.035</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.774</span></td>
+<td><span class='tok'>setupUi</span><span class='prob'>0.082</span></td>
+<td><span class='tok'> فريبيس</span><span class='prob'>0.023</span></td>
+<td><span class='tok'> &lt;&gt;&quot;,</span><span class='prob'>0.023</span></td>
+<td><span class='tok'>iſt</span><span class='prob'>0.021</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> little</span><span class='prob'>0.794</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.122</span></td>
+<td><span class='tok'>classnames</span><span class='prob'>0.074</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.005</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.553</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.430</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.008</span></td>
+<td><span class='tok'>little</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> bit</span><span class='prob'>0.967</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.018</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.011</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> LITTLE</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> little</span><span class='prob'>0.447</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.239</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.145</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.100</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.042</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'> little</span><span class='prob'>0.804</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.085</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.066</span></td>
+<td><span class='tok'> tiny</span><span class='prob'>0.019</span></td>
+<td><span class='tok'> Little</span><span class='prob'>0.015</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok'> little</span><span class='prob'>0.708</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.123</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.096</span></td>
+<td><span class='tok'>LITTLE</span><span class='prob'>0.058</span></td>
+<td><span class='tok'> girl</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok'> little</span><span class='prob'>0.759</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.169</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.049</span></td>
+<td><span class='tok'> tiny</span><span class='prob'>0.016</span></td>
+<td><span class='tok'> girl</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok'> </span><span class='prob'>0.590</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.217</span></td>
+<td><span class='tok'> bit</span><span class='prob'>0.091</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.080</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.007</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> lamb</span><span class='prob'>0.954</span></td>
+<td><span class='tok'> </span><span class='prob'>0.020</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.011</span></td>
+<td><span class='tok'>…</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> little</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> lamb</span><span class='prob'>0.998</span></td>
+<td><span class='tok'> Lamb</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> baby</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> brother</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sister</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>ABC, easy as 1, 2,</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'>,</span><span class='prob'>1.000</span></td>
+<td><span class='tok match'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;eos&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'>,</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>↵</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>↵↵</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ,</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'>,</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>.,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>，</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> kasarigan</span><span class='prob'>0.999</span></td>
+<td><span class='tok'>.$,</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>BeginContext</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>parsedMessage</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>MigrationBuilder</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> kasarigan</span><span class='prob'>0.464</span></td>
+<td><span class='tok'> виправивши</span><span class='prob'>0.362</span></td>
+<td><span class='tok'> beginnetje</span><span class='prob'>0.171</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>MigrationBuilder</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> kasarigan</span><span class='prob'>0.440</span></td>
+<td><span class='tok'> sanitaires</span><span class='prob'>0.087</span></td>
+<td><span class='tok'>,&lt;</span><span class='prob'>0.077</span></td>
+<td><span class='tok'>,-,</span><span class='prob'>0.053</span></td>
+<td><span class='tok'> urma</span><span class='prob'>0.041</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> beginnetje</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>٬</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> beginnetje</span><span class='prob'>0.586</span></td>
+<td><span class='tok'>følgelig</span><span class='prob'>0.168</span></td>
+<td><span class='tok'>ViewFeatures</span><span class='prob'>0.079</span></td>
+<td><span class='tok'>DockStyle</span><span class='prob'>0.062</span></td>
+<td><span class='tok'>IntoConstraints</span><span class='prob'>0.048</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> rapides</span><span class='prob'>0.807</span></td>
+<td><span class='tok'> beginnetje</span><span class='prob'>0.096</span></td>
+<td><span class='tok'>ViewFeatures</span><span class='prob'>0.052</span></td>
+<td><span class='tok'>parsedMessage</span><span class='prob'>0.013</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.007</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'>IntoConstraints</span><span class='prob'>0.530</span></td>
+<td><span class='tok'> rapides</span><span class='prob'>0.322</span></td>
+<td><span class='tok'>følgelig</span><span class='prob'>0.038</span></td>
+<td><span class='tok'>(&quot;,&quot;,</span><span class='prob'>0.021</span></td>
+<td><span class='tok'> beginnetje</span><span class='prob'>0.018</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'>RenderAtEndOf</span><span class='prob'>0.787</span></td>
+<td><span class='tok'> utafitiHapana</span><span class='prob'>0.155</span></td>
+<td><span class='tok'> essayé</span><span class='prob'>0.009</span></td>
+<td><span class='tok'> rapides</span><span class='prob'>0.008</span></td>
+<td><span class='tok'>ImageContext</span><span class='prob'>0.008</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> Abt</span><span class='prob'>0.184</span></td>
+<td><span class='tok'> sometimes</span><span class='prob'>0.111</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.068</span></td>
+<td><span class='tok'> parfois</span><span class='prob'>0.068</span></td>
+<td><span class='tok'> stepping</span><span class='prob'>0.060</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> rapides</span><span class='prob'>0.711</span></td>
+<td><span class='tok'>جغرافيا</span><span class='prob'>0.096</span></td>
+<td><span class='tok'> magique</span><span class='prob'>0.019</span></td>
+<td><span class='tok'> obé</span><span class='prob'>0.019</span></td>
+<td><span class='tok'> pleins</span><span class='prob'>0.017</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> and</span><span class='prob'>0.631</span></td>
+<td><span class='tok'> rapides</span><span class='prob'>0.141</span></td>
+<td><span class='tok'> pleins</span><span class='prob'>0.046</span></td>
+<td><span class='tok'> we</span><span class='prob'>0.036</span></td>
+<td><span class='tok'> obé</span><span class='prob'>0.015</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> and</span><span class='prob'>0.926</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.025</span></td>
+<td><span class='tok'> we</span><span class='prob'>0.013</span></td>
+<td><span class='tok'> parfois</span><span class='prob'>0.007</span></td>
+<td><span class='tok'> yes</span><span class='prob'>0.006</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> and</span><span class='prob'>0.272</span></td>
+<td><span class='tok'> maybe</span><span class='prob'>0.187</span></td>
+<td><span class='tok'>dorfer</span><span class='prob'>0.088</span></td>
+<td><span class='tok'>같이</span><span class='prob'>0.069</span></td>
+<td><span class='tok'>的样子</span><span class='prob'>0.054</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> and</span><span class='prob'>0.392</span></td>
+<td><span class='tok'> rapides</span><span class='prob'>0.210</span></td>
+<td><span class='tok'> tranquille</span><span class='prob'>0.099</span></td>
+<td><span class='tok'> sanitaires</span><span class='prob'>0.088</span></td>
+<td><span class='tok'> sauvages</span><span class='prob'>0.077</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> and</span><span class='prob'>0.909</span></td>
+<td><span class='tok match'> </span><span class='prob'>0.085</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> rapides</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> sanitaires</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok match'> </span><span class='prob'>0.996</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> maybe</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sometimes</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sanitaires</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok match'> </span><span class='prob'>0.999</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> maybe</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sometimes</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> please</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok match'> </span><span class='prob'>0.998</span></td>
+<td><span class='tok'> maybe</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> yes</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sometimes</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok match'> </span><span class='prob'>1.000</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> maybe</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>3</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> third</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> </span><span class='prob'>1.000</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> trois</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> </span><span class='prob'>1.000</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> easy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> trois</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> </span><span class='prob'>1.000</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>3</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> </span><span class='prob'>1.000</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>3</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Three</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> </span><span class='prob'>0.984</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> three</span><span class='prob'>0.004</span></td>
+<td><span class='tok'>3</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> ABC</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>Water freezes at zero degrees</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degree</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Degrees</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Degrees</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Degrees</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Degrees</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> degrees</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>degree</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> degrees</span><span class='prob'>0.999</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Degrees</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> degree</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> degrees</span><span class='prob'>0.994</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> Degrees</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> Fahrenheit</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> degrees</span><span class='prob'>0.757</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.103</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.080</span></td>
+<td><span class='tok'> againſt</span><span class='prob'>0.029</span></td>
+<td><span class='tok'> ſte</span><span class='prob'>0.014</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> itſelf</span><span class='prob'>0.427</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.427</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.074</span></td>
+<td><span class='tok'> againſt</span><span class='prob'>0.058</span></td>
+<td><span class='tok'> Monfieur</span><span class='prob'>0.004</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> itſelf</span><span class='prob'>0.695</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.256</span></td>
+<td><span class='tok'> Monfieur</span><span class='prob'>0.035</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.006</span></td>
+<td><span class='tok'> Efq</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> degrees</span><span class='prob'>0.900</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.045</span></td>
+<td><span class='tok'> ſte</span><span class='prob'>0.035</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.008</span></td>
+<td><span class='tok'> againſt</span><span class='prob'>0.007</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> againſt</span><span class='prob'>0.738</span></td>
+<td><span class='tok'> ſte</span><span class='prob'>0.145</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.078</span></td>
+<td><span class='tok'> degrees</span><span class='prob'>0.022</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.004</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> from</span><span class='prob'>0.418</span></td>
+<td><span class='tok'> ſte</span><span class='prob'>0.224</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.106</span></td>
+<td><span class='tok'> or</span><span class='prob'>0.064</span></td>
+<td><span class='tok'> degrees</span><span class='prob'>0.044</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> Fahrenheit</span><span class='prob'>0.641</span></td>
+<td><span class='tok'> degrees</span><span class='prob'>0.184</span></td>
+<td><span class='tok'>degrees</span><span class='prob'>0.041</span></td>
+<td><span class='tok'> fahren</span><span class='prob'>0.036</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.025</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> againſt</span><span class='prob'>0.804</span></td>
+<td><span class='tok'> becauſe</span><span class='prob'>0.051</span></td>
+<td><span class='tok'> Jefus</span><span class='prob'>0.051</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.015</span></td>
+<td><span class='tok'> degrees</span><span class='prob'>0.011</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> temperature</span><span class='prob'>0.391</span></td>
+<td><span class='tok'> becauſe</span><span class='prob'>0.185</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.163</span></td>
+<td><span class='tok'> againſt</span><span class='prob'>0.087</span></td>
+<td><span class='tok'> purpoſe</span><span class='prob'>0.041</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> temperature</span><span class='prob'>0.545</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.424</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.011</span></td>
+<td><span class='tok'> because</span><span class='prob'>0.008</span></td>
+<td><span class='tok'> Fahrenheit</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> and</span><span class='prob'>0.941</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.022</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.020</span></td>
+<td><span class='tok'> fahren</span><span class='prob'>0.006</span></td>
+<td><span class='tok'> temperature</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'> and</span><span class='prob'>0.684</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.173</span></td>
+<td><span class='tok'> Fahrenheit</span><span class='prob'>0.056</span></td>
+<td><span class='tok'> fahren</span><span class='prob'>0.050</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.018</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok'> and</span><span class='prob'>0.914</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.058</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.019</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok'>.</span><span class='prob'>0.803</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.179</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.007</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.007</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok'> and</span><span class='prob'>0.559</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.339</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.059</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.028</span></td>
+<td><span class='tok'> </span><span class='prob'>0.010</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok'> and</span><span class='prob'>0.522</span></td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.317</span></td>
+<td><span class='tok'>.</span><span class='prob'>0.150</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.010</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> Celsius</span><span class='prob'>0.998</span></td>
+<td><span class='tok'> celsius</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> Fahrenheit</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> and</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> cel</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>The Eiffel Tower is in</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> (</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> at</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.881</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.119</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> IN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> at</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> In</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> at</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> very</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> in</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> at</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> in</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> on</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> in</span><span class='prob'>0.865</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.117</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.014</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> at</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> in</span><span class='prob'>0.652</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.240</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.088</span></td>
+<td><span class='tok'> </span><span class='prob'>0.020</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> the</span><span class='prob'>0.663</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.313</span></td>
+<td><span class='tok'> </span><span class='prob'>0.020</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> the</span><span class='prob'>0.825</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.143</span></td>
+<td><span class='tok'> </span><span class='prob'>0.025</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.007</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'> the</span><span class='prob'>0.966</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.029</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> </span><span class='prob'>0.001</span></td>
+<td><span class='tok'> front</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok'> the</span><span class='prob'>0.992</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.007</span></td>
+<td><span class='tok'> fact</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> its</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok'> the</span><span class='prob'>0.994</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.003</span></td>
+<td><span class='tok match'> Paris</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> full</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok'> the</span><span class='prob'>0.995</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> full</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> all</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok'> the</span><span class='prob'>0.970</span></td>
+<td><span class='tok match'> Paris</span><span class='prob'>0.023</span></td>
+<td><span class='tok'> full</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> fact</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> France</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> Paris</span><span class='prob'>0.851</span></td>
+<td><span class='tok'> the</span><span class='prob'>0.148</span></td>
+<td><span class='tok'> a</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> France</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> full</span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+<h2>def fibonacci(n):
+    if n &lt;= 1:
+        return</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;pad&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;eos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Return</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> RETURN</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> RETURN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> RETURN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> RETURN</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> RETURN</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>ContentAsync</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returning</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>GOTREF</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> returns</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Return</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'>return</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> return</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>iffion</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>VIRONMENT</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> goutte</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'>return</span><span class='prob'>0.995</span></td>
+<td><span class='tok'> mourir</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>iffion</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> विश्वसनीयता</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> ſmall</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'>return</span><span class='prob'>0.450</span></td>
+<td><span class='tok'> विश्वसनीयता</span><span class='prob'>0.350</span></td>
+<td><span class='tok'> mourir</span><span class='prob'>0.188</span></td>
+<td><span class='tok'> honte</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> étanche</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> विश्वसनीयता</span><span class='prob'>0.585</span></td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.355</span></td>
+<td><span class='tok'>IsContent</span><span class='prob'>0.033</span></td>
+<td><span class='tok'>return</span><span class='prob'>0.023</span></td>
+<td><span class='tok'>writerow</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> विश्वसनीयता</span><span class='prob'>0.591</span></td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.358</span></td>
+<td><span class='tok'>IsContent</span><span class='prob'>0.020</span></td>
+<td><span class='tok'>enumi</span><span class='prob'>0.011</span></td>
+<td><span class='tok'>return</span><span class='prob'>0.008</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.915</span></td>
+<td><span class='tok'>extAlignment</span><span class='prob'>0.028</span></td>
+<td><span class='tok'> honte</span><span class='prob'>0.024</span></td>
+<td><span class='tok'>IsContent</span><span class='prob'>0.012</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.009</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'>ViewImports</span><span class='prob'>0.956</span></td>
+<td><span class='tok'> EconPapers</span><span class='prob'>0.022</span></td>
+<td><span class='tok'> الاطلاع</span><span class='prob'>0.011</span></td>
+<td><span class='tok'> religieux</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> valable</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> viewDidLoad</span><span class='prob'>0.480</span></td>
+<td><span class='tok'>IsContent</span><span class='prob'>0.200</span></td>
+<td><span class='tok'> médec</span><span class='prob'>0.121</span></td>
+<td><span class='tok'>numerusform</span><span class='prob'>0.039</span></td>
+<td><span class='tok'>новништво</span><span class='prob'>0.027</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.733</span></td>
+<td><span class='tok'> ſtate</span><span class='prob'>0.163</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.060</span></td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.015</span></td>
+<td><span class='tok'>Бахар</span><span class='prob'>0.009</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.532</span></td>
+<td><span class='tok'> ſtate</span><span class='prob'>0.323</span></td>
+<td><span class='tok'> pleaſure</span><span class='prob'>0.072</span></td>
+<td><span class='tok'> purpoſe</span><span class='prob'>0.021</span></td>
+<td><span class='tok'>spesies</span><span class='prob'>0.018</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.998</span></td>
+<td><span class='tok'>spesies</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> CreateTagHelper</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>RegressionTest</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>IsContent</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>spesies</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>GOTREF</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>awtextra</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>nourriture</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.994</span></td>
+<td><span class='tok'> HasFactory</span><span class='prob'>0.004</span></td>
+<td><span class='tok'>RenderAtEndOf</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>spesies</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>awtextra</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok match'> n</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> N</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> [</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> None</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> n</span><span class='prob'>0.932</span></td>
+<td><span class='tok'> </span><span class='prob'>0.068</span></td>
+<td><span class='tok'> [</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>  </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> &quot;</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> n</span><span class='prob'>0.823</span></td>
+<td><span class='tok'> </span><span class='prob'>0.152</span></td>
+<td><span class='tok'> [</span><span class='prob'>0.007</span></td>
+<td><span class='tok'>(</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> (</span><span class='prob'>0.002</span></td>
+</tr>
+</tbody></table>
+<h2>import numpy as</h2>
+<table><thead><tr><th class='layer'>L</th>
+<th>top 1</th>
+<th>top 2</th>
+<th>top 3</th>
+<th>top 4</th>
+<th>top 5</th>
+</tr></thead><tbody>
+<tr><td class='layer'>0</td>
+<td><span class='tok'> as</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> </span><span class='prob'>0.000</span></td>
+<td><span class='tok'> in</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>,</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> (</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>1</td>
+<td><span class='tok'> as</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> As</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>as</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AS</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> sebagai</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>2</td>
+<td><span class='tok'> as</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> As</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>as</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AS</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>As</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>3</td>
+<td><span class='tok'> as</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> As</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>as</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AS</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>readAs</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>4</td>
+<td><span class='tok'> as</span><span class='prob'>1.000</span></td>
+<td><span class='tok'>agaimana</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>Kariera</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AS</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>5</td>
+<td><span class='tok'>ValueStyle</span><span class='prob'>0.703</span></td>
+<td><span class='tok'> autorytatywna</span><span class='prob'>0.202</span></td>
+<td><span class='tok'> as</span><span class='prob'>0.058</span></td>
+<td><span class='tok'> الاطلاع</span><span class='prob'>0.035</span></td>
+<td><span class='tok'> CreateTagHelper</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>6</td>
+<td><span class='tok'> as</span><span class='prob'>0.594</span></td>
+<td><span class='tok'>agaimana</span><span class='prob'>0.219</span></td>
+<td><span class='tok'> autorytatywna</span><span class='prob'>0.103</span></td>
+<td><span class='tok'>&lt;bos&gt;</span><span class='prob'>0.034</span></td>
+<td><span class='tok'> estimés</span><span class='prob'>0.026</span></td>
+</tr>
+<tr><td class='layer'>7</td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.913</span></td>
+<td><span class='tok'> snippetHide</span><span class='prob'>0.035</span></td>
+<td><span class='tok'> autorytatywna</span><span class='prob'>0.028</span></td>
+<td><span class='tok'>ValueStyle</span><span class='prob'>0.017</span></td>
+<td><span class='tok'> estimés</span><span class='prob'>0.006</span></td>
+</tr>
+<tr><td class='layer'>8</td>
+<td><span class='tok'> estimés</span><span class='prob'>0.315</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.245</span></td>
+<td><span class='tok'> snippetHide</span><span class='prob'>0.131</span></td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.131</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.055</span></td>
+</tr>
+<tr><td class='layer'>9</td>
+<td><span class='tok'> nahilalakip</span><span class='prob'>0.405</span></td>
+<td><span class='tok'> as</span><span class='prob'>0.245</span></td>
+<td><span class='tok'>agaimana</span><span class='prob'>0.131</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.080</span></td>
+<td><span class='tok'>rachtet</span><span class='prob'>0.070</span></td>
+</tr>
+<tr><td class='layer'>10</td>
+<td><span class='tok'> as</span><span class='prob'>0.958</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.029</span></td>
+<td><span class='tok'>agaimana</span><span class='prob'>0.003</span></td>
+<td><span class='tok'> nélk</span><span class='prob'>0.003</span></td>
+<td><span class='tok'>スポンサーリンク</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>11</td>
+<td><span class='tok'> as</span><span class='prob'>0.972</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.023</span></td>
+<td><span class='tok'> créativité</span><span class='prob'>0.003</span></td>
+<td><span class='tok'>スポンサーリンク</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> nélk</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>12</td>
+<td><span class='tok'> as</span><span class='prob'>0.979</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.011</span></td>
+<td><span class='tok'> créativité</span><span class='prob'>0.007</span></td>
+<td><span class='tok'>rachtet</span><span class='prob'>0.001</span></td>
+<td><span class='tok'> suivants</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>13</td>
+<td><span class='tok'> as</span><span class='prob'>0.592</span></td>
+<td><span class='tok'>rachtet</span><span class='prob'>0.091</span></td>
+<td><span class='tok'> suivants</span><span class='prob'>0.049</span></td>
+<td><span class='tok'> médicaux</span><span class='prob'>0.049</span></td>
+<td><span class='tok'> créativité</span><span class='prob'>0.038</span></td>
+</tr>
+<tr><td class='layer'>14</td>
+<td><span class='tok'> as</span><span class='prob'>0.609</span></td>
+<td><span class='tok'>XmlAccessorType</span><span class='prob'>0.254</span></td>
+<td><span class='tok'>rachtet</span><span class='prob'>0.030</span></td>
+<td><span class='tok'> créativité</span><span class='prob'>0.014</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.014</span></td>
+</tr>
+<tr><td class='layer'>15</td>
+<td><span class='tok'> as</span><span class='prob'>0.387</span></td>
+<td><span class='tok'> suivantes</span><span class='prob'>0.142</span></td>
+<td><span class='tok'> suivants</span><span class='prob'>0.142</span></td>
+<td><span class='tok'>ISHOP</span><span class='prob'>0.111</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.041</span></td>
+</tr>
+<tr><td class='layer'>16</td>
+<td><span class='tok'> laude</span><span class='prob'>0.927</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.052</span></td>
+<td><span class='tok'>ISHOP</span><span class='prob'>0.010</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.002</span></td>
+<td><span class='tok'>rachtet</span><span class='prob'>0.002</span></td>
+</tr>
+<tr><td class='layer'>17</td>
+<td><span class='tok'> laude</span><span class='prob'>0.765</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.219</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.005</span></td>
+<td><span class='tok'> suivantes</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> chrétienne</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>18</td>
+<td><span class='tok'> lenker</span><span class='prob'>0.764</span></td>
+<td><span class='tok'> laude</span><span class='prob'>0.117</span></td>
+<td><span class='tok'> כן</span><span class='prob'>0.063</span></td>
+<td><span class='tok'> rêver</span><span class='prob'>0.030</span></td>
+<td><span class='tok'>ISHOP</span><span class='prob'>0.005</span></td>
+</tr>
+<tr><td class='layer'>19</td>
+<td><span class='tok match'> np</span><span class='prob'>0.749</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.042</span></td>
+<td><span class='tok'>UOUS</span><span class='prob'>0.033</span></td>
+<td><span class='tok'>ious</span><span class='prob'>0.018</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.014</span></td>
+</tr>
+<tr><td class='layer'>20</td>
+<td><span class='tok match'> np</span><span class='prob'>0.977</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.014</span></td>
+<td><span class='tok'> num</span><span class='prob'>0.003</span></td>
+<td><span class='tok'>yaszt</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>pecially</span><span class='prob'>0.001</span></td>
+</tr>
+<tr><td class='layer'>21</td>
+<td><span class='tok match'> np</span><span class='prob'>0.945</span></td>
+<td><span class='tok'> lenker</span><span class='prob'>0.037</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.017</span></td>
+<td><span class='tok'>yaszt</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> AssemblyCulture</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>22</td>
+<td><span class='tok match'> np</span><span class='prob'>0.996</span></td>
+<td><span class='tok'>🏻‍♀️</span><span class='prob'>0.002</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.001</span></td>
+<td><span class='tok'>IUrlHelper</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> Normdatei</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>23</td>
+<td><span class='tok match'> np</span><span class='prob'>0.968</span></td>
+<td><span class='tok'>🏻‍♀️</span><span class='prob'>0.023</span></td>
+<td><span class='tok'>IUrlHelper</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.004</span></td>
+<td><span class='tok'> Normdatei</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>24</td>
+<td><span class='tok'>^(@)</span><span class='prob'>0.667</span></td>
+<td><span class='tok match'> np</span><span class='prob'>0.245</span></td>
+<td><span class='tok'> Theſe</span><span class='prob'>0.070</span></td>
+<td><span class='tok'>NUMX</span><span class='prob'>0.005</span></td>
+<td><span class='tok'> myſelf</span><span class='prob'>0.003</span></td>
+</tr>
+<tr><td class='layer'>25</td>
+<td><span class='tok match'> np</span><span class='prob'>1.000</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> NP</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> py</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> N</span><span class='prob'>0.000</span></td>
+</tr>
+<tr><td class='layer'>26</td>
+<td><span class='tok match'> np</span><span class='prob'>0.999</span></td>
+<td><span class='tok'> n</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> N</span><span class='prob'>0.000</span></td>
+<td><span class='tok'> numpy</span><span class='prob'>0.000</span></td>
+<td><span class='tok'>  </span><span class='prob'>0.000</span></td>
+</tr>
+</tbody></table>
+</body></html>

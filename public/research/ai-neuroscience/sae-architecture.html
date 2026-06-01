@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset='utf-8'><title>TopK SAE — Gemma 2 2B, layer 12</title><style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           max-width: 1100px; margin: 2em auto; color: #222; padding: 0 1em;
+           line-height: 1.45; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+    h2 { margin-top: 2em; border-left: 4px solid #2563eb; padding-left: 0.6em; }
+    h3 { margin-top: 1.5em; }
+    p.desc { color: #555; }
+    code { background: #f5f5f5; padding: 1px 5px; border-radius: 3px;
+           font-family: ui-monospace, "SF Mono", monospace; font-size: 0.9em; }
+
+    .flow { display: flex; flex-direction: column; align-items: center;
+            margin: 1em 0; }
+    .block { width: 100%; max-width: 720px; border-radius: 6px;
+             padding: 10px 16px; margin: 0; box-sizing: border-box; }
+    .block .lbl { font-weight: 600; font-family: ui-monospace, "SF Mono", monospace; }
+    .block .shape { font-family: ui-monospace, monospace; color: #555;
+                    font-size: 0.85em; margin-top: 2px; }
+    .block .note { color: #555; font-size: 0.85em; margin-top: 4px;
+                   font-family: ui-monospace, monospace; }
+    .arrow { font-size: 1.4em; color: #888; line-height: 1; padding: 6px 0;
+             display: flex; align-items: center; gap: 8px; }
+    .alabel { font-size: 0.7em; color: #666; font-family: ui-monospace, monospace; }
+
+    .block.io       { background: #e0f2fe; border: 1px solid #7dd3fc; }
+    .block.resid    { background: #fef3c7; border: 1px solid #fcd34d; }
+    .block.enc      { background: #dcfce7; border: 1px solid #86efac; }
+    .block.dec      { background: #dcfce7; border: 1px solid #86efac; }
+    .block.nonlin   { background: #f3e8ff; border: 1px solid #d8b4fe; }
+    .block.sparse   { background: #fde68a; border: 1px solid #f59e0b; }
+    .block.loss     { background: #fce7f3; border: 1px solid #f9a8d4; }
+    .block.constraint { background: #e5e7eb; border: 1px solid #9ca3af; }
+    .block.metric   { background: #f5f5f5; border: 1px solid #d4d4d4; }
+
+    table { border-collapse: collapse; margin: 1em 0; width: 100%;
+            font-family: ui-monospace, monospace; font-size: 0.9em; }
+    table th, table td { padding: 6px 12px; border-bottom: 1px solid #eee;
+                          text-align: left; }
+    table th { background: #fafafa; color: #555; }
+    table.counts td:last-child, table.config td:last-child { color: #2563eb; }
+
+    .legend { display: flex; gap: 1em; flex-wrap: wrap; margin: 1em 0;
+              font-size: 0.85em; }
+    .legend .pill { padding: 2px 10px; border-radius: 999px; }
+
+    .notes { background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px;
+             padding: 0 1.4em 1em 1.4em; margin: 1em 0; }
+    </style></head><body><h1>TopK Sparse Autoencoder — Gemma 2 2B, layer 12</h1><p class='desc'>Trained on residual-stream activations from layer 12. The goal is to decompose each activation as a sparse sum of unit-norm dictionary directions; those directions are our candidate <em>features</em>.</p>
+    <div class='legend'>
+      <span class='pill block io'>activation in/out</span>
+      <span class='pill block resid'>centered residual</span>
+      <span class='pill block enc'>encoder / decoder</span>
+      <span class='pill block nonlin'>ReLU</span>
+      <span class='pill block sparse'>sparse code (TopK)</span>
+      <span class='pill block loss'>loss</span>
+      <span class='pill block constraint'>constraint op</span>
+      <span class='pill block metric'>metric</span>
+    </div>
+    <section><h2>Forward pass: activation → sparse code → reconstruction</h2><div class='flow'><div class='block io'><div class='lbl'>x — residual stream activation</div><div class='shape'>[B, 2304] fp32</div><div class='note'>one vector per token, harvested from layer 12 of Gemma 2 2B</div></div><div class='arrow'>↓<span class='alabel'>subtract decoder bias (pre-bias trick)</span></div><div class='block resid'><div class='lbl'>x - b_dec</div><div class='shape'>[B, 2304]</div><div class='note'>b_dec is initialized to the dataset mean — encoder learns deviations only</div></div><div class='arrow'>↓<span class='alabel'>@ W_encᵀ + b_enc   (encoder)</span></div><div class='block enc'><div class='lbl'>z_pre</div><div class='shape'>[B, 18,432]</div><div class='note'>W_enc shape = (18,432, 2304); rows are feature detectors</div></div><div class='arrow'>↓<span class='alabel'>ReLU</span></div><div class='block nonlin'><div class='lbl'>z_relu</div><div class='shape'>[B, 18,432]</div><div class='note'>nonneg pre-activations — many small, some large</div></div><div class='arrow'>↓<span class='alabel'>TopK along feature dim (k = 32)</span></div><div class='block sparse'><div class='lbl'>z — sparse code</div><div class='shape'>[B, 18,432], L0 = 32</div><div class='note'>keep the 32 largest per row, zero the rest. L0 (#active features) is exactly k for every example, every step.</div></div><div class='arrow'>↓<span class='alabel'>@ W_dec   (decoder)</span></div><div class='block dec'><div class='lbl'>z @ W_dec</div><div class='shape'>[B, 2304]</div><div class='note'>W_dec shape = (18,432, 2304); row i is the unit-norm direction in residual space associated with feature i. x̂ - b_dec is a sparse sum of k of these directions.</div></div><div class='arrow'>↓<span class='alabel'>+ b_dec</span></div><div class='block io'><div class='lbl'>x̂ — reconstruction</div><div class='shape'>[B, 2304] fp32</div><div class='note'>loss = ((x - x̂)²).mean()</div></div></div></section><section><h2>One training step</h2><div class='flow'><div class='block io'><div class='lbl'>sample batch from memmap</div><div class='shape'>[B=4096, 2304]</div><div class='note'>seeded uniform sampling with replacement over 500k vectors</div></div><div class='arrow'>↓</div><div class='block enc'><div class='lbl'>forward pass  →  (x̂, z)</div><div class='note'>see top-level flow above</div></div><div class='arrow'>↓</div><div class='block loss'><div class='lbl'>loss = mean((x - x̂)²)</div><div class='note'>no L1, no auxiliary losses (yet). TopK gives sparsity for free.</div></div><div class='arrow'>↓<span class='alabel'>loss.backward()</span></div><div class='block constraint'><div class='lbl'>remove radial component of W_dec.grad</div><div class='note'>grad = grad − (grad · W_dec) ⊙ W_dec, per row.<br>Why: W_dec rows live on the unit sphere. The radial gradient component would be undone by the renormalize step anyway. Removing it makes Adam's running statistics describe only tangent (useful) updates.</div></div><div class='arrow'>↓<span class='alabel'>opt.step()  (AdamW)</span></div><div class='block constraint'><div class='lbl'>renormalize: W_dec row-norms → 1</div><div class='note'>hard projection back to the unit sphere after every step</div></div><div class='arrow'>↓</div><div class='block metric'><div class='lbl'>FeatureFireTracker.update(z)</div><div class='note'>per-feature counter: steps since this feature last had any nonzero activation in any example of the batch. Features with counter ≥ window are 'dead'.</div></div><div class='arrow'>↓<span class='alabel'>every log_every steps</span></div><div class='block metric'><div class='lbl'>log: loss, NMSE, L0, dead-fraction → metrics.jsonl</div><div class='note'>NMSE = ‖x - x̂‖² / ‖x - x̄‖² (normalized MSE; trivial-mean predictor → 1.0).<br>explained variance = 1 - NMSE.<br>L0 should hover at k = 32.<br>dead-fraction is what we'll address with feature resampling once we have a baseline.</div></div></div></section><section><h2>Conceptual notes</h2>
+    <div class='notes'>
+      <h3>Why pre-bias?</h3>
+      <p>If we encoded <code>x</code> directly, <code>b_dec</code> would have to absorb the dataset
+      mean <em>plus</em> any reconstruction offset, and the encoder would burn capacity on the
+      constant offset. Subtracting <code>b_dec</code> before encoding decouples the two:
+      <code>b_dec</code> ends up at (approximately) the dataset mean, and the encoder/decoder
+      pair learns the deviations.</p>
+
+      <h3>Why unit-norm decoder rows?</h3>
+      <p>The pair (W_enc, W_dec) has a scale gauge: doubling row <code>i</code> of W_dec and
+      halving column <code>i</code> of W_enc gives the same model. Without a constraint, the
+      decoder norms drift and L1/TopK comparisons across features become meaningless.
+      Fixing decoder row norm = 1 puts each feature's "size" entirely in its activation
+      magnitude <code>z_i</code>, which is what we want for interpretation.</p>
+
+      <h3>Why TopK and not L1?</h3>
+      <p>L1 gives you a knob (the sparsity coefficient) you have to tune, and the L0 (actual
+      number of active features) is an emergent property that drifts. TopK <em>directly</em>
+      sets L0 = k as an architectural constraint. No tuning, fewer dead-feature pathologies,
+      training is faster to interpret.</p>
+
+      <h3>What "dead features" are and why they matter</h3>
+      <p>A dead feature is one whose pre-activation never enters the top-k of any example
+      for a long window. Its encoder row stops receiving gradient (it's not in the active
+      set) and its decoder row stops being used. Once dead, it stays dead unless we
+      intervene. Standard fix: every N steps, find dead features and re-initialize their
+      encoder/decoder rows to point at high-error directions in the current batch
+      ("resampling"). Not implemented yet — we'll add it once we see the dead fraction.</p>
+    </div>
+    </section><section><h2>Config</h2><table class='config'><thead><tr><th>field</th><th>value</th></tr></thead><tbody><tr><td>source model</td><td>google/gemma-2-2b</td></tr><tr><td>hook site</td><td>model.model.layers[12] (residual stream output)</td></tr><tr><td>d_model</td><td>2304</td></tr><tr><td>n_features</td><td>18,432  (= 8 × d_model)</td></tr><tr><td>k (TopK)</td><td>32</td></tr><tr><td>expected L0</td><td>= 32 by construction</td></tr><tr><td>decoder column norm</td><td>1.0 (enforced after every step)</td></tr><tr><td>encoder init</td><td>tied: W_enc ← W_dec at init (Anthropic recipe)</td></tr><tr><td>b_dec init</td><td>dataset mean of activations</td></tr><tr><td>loss</td><td>MSE per-element (no L1 penalty — sparsity comes from TopK)</td></tr><tr><td>optimizer</td><td>AdamW, lr=3e-4, no weight decay</td></tr><tr><td>dataset</td><td>500k Gemma-2-2b layer-12 activations from Pile-10k</td></tr></tbody></table></section><section><h2>Parameter counts</h2>
+    <table class='counts'>
+      <thead><tr><th>parameter</th><th>shape</th><th>count</th></tr></thead>
+      <tbody>
+        <tr><td>W_enc</td><td>(18,432, 2304)</td><td>42.5 M</td></tr>
+        <tr><td>b_enc</td><td>(18,432,)</td><td>18.4 k</td></tr>
+        <tr><td>W_dec</td><td>(18,432, 2304)</td><td>42.5 M</td></tr>
+        <tr><td>b_dec</td><td>(2304,)</td><td>2.3 k</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>85.0 M</strong></td></tr>
+      </tbody>
+    </table>
+    <p class='desc'>For comparison, the source model (Gemma 2 2B) has ~2.61 B parameters.
+    The SAE is ~3% the size of the model it's analyzing — but it only has to fit one layer.</p>
+    </section></body></html>

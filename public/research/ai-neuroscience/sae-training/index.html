@@ -1,0 +1,127 @@
+<!doctype html><html><head><meta charset='utf-8'><title>SAE report — layer12_topk_k32_dict8x_smoke</title><style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+       max-width: 1100px; margin: 2em auto; color: #222; padding: 0 1em;
+       line-height: 1.5; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { margin-top: 2em; border-left: 4px solid #2563eb; padding-left: 0.6em; }
+h3 { margin-top: 1.5em; }
+p.desc { color: #555; }
+code { background: #f5f5f5; padding: 1px 5px; border-radius: 3px;
+       font-family: ui-monospace, "SF Mono", monospace; font-size: 0.9em; }
+img { width: 100%; max-width: 760px; display: block; margin: 0.5em 0 1.5em 0;
+      border: 1px solid #e5e7eb; border-radius: 4px; }
+table { border-collapse: collapse; margin: 1em 0; width: 100%;
+        font-family: ui-monospace, monospace; font-size: 0.9em; }
+table th, table td { padding: 6px 12px; border-bottom: 1px solid #eee;
+                      text-align: left; }
+table th { background: #fafafa; color: #555; }
+.summary { background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px;
+           padding: 0.5em 1.2em; margin: 1em 0; }
+.todo { background: #fef9c3; border: 1px solid #facc15; border-radius: 6px;
+        padding: 0.5em 1.2em; margin: 1em 0; }
+</style></head><body>
+    <h1>SAE training report — layer12_topk_k32_dict8x_smoke</h1>
+    <p class='desc'>TopK SAE on Gemma 2 2B layer-12 residual activations, trained
+    on the 500k-token harvest.</p>
+
+    <div class='summary'>
+      <h3 style='margin-top:0.4em'>Summary</h3>
+      <table><tr><td>steps</td><td><strong>5,000</strong></td></tr><tr><td>wall time</td><td><strong>4379 s (73.0 min)</strong></td></tr><tr><td>final MSE loss</td><td><strong>0.7817</strong></td></tr><tr><td>final normalized MSE</td><td><strong>0.216</strong></td></tr><tr><td>final explained variance</td><td><strong>78.4%</strong></td></tr><tr><td>L0 (target = k)</td><td><strong>32.0  (k = 32)</strong></td></tr><tr><td>dead features (window=1000)</td><td><strong>20 / 18,432  (0.114%)</strong></td></tr><tr><td>dead features (sample, no fires in 50k tokens)</td><td><strong>67 / 18,432</strong></td></tr></table>
+    </div>
+
+    <h2>Training curves</h2>
+    <h3>Reconstruction loss (raw MSE)</h3><img src='loss.png'>
+    <p>Per-element squared error between input activations and the SAE's
+    reconstruction. Monotone decrease confirms the optimizer is making progress.
+    Note the y-axis is the average squared error per residual dimension — the
+    absolute number depends on the activation scale (Gemma-2-2b layer 12 has
+    fp16 activations with O(10) per-dim magnitude).</p>
+
+    <h3>Explained variance & normalized MSE</h3><img src='explained_variance.png'>
+    <p><strong>This is the “accuracy” metric for SAEs.</strong> There is no
+    classification accuracy because the task is reconstruction. Normalized MSE
+    divides each example's squared error by its squared distance from the
+    dataset mean, so a trivial mean-predictor gets NMSE = 1.0 (EV = 0); perfect
+    recon gets NMSE = 0 (EV = 1). Our run ends at EV ≈ 0.78 — the SAE captures
+    ~78% of the residual-stream variance using only k = 32 features per token.</p>
+
+    <h3>L0 sparsity</h3><img src='l0.png'>
+    <p>Average number of nonzero features per token. With TopK this is exactly
+    <code>k</code> by construction — useful only as a sanity check that the TopK
+    op is wired correctly. With L1-penalized SAEs this curve <em>drifts</em>
+    and tuning it is the whole game.</p>
+
+    <h3>Dead-feature fraction</h3><img src='dead_frac.png'>
+    <p>Fraction of features whose pre-activation has not entered any token's
+    top-k for the past 1000 steps. Once a feature stops firing it stops getting
+    gradient and tends to stay dead. Our run plateaus at ~21 dead features
+    (0.11%) — small enough that resampling isn't worth implementing yet. For
+    larger dictionaries (32× and up) this is the headline failure mode.</p>
+
+    <h3>Per-batch feature usage</h3><img src='active_frac.png'>
+    <p>Fraction of features that fire in at least one example of the current
+    batch. At init nearly all features fire on random inputs (~98%). The dip
+    around step 100–500 is the encoder specializing. The rebound to ~80% is
+    the model rediscovering the broad set; the gap from 100% is partly batch
+    noise and partly genuinely-rare features.</p>
+
+    <h2>Post-hoc feature diagnostics</h2>
+    <p class='desc'>Computed by loading the final checkpoint and forward-passing
+    a fresh sample of <code>50,000</code> tokens.</p>
+
+    <h3>Per-feature firing-rate distribution (log-log)</h3><img src='fire_rate.png'>
+    <p>Sort all 18,432 features by how often they fired across the sample, then
+    plot rank vs firing-rate on log-log axes. A healthy SAE shows a roughly
+    power-law distribution: a few very-frequent features (function words, common
+    contexts) and a long tail of rare-but-specific features. Hard floor at
+    <code>1/n_sample</code> marks "never fired in this sample" — the count
+    after the cliff is the empirical dead count.</p>
+
+    <h3>Decoder row norms</h3><img src='dec_norm.png'>
+    <p>Sanity check: <code>normalize_decoder()</code> should keep every row of
+    <code>W_dec</code> at exactly unit norm. The histogram should be a single
+    spike at 1.0. Any spread means the projection step is broken.</p>
+
+    <h2>What we did <em>not</em> measure (yet)</h2>
+    <div class='todo'>
+      <p>Standard SAE diagnostics in the literature that aren't in this report:</p>
+      <ul>
+        <li><strong>Substitution loss / CE-delta</strong> — the gold standard.
+            Run Gemma on real text, replace layer-12's residual stream with the
+            SAE's reconstruction, and measure how much the downstream cross-entropy
+            loss increases. A perfect SAE leaves CE unchanged. Anthropic's papers
+            quote this as the headline number. We need the model loaded to compute
+            it; cheap to add as a separate eval script.</li>
+        <li><strong>Per-feature reconstruction contribution</strong> — for each
+            feature i, what fraction of the total recon does it account for? Helps
+            distinguish "high firing rate but low contribution" features (noisy)
+            from "low firing rate but high magnitude" features (specific).</li>
+        <li><strong>Feature activation magnitude histogram</strong> — the
+            distribution of <code>z</code> values when a feature is active.
+            Bimodal/long-tailed magnitudes are healthy; very tight clusters can
+            indicate dead-on-arrival features.</li>
+        <li><strong>Feature decoder-direction similarity</strong> — cosine
+            similarity matrix of W_dec rows. Near-duplicates suggest the
+            dictionary is over-parameterized for the data; orthogonal rows suggest
+            the SAE has found a genuine basis.</li>
+        <li><strong>Auto-interp</strong> (Phase 4 in PLAN.md) — for each feature,
+            collect its top-k max-activating prompts and ask a stronger LM to
+            label what they have in common. The single most useful tool for
+            "did we learn anything?".</li>
+        <li><strong>Steering</strong> — add a decoder direction to the residual
+            stream at inference and observe behavior change. Validates that the
+            feature is causal, not just correlational.</li>
+        <li><strong>Comparison against Gemma Scope</strong> — DeepMind's
+            pretrained SAEs for every Gemma 2 layer. Cosine-match our learned
+            decoder rows against theirs to see which features we found and which
+            we missed.</li>
+      </ul>
+      <p>Ordering by ROI for our project: <strong>auto-interp on a handful of
+      features</strong> (cheap, tells us if anything is interpretable) →
+      <strong>CE-delta eval</strong> (cheap, tells us reconstruction is faithful
+      where it matters) → re-harvest more tokens and rerun.</p>
+    </div>
+
+    <h2>Run config</h2>
+    <table><tr><td>run name</td><td>layer12_topk_k32_dict8x_smoke</td></tr><tr><td>source model</td><td>google/gemma-2-2b</td></tr><tr><td>layer</td><td>12</td></tr><tr><td>d_model</td><td>2304</td></tr><tr><td>n_features</td><td>18,432  (= 8 × d_model)</td></tr><tr><td>k (TopK)</td><td>32</td></tr><tr><td>batch size</td><td>4096</td></tr><tr><td>learning rate</td><td>0.0003</td></tr><tr><td>training steps</td><td>5000</td></tr><tr><td>seed</td><td>0</td></tr></table>
+    </body></html>
