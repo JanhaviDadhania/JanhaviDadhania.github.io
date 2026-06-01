@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset='utf-8'><title>TopK Transcoder — Gemma 2 2B, layer 12 MLP</title><style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           max-width: 1100px; margin: 2em auto; color: #222; padding: 0 1em;
+           line-height: 1.45; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+    h2 { margin-top: 2em; border-left: 4px solid #7c3aed; padding-left: 0.6em; }
+    h3 { margin-top: 1.5em; }
+    p.desc { color: #555; }
+    code { background: #f5f5f5; padding: 1px 5px; border-radius: 3px;
+           font-family: ui-monospace, "SF Mono", monospace; font-size: 0.9em; }
+
+    .flow { display: flex; flex-direction: column; align-items: center;
+            margin: 1em 0; }
+    .block { width: 100%; max-width: 720px; border-radius: 6px;
+             padding: 10px 16px; margin: 0; box-sizing: border-box; }
+    .block .lbl { font-weight: 600; font-family: ui-monospace, "SF Mono", monospace; }
+    .block .shape { font-family: ui-monospace, monospace; color: #555;
+                    font-size: 0.85em; margin-top: 2px; }
+    .block .note { color: #555; font-size: 0.85em; margin-top: 4px;
+                   font-family: ui-monospace, monospace; }
+    .arrow { font-size: 1.4em; color: #888; line-height: 1; padding: 6px 0;
+             display: flex; align-items: center; gap: 8px; }
+    .alabel { font-size: 0.7em; color: #666; font-family: ui-monospace, monospace; }
+
+    .block.io          { background: #e0f2fe; border: 1px solid #7dd3fc; }
+    .block.resid       { background: #fef3c7; border: 1px solid #fcd34d; }
+    .block.enc         { background: #dcfce7; border: 1px solid #86efac; }
+    .block.dec         { background: #dcfce7; border: 1px solid #86efac; }
+    .block.nonlin      { background: #f3e8ff; border: 1px solid #d8b4fe; }
+    .block.sparse      { background: #fde68a; border: 1px solid #f59e0b; }
+    .block.loss        { background: #fce7f3; border: 1px solid #f9a8d4; }
+    .block.constraint  { background: #e5e7eb; border: 1px solid #9ca3af; }
+    .block.metric      { background: #f5f5f5; border: 1px solid #d4d4d4; }
+    .block.mlp         { background: #fee2e2; border: 1px solid #fca5a5; }
+    .block.transcoder  { background: #ede9fe; border: 1px solid #c4b5fd; }
+
+    table { border-collapse: collapse; margin: 1em 0; width: 100%;
+            font-family: ui-monospace, monospace; font-size: 0.9em; }
+    table th, table td { padding: 6px 12px; border-bottom: 1px solid #eee;
+                          text-align: left; vertical-align: top; }
+    table th { background: #fafafa; color: #555; }
+    table.counts td:last-child, table.config td:last-child { color: #7c3aed; }
+
+    .legend { display: flex; gap: 1em; flex-wrap: wrap; margin: 1em 0;
+              font-size: 0.85em; }
+    .legend .pill { padding: 2px 10px; border-radius: 999px; }
+
+    .notes { background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px;
+             padding: 0 1.4em 1em 1.4em; margin: 1em 0; }
+    </style></head><body><h1>TopK Transcoder — Gemma 2 2B, layer 12 MLP</h1><p class='desc'>An architecture sketch of how a transcoder would fit into our existing pipeline. We have <em>not</em> trained one yet — this page is documentation, parallel to <code>sae_architecture.py</code>. The transcoder occupies the same parametric shape as our SAE; what changes is what its decoder is trained to predict.</p>
+    <div class='legend'>
+      <span class='pill block io'>activation in/out</span>
+      <span class='pill block mlp'>real MLP (ground truth)</span>
+      <span class='pill block transcoder'>transcoder path</span>
+      <span class='pill block resid'>centered input</span>
+      <span class='pill block enc'>encoder / decoder</span>
+      <span class='pill block nonlin'>ReLU</span>
+      <span class='pill block sparse'>sparse code (TopK)</span>
+      <span class='pill block loss'>loss</span>
+      <span class='pill block constraint'>constraint op</span>
+      <span class='pill block metric'>metric</span>
+    </div>
+    <section><h2>Forward pass: residual in, MLP output predicted</h2><div class='flow'><div class='block io'><div class='lbl'>x — pre-MLP residual stream</div><div class='shape'>[B, 2304] fp32</div><div class='note'>one vector per token, taken after LayerNorm but before the MLP (same input the real MLP would receive)</div></div><div class='arrow'>↓<span class='alabel'>path splits two ways</span></div><div class='block mlp'><div class='lbl'>PATH A: real MLP (ground truth)</div><div class='shape'>x → up + gate (9216) → GeGLU → down → mlp_out</div><div class='note'>the MLP we're trying to approximate. Shape stays [B, 2304] going in and coming out, but the work happens in a 9216-dim hidden space we can't directly read.</div></div><div class='block transcoder'><div class='lbl'>PATH B: transcoder (our approximation)</div><div class='note'>reads the same x, produces a prediction of mlp_out via a sparse intermediate code. Everything below this row is path B.</div></div><div class='arrow'>↓<span class='alabel'>subtract decoder bias (pre-bias trick, same as SAE)</span></div><div class='block resid'><div class='lbl'>x − b_dec</div><div class='shape'>[B, 2304]</div><div class='note'>b_dec is initialized to the dataset mean of MLP outputs (not of x). The encoder learns deviations from that mean.</div></div><div class='arrow'>↓<span class='alabel'>@ W_encᵀ + b_enc   (encoder)</span></div><div class='block enc'><div class='lbl'>z_pre</div><div class='shape'>[B, 18,432]</div><div class='note'>W_enc shape = (18,432, 2304); rows are feature detectors reading the pre-MLP residual</div></div><div class='arrow'>↓<span class='alabel'>ReLU</span></div><div class='block nonlin'><div class='lbl'>z_relu</div><div class='shape'>[B, 18,432]</div><div class='note'>nonneg pre-activations</div></div><div class='arrow'>↓<span class='alabel'>TopK along feature dim (k = 32)</span></div><div class='block sparse'><div class='lbl'>z — sparse code</div><div class='shape'>[B, 18,432], L0 = 32</div><div class='note'>keep the 32 largest per row, zero the rest. These k features are the transcoder's claim about what the MLP is computing on this token.</div></div><div class='arrow'>↓<span class='alabel'>@ W_dec   (decoder)</span></div><div class='block dec'><div class='lbl'>z @ W_dec</div><div class='shape'>[B, 2304]</div><div class='note'>W_dec shape = (18,432, 2304); row i is the direction in MLP-output space contributed by feature i. Decoder output lives in the MLP's output space, not the encoder's input space.</div></div><div class='arrow'>↓<span class='alabel'>+ b_dec</span></div><div class='block io'><div class='lbl'>mlp_out_hat — predicted MLP output</div><div class='shape'>[B, 2304] fp32</div><div class='note'>loss = ((mlp_out − mlp_out_hat)²).mean(). Compared against PATH A's actual mlp_out.</div></div></div></section><section><h2>SAE vs Transcoder — what actually differs</h2><table class='config'><thead><tr><th>property</th><th>SAE (what we trained)</th><th>Transcoder (what we'd train)</th></tr></thead><tbody><tr><td>trained against</td><td>x  (residual stream reconstruction)</td><td>MLP(x)  (function approximation)</td></tr><tr><td>encoder input</td><td>residual stream at site S</td><td>residual stream just before MLP</td></tr><tr><td>decoder output</td><td>same residual stream at site S</td><td>the MLP's output at the same layer</td></tr><tr><td>can replace anything in the forward pass?</td><td>no — purely a side hook</td><td>yes — swap the MLP at inference, model still mostly works</td></tr><tr><td>feature semantics</td><td>“this concept is present in the stream here”</td><td>“this is a thing the MLP computes and writes to the stream”</td></tr><tr><td>good for</td><td>reading the residual stream at one point</td><td>tracing computation flow across layers</td></tr><tr><td>circuit tracing usable?</td><td>indirect; need extra inference to connect layers</td><td>direct; features compose into a feature-to-feature graph</td></tr></tbody></table></section><section><h2>Inference-time view: swap the MLP for the transcoder</h2><div class='flow'><div class='block io'><div class='lbl'>x — pre-MLP residual</div><div class='shape'>[B, 2304]</div><div class='note'>same as before</div></div><div class='arrow'>↓<span class='alabel'>during inference, route through the transcoder instead of the MLP</span></div><div class='block transcoder'><div class='lbl'>Transcoder.forward(x)</div><div class='note'>encoder → TopK → decoder. Produces mlp_out_hat in one shot.</div></div><div class='arrow'>↓<span class='alabel'>use mlp_out_hat where mlp_out would have gone</span></div><div class='block io'><div class='lbl'>mlp_out_hat → + residual_skip → resid_post</div><div class='shape'>[B, 2304]</div><div class='note'>the rest of the network sees a residual stream that's approximately what the MLP would have produced — but now we know exactly which k features contributed and by how much.</div></div></div></section><section><h2>One training step</h2><div class='flow'><div class='block io'><div class='lbl'>sample batch of (x, mlp_out) pairs</div><div class='shape'>[B, 2304], [B, 2304]</div><div class='note'>we'd need a harvest pass that saves both pre-MLP residual and the MLP's output at layer 12 — twice the storage of the SAE harvest.</div></div><div class='arrow'>↓</div><div class='block enc'><div class='lbl'>forward pass  →  (mlp_out_hat, z)</div><div class='note'>see the top-level flow above</div></div><div class='arrow'>↓</div><div class='block loss'><div class='lbl'>loss = mean((mlp_out − mlp_out_hat)²)</div><div class='note'>reconstruction target is the MLP's output, not the residual stream. This is the only structural difference from SAE training.</div></div><div class='arrow'>↓<span class='alabel'>loss.backward()</span></div><div class='block constraint'><div class='lbl'>remove radial component of W_dec.grad → opt.step → renormalize</div><div class='note'>exactly the same constraint machinery as the SAE — unit-norm decoder rows.</div></div><div class='arrow'>↓</div><div class='block metric'><div class='lbl'>log: loss, NMSE-vs-mlp_out, L0, dead-fraction</div><div class='note'>NMSE is now against ‖mlp_out − mlp_out_mean‖², so an explained variance of 1.0 would mean we perfectly recovered the MLP's function from k features per token.</div></div></div></section><section><h2>Conceptual notes</h2>
+    <div class='notes'>
+      <h3>Why a transcoder is &quot;the MLP, decomposed&quot;</h3>
+      <p>An SAE asks: <em>what concepts are present in the residual stream at point S?</em>
+      It learns a sparse code for whatever vector lives there. It doesn't know or care
+      where that vector came from.</p>
+      <p>A transcoder asks a sharper question: <em>what is this specific MLP computing?</em>
+      Its input is the MLP's input, its output is the MLP's output, and its training loss
+      is the mismatch between them. The k features that fire on any given token are the
+      transcoder's claim about which k operations the MLP performed for that token.</p>
+
+      <h3>Why this matters for circuit tracing</h3>
+      <p>If a trained transcoder approximates the MLP well, you can <strong>swap it in at
+      inference</strong> and the downstream network barely notices. Now every contribution
+      the &quot;MLP&quot; makes to the residual stream is a sum of <code>k = 32</code>
+      named feature directions. That gives circuit tracing a place to stand: you can attribute
+      a downstream feature's activation to specific upstream features by following the decoder
+      weights, because the decoder weights <em>are</em> the model (under the swap).</p>
+      <p>With an SAE you can read what's in the stream but not who put it there. A
+      transcoder-replaced layer makes the &quot;who put it there&quot; question answerable
+      by inspection of <code>W_dec</code>.</p>
+
+      <h3>What stays the same as the SAE</h3>
+      <p>Everything else. Same TopK sparsity. Same unit-norm decoder constraint. Same pre-bias
+      trick. Same AdamW. Same dead-feature concerns. From a training-code perspective, a
+      transcoder is an SAE with one loss-target swap.</p>
+
+      <h3>What changes in our pipeline if we want to train one</h3>
+      <p>The activation harvest. Right now we save the layer-12 residual stream only (one
+      vector per token). For a transcoder we'd need <em>two</em> tensors per token:
+      the pre-MLP residual (input) and the MLP's output (target). That's 2× the disk
+      footprint and a slightly more invasive hook setup, but otherwise the same harvest script.</p>
+
+      <h3>Where transcoders sit in the lineage</h3>
+      <p>Transcoders aren't a replacement for SAEs — they're a complementary tool for a
+      different question. The field also has <em>crosscoders</em> (span multiple layers or
+      models at once) and earlier <em>dictionary-learning</em> approaches. SAE / transcoder /
+      crosscoder are three points on the same design space: sparse over-complete codes
+      pointed at different signals in the network.</p>
+    </div>
+    </section><section><h2>Config</h2><table class='config'><thead><tr><th>field</th><th>value</th></tr></thead><tbody><tr><td>source model</td><td>google/gemma-2-2b</td></tr><tr><td>site</td><td>model.model.layers[12].mlp  (drop-in across the MLP)</td></tr><tr><td>encoder input</td><td>pre-MLP residual stream  (LayerNorm'd, same as MLP's input)</td></tr><tr><td>decoder output</td><td>predicts the MLP's output  (post-GeGLU, pre-residual-add)</td></tr><tr><td>d_model</td><td>2304</td></tr><tr><td>MLP hidden (GeGLU)</td><td>9216</td></tr><tr><td>n_features</td><td>18,432  (= 8 × d_model)</td></tr><tr><td>k (TopK)</td><td>32</td></tr><tr><td>loss target</td><td>the MLP's actual output, not the residual stream</td></tr><tr><td>loss</td><td>MSE  (∥mlp_out − mlp_out_hat∥²)</td></tr><tr><td>decoder norm constraint</td><td>1.0 per row (same as SAE)</td></tr><tr><td>training data</td><td>would need fresh harvest of (pre-MLP, post-MLP) pairs at layer 12</td></tr></tbody></table></section><section><h2>Parameter counts</h2>
+    <table class='counts'>
+      <thead><tr><th>parameter</th><th>shape</th><th>count</th></tr></thead>
+      <tbody>
+        <tr><td>W_enc</td><td>(18,432, 2304)</td><td>42.5 M</td></tr>
+        <tr><td>b_enc</td><td>(18,432,)</td><td>18.4 k</td></tr>
+        <tr><td>W_dec</td><td>(18,432, 2304)</td><td>42.5 M</td></tr>
+        <tr><td>b_dec</td><td>(2304,)</td><td>2.3 k</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>85.0 M</strong></td></tr>
+      </tbody>
+    </table>
+    <p class='desc'>Identical to the SAE in parameter count. The architecture is the same shape —
+    encoder + sparse latent + decoder. What changes is what we point the decoder at during training.</p>
+    </section></body></html>

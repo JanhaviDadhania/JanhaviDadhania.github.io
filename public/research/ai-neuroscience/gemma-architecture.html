@@ -1,0 +1,67 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Gemma 2 2B — Architecture</title><style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           max-width: 1100px; margin: 2em auto; color: #222; padding: 0 1em;
+           line-height: 1.45; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+    h2 { margin-top: 2em; border-left: 4px solid #2563eb; padding-left: 0.6em; }
+    p.desc { color: #555; }
+
+    .flow { display: flex; flex-direction: column; align-items: center;
+            margin: 1em 0; }
+    .block { width: 100%; max-width: 720px; border-radius: 6px;
+             padding: 10px 16px; margin: 0; box-sizing: border-box; }
+    .block .lbl { font-weight: 600; font-family: ui-monospace, "SF Mono", monospace; }
+    .block .shape { font-family: ui-monospace, monospace; color: #555;
+                    font-size: 0.85em; margin-top: 2px; }
+    .block .note { color: #555; font-size: 0.85em; margin-top: 4px;
+                   font-family: ui-monospace, monospace; }
+    .arrow { font-size: 1.4em; color: #888; line-height: 1; padding: 6px 0;
+             display: flex; align-items: center; gap: 8px; }
+    .alabel { font-size: 0.7em; color: #666; font-family: ui-monospace, monospace; }
+
+    .block.io { background: #e0f2fe; border: 1px solid #7dd3fc; }
+    .block.tensor { background: #f5f5f5; border: 1px solid #d4d4d4; }
+    .block.resid { background: #fef3c7; border: 1px solid #fcd34d; }
+    .block.norm { background: #f3e8ff; border: 1px solid #d8b4fe; }
+    .block.attn { background: #dcfce7; border: 1px solid #86efac; }
+    .block.mlp { background: #fce7f3; border: 1px solid #f9a8d4; }
+
+    table { border-collapse: collapse; margin: 1em 0; width: 100%;
+            font-family: ui-monospace, monospace; font-size: 0.9em; }
+    table th, table td { padding: 6px 12px; border-bottom: 1px solid #eee;
+                          text-align: left; }
+    table th { background: #fafafa; color: #555; }
+    table.counts td:last-child, table.config td:last-child { color: #2563eb; }
+
+    .legend { display: flex; gap: 1em; flex-wrap: wrap; margin: 1em 0;
+              font-size: 0.85em; }
+    .legend .pill { padding: 2px 10px; border-radius: 999px; }
+    </style></head><body><h1>Gemma 2 2B — Architecture</h1><p class='desc'>Every shape annotated. Residual width <code>d_model = 2304</code> is preserved end-to-end. Each DecoderLayer keeps the residual stream the same shape; attention and MLP write back additive updates.</p>
+    <div class='legend'>
+      <span class='pill block io'>io (strings)</span>
+      <span class='pill block tensor'>tensor</span>
+      <span class='pill block resid'>residual stream</span>
+      <span class='pill block norm'>RMSNorm</span>
+      <span class='pill block attn'>attention</span>
+      <span class='pill block mlp'>MLP</span>
+    </div>
+    <section><h2>Top-level flow: string → string</h2><div class='flow'><div class='block io'><div class='lbl'>Input</div><div class='shape'>list[str], len=B</div><div class='note'>e.g. ["The capital of France is"]</div></div><div class='arrow'>↓<span class='alabel'>tokenizer.encode (SentencePiece BPE)</span></div><div class='block tensor'><div class='lbl'>input_ids</div><div class='shape'>[B, T] int64</div><div class='note'>T = number of tokens after BPE</div></div><div class='arrow'>↓<span class='alabel'>embed_tokens lookup, then × √d_model = √2304 ≈ 48</span></div><div class='block resid'><div class='lbl'>residual stream (initial)</div><div class='shape'>[B, T, 2304] bf16</div><div class='note'>embed_tokens.weight shape = (256000, 2304); same matrix is reused as lm_head</div></div><div class='arrow'>↓<span class='alabel'>× 26 DecoderLayers — see expansion below</span></div><div class='block resid'><div class='lbl'>residual stream (after layer 26)</div><div class='shape'>[B, T, 2304] bf16</div></div><div class='arrow'>↓<span class='alabel'>final RMSNorm (rms_norm_eps=1e-6)</span></div><div class='block resid'><div class='lbl'>normalized hidden</div><div class='shape'>[B, T, 2304] bf16</div></div><div class='arrow'>↓<span class='alabel'>lm_head — tied to embed_tokens.T</span></div><div class='block tensor'><div class='lbl'>logits</div><div class='shape'>[B, T, 256000] fp32</div><div class='note'>logits = softcap(30.0) applied: 30 * tanh(logits / 30)</div></div><div class='arrow'>↓<span class='alabel'>take last position [:, -1, :], softmax, argmax (or sample)</span></div><div class='block tensor'><div class='lbl'>next_token_id</div><div class='shape'>[B] int64</div></div><div class='arrow'>↓<span class='alabel'>tokenizer.decode</span></div><div class='block io'><div class='lbl'>Output</div><div class='shape'>list[str], len=B</div><div class='note'>e.g. [" Paris"]</div></div></div></section><section><h2>One DecoderLayer (×26)</h2><div class='flow'><div class='block resid'><div class='lbl'>x_in</div><div class='shape'>[B, T, 2304]</div><div class='note'>residual stream entering this layer</div></div><div class='arrow'>↓<span class='alabel'>residual₁ ← x_in (save for skip connection)</span></div><div class='block norm'><div class='lbl'>input_layernorm (RMSNorm)</div><div class='shape'>[B, T, 2304] → [B, T, 2304]</div></div><div class='arrow'>↓</div><div class='block attn'><div class='lbl'>self_attn — Grouped-Query Attention</div><div class='note'>Q proj: 2304 → 8·256 = 2048&nbsp;&nbsp;|&nbsp;&nbsp; K proj: 2304 → 4·256 = 1024&nbsp;&nbsp;|&nbsp;&nbsp; V proj: 2304 → 4·256 = 1024<br>Reshape Q→[B, T, 8, 256]; K,V→[B, T, 4, 256]; repeat K,V ×2 to match Q heads<br>RoPE on Q and K (theta=10000)<br>scores = Q @ Kᵀ / √256, softcap(50.0), mask (sliding-window=4096 OR full), softmax<br>attn_out = scores @ V&nbsp;&nbsp;→&nbsp;&nbsp;[B, T, 8, 256] → [B, T, 2048]<br>O proj: 2048 → 2304</div></div><div class='arrow'>↓<span class='alabel'>attn output shape: [B, T, 2304]</span></div><div class='block norm'><div class='lbl'>post_attention_layernorm (RMSNorm)</div><div class='shape'>[B, T, 2304]</div></div><div class='arrow'>↓<span class='alabel'>x_mid = residual₁ + ↑  (residual add)</span></div><div class='block resid'><div class='lbl'>x_mid</div><div class='shape'>[B, T, 2304]</div></div><div class='arrow'>↓<span class='alabel'>residual₂ ← x_mid</span></div><div class='block norm'><div class='lbl'>pre_feedforward_layernorm (RMSNorm)</div><div class='shape'>[B, T, 2304]</div></div><div class='arrow'>↓</div><div class='block mlp'><div class='lbl'>MLP — GeGLU</div><div class='note'>gate_proj: 2304 → 9216&nbsp;&nbsp;|&nbsp;&nbsp; up_proj: 2304 → 9216&nbsp;&nbsp;|&nbsp;&nbsp; down_proj: 9216 → 2304<br>hidden = gelu(gate_proj(x)) * up_proj(x)&nbsp;&nbsp;→&nbsp;&nbsp;[B, T, 9216]<br>out = down_proj(hidden)&nbsp;&nbsp;→&nbsp;&nbsp;[B, T, 2304]</div></div><div class='arrow'>↓<span class='alabel'>[B, T, 2304]</span></div><div class='block norm'><div class='lbl'>post_feedforward_layernorm (RMSNorm)</div><div class='shape'>[B, T, 2304]</div></div><div class='arrow'>↓<span class='alabel'>x_out = residual₂ + ↑</span></div><div class='block resid'><div class='lbl'>x_out</div><div class='shape'>[B, T, 2304]</div><div class='note'>passed as x_in to the next layer (or to the final RMSNorm if this was layer 26)</div></div></div></section><section><h2>Config (from model.config)</h2><table class='config'><thead><tr><th>field</th><th>value</th></tr></thead><tbody><tr><td>model_id</td><td>google/gemma-2-2b</td></tr><tr><td>params</td><td>2.61 B</td></tr><tr><td>vocab_size</td><td>256000</td></tr><tr><td>hidden_size (d_model)</td><td>2304</td></tr><tr><td>num_hidden_layers</td><td>26</td></tr><tr><td>num_attention_heads (Q)</td><td>8</td></tr><tr><td>num_key_value_heads (K, V — GQA)</td><td>4</td></tr><tr><td>head_dim</td><td>256</td></tr><tr><td>intermediate_size (MLP up)</td><td>9216</td></tr><tr><td>max_position_embeddings</td><td>8192</td></tr><tr><td>attn_window (sliding layers)</td><td>4096</td></tr><tr><td>attn_pattern</td><td>alternating: even layers sliding-window, odd layers full</td></tr><tr><td>rope_theta</td><td>10000</td></tr><tr><td>rms_norm_eps</td><td>1e-6</td></tr><tr><td>tied embeddings</td><td>yes (lm_head.weight == embed_tokens.weight)</td></tr><tr><td>activation</td><td>GeGLU (gelu(gate) * up)</td></tr><tr><td>logit softcap</td><td>30.0</td></tr><tr><td>attn softcap</td><td>50.0</td></tr></tbody></table></section><section><h2>Parameter counts</h2>
+    <table class='counts'>
+      <thead><tr><th>component</th><th>shape</th><th>params</th></tr></thead>
+      <tbody>
+        <tr><td>embed_tokens (= lm_head, tied)</td><td>(256000, 2304)</td><td>589.8 M</td></tr>
+        <tr><td>per layer: q_proj</td><td>(2304, 2048)</td><td>4.7 M</td></tr>
+        <tr><td>per layer: k_proj</td><td>(2304, 1024)</td><td>2.4 M</td></tr>
+        <tr><td>per layer: v_proj</td><td>(2304, 1024)</td><td>2.4 M</td></tr>
+        <tr><td>per layer: o_proj</td><td>(2048, 2304)</td><td>4.7 M</td></tr>
+        <tr><td>per layer: gate_proj</td><td>(2304, 9216)</td><td>21.2 M</td></tr>
+        <tr><td>per layer: up_proj</td><td>(2304, 9216)</td><td>21.2 M</td></tr>
+        <tr><td>per layer: down_proj</td><td>(9216, 2304)</td><td>21.2 M</td></tr>
+        <tr><td>per layer: 4 × RMSNorm</td><td>4 × (2304,)</td><td>≈ 9 k</td></tr>
+        <tr><td><strong>per layer (sum)</strong></td><td></td><td><strong>≈ 77.8 M</strong></td></tr>
+        <tr><td>26 layers</td><td></td><td>≈ 2023.7 M</td></tr>
+        <tr><td>final RMSNorm</td><td>(2304,)</td><td>≈ 2 k</td></tr>
+        <tr><td><strong>Total (with tied head)</strong></td><td></td><td><strong>≈ 2.61 B</strong></td></tr>
+      </tbody>
+    </table>
+    </section></body></html>

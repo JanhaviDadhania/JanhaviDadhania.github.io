@@ -116,6 +116,72 @@ _(If there is an earlier or more specific "verbaliser" paper I'm missing here, j
 
 </Section>
 
+<Section color="blue" label="Act 6 — what I tried">
+
+*Enough reading. I wanted to run the loop end-to-end myself, on my own machine.*
+
+So I picked the smallest open model that still has interesting middle layers — **Gemma 2 2B** — and ran the whole pipeline on an M3 MacBook. No cluster, no remote GPU. The point was to feel where each step actually pinches.
+
+**Step 1 — get the model loaded and map its insides.** Gemma 2 2B is 26 decoder layers, residual width 2304, GeGLU MLPs, grouped-query attention with alternating sliding-window / full masks. I annotated every shape end-to-end so I could pick a layer to attack without guessing what lives where. Layer 12 — middle of the stack — is where I put the hooks.
+
+→ [Gemma 2 2B architecture — every tensor shape](/research/ai-neuroscience/gemma-architecture.html)
+
+**Step 2 — watch the answer crystallize across layers.** Before training any SAE, I wanted a feel for *when* the model decides what to say. The logit lens trick: take the residual stream at every layer, run it through the final RMSNorm and `lm_head`, and read the top-5 predicted next tokens at each layer. You watch the answer wobble in the middle layers and lock in around layer 20-something.
+
+→ [Logit lens — top-5 predictions at every layer, for a handful of prompts](/research/ai-neuroscience/logit-lens.html)
+
+What's interesting is that most of the eventual top-1 tokens are already in the top-3 or top-4 by layer 12–14, and then climb to rank 1 by the end. The middle layers know roughly what the answer is; the later layers are sharpening, not deciding.
+
+**Step 3 — harvest activations.** Forward hook at layer 12, ~500k tokens of OpenWebText / The Pile mix, dump to `.npy` on disk. Final shape: `[500_000, 2304]` in bf16. About 2 GB on disk. The harvest itself took a couple of hours on the MPS backend.
+
+**Step 4 — train a TopK SAE.** Dictionary size 8× the residual dim → 18,432 features. k = 32 (each token activates exactly 32 of those 18,432 features). Unit-norm decoder rows, AdamW, batch 4096. 5000 steps, ~73 minutes wall time on the laptop.
+
+→ [TopK SAE architecture — shapes, losses, constraints](/research/ai-neuroscience/sae-architecture.html)
+→ [Full training report — curves + diagnostics](/research/ai-neuroscience/sae-training/)
+
+What I got at the end:
+
+| metric | value |
+|---|---|
+| explained variance | **78.4%** |
+| normalized MSE | 0.216 |
+| L0 (avg active features / token) | 32 (exact, by TopK construction) |
+| dead features (no fires in 50k-token sample) | 67 / 18,432 (~0.36%) |
+| wall time | 73 min on M3 |
+
+That's not state-of-the-art — Gemma Scope hits higher EV at this layer with much bigger dictionaries and much more compute — but it's a real, working SAE on a real model, trained on a laptop in an afternoon. The headline curves:
+
+<img src="/images/research/ai-neuroscience/sae-explained-variance.png" alt="Explained variance climbing from 0 to about 0.78 over 5000 training steps" style="max-width: 100%; height: auto; display: block; margin: 1.5rem auto;" />
+
+<img src="/images/research/ai-neuroscience/sae-dead-frac.png" alt="Fraction of dead features over training, plateauing around 0.1%" style="max-width: 100%; height: auto; display: block; margin: 1.5rem auto;" />
+
+The dead-feature curve is the one to watch when you scale up dictionaries — for 8× it stayed under half a percent, but at 32× or 64× this is the failure mode you spend all your time fighting.
+
+**Step 5 — see what the features actually fire on.** For each feature in the dictionary, I ran another 200k tokens through the SAE and collected the top-20 contexts that activated it hardest, with the firing token bracketed `[[like this]]`. This is the rawest, most useful artefact of the whole project — millions of features can be cheap-labelled by just *looking* at what fires them.
+
+A few I found that have visibly clean meanings:
+
+- **virology / HBV biology** — fires on tokens like `RNA`, `capsid`, `pgRNA`, `viral particle`, but only inside passages discussing hepatitis B virus replication. Same surface tokens in other contexts don't fire it.
+- **London landmarks & historic buildings** — Tower of London, Westminster, St Paul's, Christopher Wren, Regent's Canal. Tourist-guide prose lights this one up.
+- **legal / sentencing language** — *"the trial court allowed"*, *"sentence affirmed in part"*, *"Defendant-Appellant"*. Court-opinion register, not just the word "court".
+- **Norwegian / Scandinavian text** — fires on tokens of Norwegian prose. Crisp language-ID feature.
+- **quantum-mechanics jargon** — `ancillas`, `wavefunctions`, `interferometer`, `non-classical entanglement`. Sits cleanly in physics passages.
+- **aircraft model designators** — F-104A, F-4C, X-15. Fires on the letter-number patterns *only* inside aircraft-listing contexts; doesn't trigger on every alphanumeric.
+
+There's also a long tail of less satisfying features — ones that look like "tokens that follow ###" or "the apostrophe in possessive 's after a place name". Those are the syntactic / positional features the SAE finds first, and they're a bit meh. The semantic ones above are the interesting ones.
+
+The corpus matters here: my 500k-token harvest happens to lean heavy on London tourism guides, HBV virology papers, court opinions, and Norwegian news, so the features mirror that. Train on a different corpus and a different feature alphabet would emerge.
+
+**Step 6 — what's next.** The SAE is a side-hook: it lets me *read* the residual stream at layer 12 but it doesn't tell me which features *cause* which other features. To get that, I'd swap the MLP itself for a learned **transcoder** — same TopK shape, but trained to predict the MLP's output, not just reconstruct the residual stream. Once you have transcoders at every layer, the decoder weights form a feature-to-feature graph and you can do real circuit tracing.
+
+I haven't trained one yet, but I've sketched the architecture parallel to the SAE so the training code is mostly a one-line swap:
+
+→ [Transcoder architecture — what changes vs the SAE](/research/ai-neuroscience/transcoder-architecture.html)
+
+That's the natural next step, and where Act 4 (circuit tracing) plugs in.
+
+</Section>
+
 ## The state of it
 
 Five years ago, the question was: can we read what a language model is doing? The honest answer was no.
