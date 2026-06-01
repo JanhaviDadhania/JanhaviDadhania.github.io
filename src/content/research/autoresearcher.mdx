@@ -1,0 +1,81 @@
+---
+title: "autoresearcher"
+date: 2026-05-24
+tags: []
+summary: "Working notes on building an auto-researcher: papers and repos to skim before cloning Sakana's AI Scientist and pointing it at SAEs."
+draft: false
+meta:
+  is_finished: false
+  opinion_strength: 6
+  evidence_strength: 7
+---
+
+Before I clone Sakana's AI Scientist and run it, I want to skim every related paper — just in case something better than this already exists. Working dump below.
+
+The plan after the skim is small:
+
+1. Clone [AI Scientist v2](https://github.com/SakanaAI/AI-Scientist-v2/tree/main/ai_scientist) and get one end-to-end run going on a real research question.
+2. Run [ShinkaEvolve](https://github.com/SakanaAI/ShinkaEvolve) over Codeforces problems.
+3. Point AI Scientist at a new SAE hypothesis.
+
+---
+
+<Section color="maroon" label="AI Scientist v2 (Sakana)">
+
+*The main reference. Clone this. Run this.*
+
+End-to-end agentic system that has produced the first AI-written workshop paper accepted through peer review. Pipeline: ideation → agentic tree search (BFTS) experiments → writeup → LLM/VLM peer review.
+
+- Code: [SakanaAI/AI-Scientist-v2 — ai_scientist module](https://github.com/SakanaAI/AI-Scientist-v2/tree/main/ai_scientist)
+- Paper (Nature): [s41586-026-10265-5](https://www.nature.com/articles/s41586-026-10265-5)
+- Benchmark reference: [SWE-bench (original)](https://www.swebench.com/original.html)
+
+</Section>
+
+<Section color="green" label="ShinkaEvolve (Sakana)">
+
+*Algorithm evolution — solves algorithms. Need to try this on Codeforces.*
+
+- Blog: [Sakana — ShinkaEvolve](https://sakana.ai/shinka-evolve/)
+- Code: [SakanaAI/ShinkaEvolve](https://github.com/SakanaAI/ShinkaEvolve)
+
+**TODO:** run ShinkaEvolve over Codeforces problems.
+
+</Section>
+
+<Section color="blue" label="ASAL — searching for artificial life (Sakana)">
+
+*This looks like a cool shit. Searching for artificial life. Whaaaaaaaat. Need to read this hell. Fucking awesome hell of a paper.*
+
+- Blog + code: [Sakana — ASAL](https://sakana.ai/asal/)
+
+**Adjacent question, todo:** what is *Core War*? Understand it. (Probably the 1984 programming game where programs fight in a virtual machine — ancestor of artificial-life simulations. Need to confirm and pull the thread to ASAL.)
+
+</Section>
+
+<Section color="pink" label="Trinity (Sakana)">
+
+*A trained manager-worker-evaluator. Worth looking into — same shape as the auto-research stack, but the orchestration itself is learned.*
+
+- Blog: [Sakana — Trinity](https://sakana.ai/trinity/)
+
+</Section>
+
+<Section color="gray" label="Adjacent — Darwin Gödel Machine + open questions">
+
+- [Darwin Gödel Machine (Sakana)](https://sakana.ai/dgm/) — self-improving system; relevant to the "design your way of auto research" question.
+
+**Open question, todo:** *is "saksham AI" doing something like this?* If not, find it and propose it. _(Note for myself: this might have been a voice-typo for "Sakana" — but if I really meant a different org, fill in here.)_
+
+</Section>
+
+---
+
+## Concrete next steps
+
+1. Skim each link above. Note what's actually novel vs marketing.
+2. Decide if AI Scientist v2 is still the right base, or if Trinity / DGM gives a better starting point.
+3. Clone the chosen base. Get one full run going end-to-end on a small problem.
+4. Then start replacing pieces with my own architecture.
+
+_v1, 2026-05-24. Working notes; not polished. Will grow as I read._
