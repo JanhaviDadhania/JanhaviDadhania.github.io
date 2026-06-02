@@ -28,9 +28,26 @@ AI Scientist v2 is built for *one hypothesis → one paper*, not for surveying. 
 
 *The step that comes **before** AI Scientist. Survey the field, propose directions, debate, rank.*
 
-- **[Google — AI co-scientist (blog, Feb 2025)](https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/)** — multi-agent system designed exactly for this. Generation → Reflection → Ranking → Evolution → Meta-review. Piloted on biomedical questions with domain experts.
-- **[Stanford STORM (open source)](https://github.com/stanford-oval/storm)** — multi-agent literature-survey writer. Closest open-source thing to a hypothesis-generation pipeline. Runnable today.
+**Design reference (not open):**
+- **[Google — AI co-scientist (blog, Feb 2025)](https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/)** — multi-agent system designed exactly for this. Generation → Reflection → Ranking → Evolution → Meta-review. Piloted on biomedical questions with domain experts. Paper: arxiv 2502.18864. **Code is gated** (Trusted Tester Program); use this as the architectural reference, not a clone target.
+
+**Tier 1 — open-source, runnable today:**
+- **[ResearchAgent (Baek et al., 2024)](https://github.com/JinheonBaek/ResearchAgent)** — paper: arxiv 2404.07738. Multi-agent: Idea Generator + Critic, iterated over a paper corpus. The closest academic analog to AI co-scientist; co-scientist is partly a refinement of this design. *Worth one weekend to spin up.*
+- **AI Scientist v2's ideation step alone** — `python ai_scientist/perform_ideation_temp_free.py`. Uses Semantic Scholar + LLM reflection. Narrow (one hypothesis, not a ranked list) but works out of the box on our already-cloned repo.
+- **[Stanford STORM](https://github.com/stanford-oval/storm)** — multi-agent literature-survey writer. **Caveat:** STORM outputs a Wikipedia-style *article*, not a list of testable hypotheses. Useful as a landscape-prep tool, not as the hypothesis step itself.
+- **[FutureHouse — PaperQA2](https://github.com/Future-House/paper-qa)** — agentic paper Q&A. Building block.
+- **[FutureHouse — Aviary](https://github.com/Future-House/aviary)** — gymnasium for scientific agents, including hypothesis-gen environments. Building block.
+
+**Tier 2 — commercial, instant, no code:**
+- **OpenAI Deep Research / Anthropic / Google's equivalents** — one carefully crafted prompt ("survey SAE research at Anthropic/DeepMind/Goodfire; produce 10 ranked hypotheses with claim + novelty + feasibility + experiment shape") realistically gets 80% of what co-scientist gives. Fastest path.
+- **Roll-your-own Claude/GPT with Semantic Scholar tool** — ~50 lines of Python. Most flexible if you want to control the prompt + scoring rubric.
+
+**Adjacent (not direct substitutes):**
 - **[Edison Scientific — platform](https://platform.edisonscientific.com/)** — research-agent platform; placeholder note until I dig in.
+- **[POPPER (Huang et al., 2024)](https://arxiv.org/abs/2407.05495)** — automated *falsification* of hypotheses. Runs *after* you have a hypothesis to test it.
+- **Elicit / Consensus / ResearchRabbit** — literature search tools; useful as a data layer under a generator.
+
+**Honest recommendation:** weekend project — run ResearchAgent + Deep Research on "sparse autoencoders for LLM interpretability"; compare outputs; pick the better one; feed *one hypothesis* to AI Scientist v2. **Don't build a co-scientist clone yourself** unless these outputs are unusable — that's a separate 1–2 week project that delays your first paper.
 
 </Section>
 
