@@ -14,13 +14,14 @@ Before I clone Sakana's AI Scientist and run it, I want to skim every related pa
 
 ## The stack I like
 
-The auto-research pipeline isn't one agent — it's three:
+The auto-research pipeline isn't one agent — it's four layers:
 
-1. **Hypothesis generation** — Google's AI co-scientist (or Stanford STORM / Edison Scientific) → produces a ranked list of research directions from the literature.
+1. **Hypothesis generation** — Stanford STORM (open) or Google's AI co-scientist (design reference) → produces a ranked list of research directions from the literature.
 2. **Experiment + writeup** — Sakana's AI Scientist v2 → takes one of those directions and runs the full ideation → BFTS experiments → paper pipeline.
 3. **Algorithm/code evolution** — Sakana's ShinkaEvolve → optionally evolves the code/algorithm inside the experiment step.
+4. **Benchmark + evaluate the agent system** — FutureHouse's [Aviary](https://github.com/Future-House/aviary) (the gym) → at the end, once we've built or chained these agents, we run them through a standardized arena to measure how good the *system* actually is. Same role for agents that ImageNet played for classifiers.
 
-AI Scientist v2 is built for *one hypothesis → one paper*, not for surveying. The first step belongs to a different class of tool.
+AI Scientist v2 is built for *one hypothesis → one paper*, not for surveying — the first step belongs to a different class of tool. Aviary is a layer below the rest — not an agent, an *environment for scoring agents* — but that's exactly why it sits at the end as the evaluation step.
 
 ---
 
