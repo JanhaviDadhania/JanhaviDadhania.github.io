@@ -2,17 +2,131 @@
 title: "autoresearcher"
 date: 2026-05-24
 tags: []
-summary: "Working notes on building an auto-researcher: papers and repos to skim before cloning Sakana's AI Scientist and pointing it at SAEs."
+summary: "The Leaflet design: a group of agents that surveys a field, generates hypotheses (with poetry), runs experiments, writes papers — plus the readings that got us here."
 draft: false
 meta:
   is_finished: false
-  opinion_strength: 6
-  evidence_strength: 7
+  opinion_strength: 7
+  evidence_strength: 6
 ---
+
+## specifics
+
+### Leaflet — the maximally designed group of agents
+
+The group is called **Leaflet**. It is a *group of agents* — not a pipeline, not a framework, not a system. The framing matters: a group has members with roles, and the members have character.
+
+### what Leaflet does
+
+Leaflet takes in **any research direction** and produces **outcomes** — by which I mean a tested hypothesis written up as a paper, with code that ran and data that was collected, grounded in a survey of the field it came from.
+
+The input is a research direction. Example I keep coming back to:
+
+> *"SAEs' effectiveness in mechanical interpretability, and alternate methods."*
+
+The output, at the end, is something I can sit down and read.
+
+### the steps
+
+Leaflet runs in **three core steps**, with a fourth step (the gym) that exists to make Leaflet itself better over time.
+
+#### Step 1 — Survey (STORM-shaped)
+
+The survey step is designed after **Stanford's STORM**. When I hand Leaflet a research direction, the survey agent performs a thorough survey of the field.
+
+The output of this step is a **thoroughly examined Wikipedia-style page** for the field. It must contain:
+
+- Complete **history** of the field
+- All **relevant papers** and the **people** behind them
+- **Important milestones** in the field
+- **State of the art** and recent **breakthroughs**
+- All available **open-source code** that's important
+- Available **datasets**
+- Everything else worth knowing about the field
+
+This is a real survey writeup — not a list, not bullet points handed off to the next agent. It writes the complete survey down. The next step reads it.
+
+#### Step 2 — Hypothesis generation (co-scientist-shaped, with poetry)
+
+The hypothesis generation step is based on **Google's co-scientist**. Its **guiding principle is: quantity first, quality second.** Generate broadly, then filter.
+
+Its output is a **list of hypotheses to test**.
+
+Internally it works very much like co-scientist:
+
+- **Generation** agent proposes hypotheses
+- **Reflection** agent reflects on them
+- **Ranking** agent ranks them
+- **Review** / evaluation agent evaluates them
+- The loop iterates
+
+**The quirk — and this matters to me:** along with reflecting, this step also **writes poems and stories** about the hypotheses. I want a creative element here. If there are neurons that activate on creativity, I want them activated in this step. So the step produces both:
+
+1. The list of hypotheses (handed to step 3)
+2. **Stories and poems** about the hypotheses (written down, kept)
+
+It writes it all down. Both the structured list and the creative artifacts are outputs of this step.
+
+#### Step 3 — Experimentation and writeup (Sakana-shaped)
+
+The list of hypotheses is passed to **Sakana AI's Scientist** (AI Scientist v2). It tests all the hypotheses thoroughly and writes papers. **This is what I read at the end.**
+
+This step:
+
+- Saves all the **code** it produces
+- **Tests** the code well
+- Uses **ShinkaEvolve**-like tools to optimize specific steps where evolutionary search beats greedy iteration
+- Can use other tools too as needed
+
+#### Step 4 — The gym (future, FutureHouse-shaped)
+
+At the end of all this, I will have a **gym built where my leaflets can go to get better.** The gym is based on **FutureHouse's Aviary** for now. More on this later — it gets designed after the first three steps are built and running.
+
+### how the steps connect
+
+```
+research direction
+       │
+       ▼
+   ┌───────────────────────────┐
+   │ Step 1 — Survey (STORM)   │ → Wikipedia-style page (history, papers,
+   └───────────────────────────┘   people, milestones, SOTA, code, data)
+       │
+       ▼
+   ┌───────────────────────────────────┐
+   │ Step 2 — Hypotheses (co-scientist)│ → list of hypotheses
+   │ Generation ↔ Reflection ↔ Ranking │ → poems & stories (kept)
+   │ ↔ Review (+ creative writing)     │
+   │ Principle: quantity > quality     │
+   └───────────────────────────────────┘
+       │
+       ▼
+   ┌──────────────────────────────────┐
+   │ Step 3 — Sakana AI Scientist     │ → papers (I read these)
+   │ Tests each hypothesis thoroughly │ → code (saved, tested)
+   │ Uses ShinkaEvolve where useful   │
+   └──────────────────────────────────┘
+       │
+       ▼
+   ┌─────────────────────────────────┐
+   │ Step 4 — Gym (FutureHouse-based)│ → leaflets get better over time
+   └─────────────────────────────────┘
+```
+
+### principles that span the group
+
+- **Creativity is a real ingredient, not decoration.** The poems-and-stories quirk in step 2 is on purpose. The hypothesis step is the step where breadth, surprise, and imagination matter most. The creative artifacts are not throwaway — they're written down because writing them is what activates the right mode of thinking.
+- **Quantity first, quality second** — but only inside step 2. Step 1 is comprehensive (not "lots of surveys"), step 3 is rigorous (not "lots of papers"). The breadth/depth balance is intentional and lives in different places at different steps.
+- **Each step writes its full output down.** Survey → full page. Hypothesis gen → list + creative writing. Experiments → papers + code. Nothing is summarized away between steps.
+- **The gym is a self-improvement layer**, not a fourth research step. Step 4 is *about* Leaflet, not produced *by* Leaflet.
+
+---
+
+## plan sketching readings
 
 Before I clone Sakana's AI Scientist and run it, I want to skim every related paper — just in case something better than this already exists. Working dump below.
 
-## The stack I like
+### The stack I like
 
 The auto-research pipeline isn't one agent — it's four layers:
 
@@ -22,8 +136,6 @@ The auto-research pipeline isn't one agent — it's four layers:
 4. **Benchmark + evaluate the agent system** — FutureHouse's [Aviary](https://github.com/Future-House/aviary) (the gym) → at the end, once we've built or chained these agents, we run them through a standardized arena to measure how good the *system* actually is. Same role for agents that ImageNet played for classifiers.
 
 AI Scientist v2 is built for *one hypothesis → one paper*, not for surveying — the first step belongs to a different class of tool. Aviary is a layer below the rest — not an agent, an *environment for scoring agents* — but that's exactly why it sits at the end as the evaluation step.
-
----
 
 <Section color="gray" label="Hypothesis-generation agents — the missing piece">
 
@@ -101,9 +213,7 @@ End-to-end agentic system that has produced the first AI-written workshop paper 
 
 </Section>
 
----
-
-## Concrete next steps
+### concrete next steps
 
 1. Skim each link above. Note what's actually novel vs marketing.
 2. Decide if AI Scientist v2 is still the right base, or if Trinity / DGM gives a better starting point.
