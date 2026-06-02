@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Co-Scientist — Sequence of LM Prompts in One Run</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #5c5c5c;
+    --accent: #0b6e4f;
+    --bg: #fafaf7;
+    --code-bg: #f0efe9;
+    --border: #d6d4cc;
+  }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 860px;
+    margin: 2.5rem auto;
+    padding: 0 1.25rem 4rem;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.15rem; margin: 2.2rem 0 0.7rem; color: var(--accent); }
+  p { margin: 0.6rem 0; }
+  .lede { color: var(--muted); margin-bottom: 1.5rem; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font: 13.5px/1.5 "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 0.08em 0.35em;
+    border-radius: 4px;
+    font: 13.5px/1.4 "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 14.5px;
+  }
+  th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.45rem 0.9rem 0.45rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; }
+  td.num { text-align: right; }
+  .total td { border-top: 1px solid var(--border); font-weight: 600; }
+  .note {
+    background: #fff;
+    border-left: 3px solid var(--accent);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .note strong { color: var(--accent); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Co-Scientist — Sequence of LM Prompts in One Run</h1>
+<p class="lede">The order LM calls fire when co-scientist processes one research goal. Captured from a code walkthrough of the Kaimen-Inc fork on 2026-06-02. Modeled after the companion STORM doc.</p>
+
+<h2>The sequence</h2>
+<pre>
+┌─ STAGE 0: Parse the goal (1 LM call) ─────────────────────────────────┐
+
+  1. ParseGoal(goal)
+     → prompt: "parse_goal.md"
+     → forced tool: record_research_plan
+     → produces a ResearchPlan that scopes the rest of the run
+     → fallback: if the model doesn't emit the tool, supervisor uses a
+       bare ResearchPlan and the session continues
+
+  ──── supervisor then enqueues N initial Generation tasks ────
+
+└──────────────────────────────────────────────────────────────────────┘
+
+┌─ STAGE 1: Main loop ──────────────────────────────────────────────────┐
+│  task scheduler runs concurrency-many tasks at once;                  │
+│  every finished task may enqueue follow-ups;                          │
+│  loop terminates on budget / wall-clock / Elo stability / idle        │
+
+  ┌─ Generation (per initial task AND per Evolution offspring) ────┐
+  │                                                                │
+  │   2. Generation(goal, plan, system_feedback)                   │
+  │      → prompt: "generation_literature.md"                      │
+  │      → tool loop, up to 8 iterations:                          │
+  │           pubmed_search | arxiv_search | europe_pmc_search |   │
+  │           web_search | web_fetch | record_hypothesis (terminal)│
+  │      → each iteration = 1 LM call                              │
+  │      → result: new Hypothesis (if dedup passes)                │
+  │      → follow-up: enqueue Reflection                           │
+  └────────────────────────────────────────────────────────────────┘
+
+  ┌─ Reflection (1 per new hypothesis) ────────────────────────────┐
+  │                                                                │
+  │   3. Reflection(hypothesis)                                    │
+  │      → prompt: "reflection_review.md"  (= reflection.full)     │
+  │      → tool loop, up to 8 iterations:                          │
+  │           same lit-search tools + record_review (terminal)     │
+  │      → result: novelty / correctness / testability scores      │
+  │      → follow-up: enqueue Ranking.AddToTournament              │
+  └────────────────────────────────────────────────────────────────┘
+
+  ┌─ Ranking — Elo tournament ─────────────────────────────────────┐
+  │                                                                │
+  │   AddToTournament (non-LM): Elo=1200, schedule pairings        │
+  │                                                                │
+  │   4a. RankingDebate(A, B)   ← cold / Δelo<50  (low confidence) │
+  │       → prompt: "ranking.debate.md"                            │
+  │       → 1 LM call, no tool loop                                │
+  │                                                                │
+  │   4b. RankingPairwise(A, B) ← warm / Δelo≥50 (high confidence) │
+  │       → prompt: "ranking.pairwise.md"                          │
+  │       → 1 LM call, no tool loop                                │
+  │                                                                │
+  │   verdict ("better idea: 1|2") → Elo update → record match     │
+  │   every ~20 matches → Proximity reclusters (no LM)             │
+  └────────────────────────────────────────────────────────────────┘
+
+  ┌─ Evolution (fires when leaderboard matures) ───────────────────┐
+  │   trigger: ≥20 hypotheses, each with ≥3 matches                │
+  │   one EvolveTopHypotheses task runs 3 strategies in sequence:  │
+  │                                                                │
+  │   5a. EvolutionCombine(top-1 paired with most-distant)         │
+  │       → prompt: "evolution_combine.md"                         │
+  │   5b. EvolutionSimplify(top-1)                                 │
+  │       → prompt: "evolution_simplify.md"                        │
+  │   5c. EvolutionOutOfBox(top-5 as inspiration)                  │
+  │       → prompt: "evolution_out_of_box.md"                      │
+  │       (a 4th strategy, "feasibility", ships but is off in M3)  │
+  │                                                                │
+  │   each strategy = 1 tool_loop call (≤6 iters); offspring       │
+  │   re-enter the cycle via the Reflection follow-up rule.        │
+  └────────────────────────────────────────────────────────────────┘
+
+  ┌─ Meta-review (system feedback, fires periodically) ────────────┐
+  │   6. MetaReviewSystem                                          │
+  │      → prompt: "metareview_system.md"                          │
+  │      → forced tool: record_system_feedback                     │
+  │      → output injected into Generation / Evolution prompts as  │
+  │        steering for subsequent hypotheses                      │
+  │      → fires every ~50 matches when supervisor is idle         │
+  └────────────────────────────────────────────────────────────────┘
+
+└──────────────────────────────────────────────────────────────────────┘
+
+┌─ STAGE 2: Finalize (1 LM call) ───────────────────────────────────────┐
+
+  7. MetaReviewFinal(top hypotheses, all reviews, all feedback)
+     → prompt: "metareview_final.md"
+     → no tools; the model writes prose directly
+     → SAVED as data/artifacts/&lt;session_id&gt;/final/overview.md
+
+└──────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<h2>Concrete call count for our run</h2>
+<p>Run config: <code>--n 3</code> initial hypotheses, <code>--budget-usd 100</code>, <code>--wall-clock 900</code> (15&nbsp;min), <code>concurrency=2</code>, default <code>max_ideas=60</code>, <code>max_matches_per_idea=12</code>, all <code>tool_loop.*_max_iters</code> at defaults. Bottleneck for us is wall-clock and <code>claude -p</code> subprocess latency (~3-5&nbsp;s of cold-start per LM call), not budget.</p>
+
+<table>
+  <thead>
+    <tr><th>Prompt</th><th class="num">Times fired</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>parse_goal</code></td><td class="num">1</td><td>once at session start</td></tr>
+    <tr><td><code>generation_literature</code></td><td class="num">3 – 8</td><td>3 initial + offspring from Evolution; each is a full tool loop of 1 – 8 LM calls</td></tr>
+    <tr><td><code>reflection_review</code></td><td class="num">3 – 8</td><td>one Reflection per new hypothesis; each is a tool loop</td></tr>
+    <tr><td><code>ranking.debate</code></td><td class="num">5 – 12</td><td>cold matches and low-Δelo pairs (high-verbosity mode)</td></tr>
+    <tr><td><code>ranking.pairwise</code></td><td class="num">8 – 20</td><td>warm matches with Δelo≥50 (fast mode); dominates once the leaderboard is established</td></tr>
+    <tr><td><code>evolution_combine</code></td><td class="num">0 – 2</td><td>only fires after leaderboard maturity (≥20 hypotheses, ≥3 matches each); may not trigger at all in a 15-min subprocess-bound run</td></tr>
+    <tr><td><code>evolution_simplify</code></td><td class="num">0 – 2</td><td>same maturity gate</td></tr>
+    <tr><td><code>evolution_out_of_box</code></td><td class="num">0 – 2</td><td>same maturity gate</td></tr>
+    <tr><td><code>metareview_system</code></td><td class="num">0 – 2</td><td>every ~50 matches; small runs hit this 0–1 times</td></tr>
+    <tr><td><code>metareview_final</code></td><td class="num">1</td><td>always, once at termination</td></tr>
+    <tr class="total"><td>Total LM calls (incl. tool-loop iterations)</td><td class="num">~35 – 80</td><td>wide because tool loops can short-circuit on the first <code>record_*</code> call or run all 8 iterations</td></tr>
+  </tbody>
+</table>
+
+<h2>Notes about the order</h2>
+
+<div class="note">
+  <strong>Ranking has no tool loop.</strong> Unlike Generation, Reflection, and Evolution, each Ranking match is a single direct LM call — no literature search, no nested iterations. That's why the tournament can rack up many matches quickly while Generation and Reflection are slower per-hypothesis. The verdict is parsed from the trailing text via a regex looking for <code>better idea: 1|2</code>.
+</div>
+
+<div class="note">
+  <strong>Reflection.full, Ranking.debate vs. Ranking.pairwise are alternatives</strong> — only one fires per invocation. Reflection ships three modes in the supplementary pseudocode (<code>full</code>, <code>verification</code>, <code>observation</code>) but only <code>full</code> is wired up in this fork. Ranking's <code>_select_mode()</code> picks debate when either match counter is &lt; 2 or the Elo gap is &lt; 50, otherwise pairwise. Evolution's three strategies, by contrast, are <em>not</em> mutually exclusive — every EvolveTopHypotheses task runs combine + simplify + out_of_box in sequence.
+</div>
+
+<div class="note">
+  <strong>The tool loop is the load-bearing inner mechanism.</strong> Each Generation / Reflection / Evolution task is one outer task but up to 8 (Generation, Reflection) or 6 (Evolution) inner LM calls — one per assistant turn in the assistant ↔ tool_use ↔ tool_result loop. Loop ends when the model emits a "terminal" tool (<code>record_hypothesis</code>, <code>record_review</code>, <code>record_system_feedback</code>) or hits the max-iters cap. On the final allowed iteration the supervisor optionally forces the terminal tool so the run commits instead of looping on yet another search.
+</div>
+
+<div class="note">
+  <strong>Meta-review fires twice in two different shapes.</strong> <code>metareview_system</code> is steering feedback that gets <em>injected back</em> into Generation and Evolution prompts on subsequent turns — it shapes future hypotheses. <code>metareview_final</code> is the readable end-of-run document. Only the final overview is what you sit down and read.
+</div>
+
+<div class="note">
+  <strong>Proximity is non-LM.</strong> Embeddings (Voyage → OpenAI → hash fallback) plus sklearn clustering. It schedules a recluster every ~20 matches to drive informative pair selection — but it never calls the LM. Its presence in the agent roster is what makes co-scientist "7 agents" and not "6 LM agents".
+</div>
+
+<hr>
+<p class="lede">Source: <code>hypothesisgenerator/Co-Scientist/co_scientist/agents/</code> — see <code>supervisor.py</code>, <code>generation.py</code>, <code>reflection.py</code>, <code>ranking.py</code>, <code>evolution.py</code>, <code>proximity.py</code>, <code>metareview.py</code>. Tool-loop machinery in <code>co_scientist/llm/tool_loop.py</code>. Prompt templates in <code>config/prompts/</code> (14 Jinja2 markdown files). Limits and budget shares in <code>config/default.toml</code>.</p>
+
+</body>
+</html>
