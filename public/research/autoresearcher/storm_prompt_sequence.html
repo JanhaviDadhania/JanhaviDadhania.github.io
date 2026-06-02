@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>STORM — Sequence of LM Prompts in One Run</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #5c5c5c;
+    --accent: #0b6e4f;
+    --bg: #fafaf7;
+    --code-bg: #f0efe9;
+    --border: #d6d4cc;
+  }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 860px;
+    margin: 2.5rem auto;
+    padding: 0 1.25rem 4rem;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.15rem; margin: 2.2rem 0 0.7rem; color: var(--accent); }
+  p { margin: 0.6rem 0; }
+  .lede { color: var(--muted); margin-bottom: 1.5rem; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font: 13.5px/1.5 "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 0.08em 0.35em;
+    border-radius: 4px;
+    font: 13.5px/1.4 "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 14.5px;
+  }
+  th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.45rem 0.9rem 0.45rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; }
+  td.num { text-align: right; }
+  .total td { border-top: 1px solid var(--border); font-weight: 600; }
+  .note {
+    background: #fff;
+    border-left: 3px solid var(--accent);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .note strong { color: var(--accent); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<h1>STORM — Sequence of LM Prompts in One Run</h1>
+<p class="lede">The strict chronological order of LM calls when STORM processes one topic. Captured from a code walkthrough on 2026-06-02.</p>
+
+<h2>The sequence</h2>
+<pre>
+┌─ STAGE 1: Knowledge Curation ─────────────────────────────────────────┐
+
+  1. FindRelatedTopic(topic)
+     → returns ~5 Wikipedia URLs for related subjects
+     → [non-LM]: HTTP fetch each URL, BeautifulSoup-parse the TOC
+
+  2. GenPersona(topic, related_TOCs)
+     → returns N personas as a numbered list
+     → [non-LM]: prepend hardcoded "Basic fact writer" → final list of N+1 personas
+
+  ──── then for EACH persona (run in parallel via thread pool) ────
+
+    REPEAT max_conv_turn times:
+
+      3. AskQuestionWithPersona(topic, persona, conv_history_so_far)
+            ↑ (falls back to AskQuestion if persona is empty)
+         → returns the next question this persona wants to ask the "expert"
+         → break early if question is "" or starts with "Thank you so much..."
+
+      4. QuestionToQuery(topic, question)
+         → returns ~3 search queries
+         → [non-LM]: retriever.fetch(queries) → web snippets
+
+      5. AnswerQuestion(topic, question, snippets)
+         → returns expert's answer (with citation markers)
+         → append (question, answer, queries, results) to conv_history
+
+└──────────────────────────────────────────────────────────────────────┘
+
+┌─ STAGE 2: Outline Generation ─────────────────────────────────────────┐
+
+  6. WritePageOutline(topic)
+     → returns draft outline from parametric knowledge alone
+     → SAVED as direct_gen_outline.txt
+
+  7. WritePageOutlineFromConv(topic, old_outline=draft, conv=all_transcripts)
+     → returns refined outline using the conversations
+     → SAVED as storm_gen_outline.txt
+
+└──────────────────────────────────────────────────────────────────────┘
+
+┌─ STAGE 3: Article Generation ─────────────────────────────────────────┐
+
+  ──── for EACH top-level section in storm_gen_outline (parallel) ────
+
+    [non-LM]: ConvToSection — gather conversation turns relevant to this section
+
+    8. WriteSection(topic, section_outline, relevant_snippets)
+       → returns section text with [n]-style citations
+
+  ──── assemble all sections in outline order → storm_gen_article.txt ────
+
+└──────────────────────────────────────────────────────────────────────┘
+
+┌─ STAGE 4: Article Polishing ──────────────────────────────────────────┐
+
+  9.  WriteLeadSection(topic, full_article)
+      → returns the summary paragraph that goes at the top
+
+  10. PolishPage(full_article_with_lead)
+      → optional dedupe pass over the whole article
+      → SAVED as storm_gen_article_polished.txt
+
+└──────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<h2>Concrete call count for our run</h2>
+<p>Run config: <code>max_perspective=2</code> → 3 personas total (default + 2), <code>max_conv_turn=2</code>.</p>
+
+<table>
+  <thead>
+    <tr><th>Prompt</th><th class="num">Times fired</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>FindRelatedTopic</code></td><td class="num">1</td><td>once per topic</td></tr>
+    <tr><td><code>GenPersona</code></td><td class="num">1</td><td>once per topic</td></tr>
+    <tr><td><code>AskQuestionWithPersona</code></td><td class="num">6</td><td>3 personas × 2 turns</td></tr>
+    <tr><td><code>QuestionToQuery</code></td><td class="num">6</td><td>one per turn</td></tr>
+    <tr><td><code>AnswerQuestion</code></td><td class="num">6</td><td>one per turn</td></tr>
+    <tr><td><code>WritePageOutline</code></td><td class="num">1</td><td>the draft</td></tr>
+    <tr><td><code>WritePageOutlineFromConv</code></td><td class="num">1</td><td>the refinement</td></tr>
+    <tr><td><code>WriteSection</code></td><td class="num">~10</td><td>one per top-level section of the outline</td></tr>
+    <tr><td><code>WriteLeadSection</code></td><td class="num">1</td><td>summary</td></tr>
+    <tr><td><code>PolishPage</code></td><td class="num">1</td><td>dedupe</td></tr>
+    <tr class="total"><td>Total</td><td class="num">~34</td><td>matches the log of our actual run</td></tr>
+  </tbody>
+</table>
+
+<h2>Two notes about the order</h2>
+
+<div class="note">
+  <strong>AskQuestion vs. AskQuestionWithPersona</strong> are alternatives — only one fires per turn. <code>AskQuestion</code> is the bare fallback when no persona is supplied; STORM's main path always supplies a persona, so in practice you only see <code>AskQuestionWithPersona</code> in real runs. That's why the inventory lists 11 prompts but only 10 fire in any given run.
+</div>
+
+<div class="note">
+  <strong>Within Stage 1</strong>, the N personas run in parallel (one thread per persona via <code>max_thread_num</code>), so the <em>wall-clock</em> order is interleaved. But within a single persona's thread, the turn-loop is strictly sequential: AskQuestion → QuestionToQuery → AnswerQuestion → next turn.
+</div>
+
+<hr>
+<p class="lede">Source: <code>stanford-storm/storm/knowledge_storm/storm_wiki/modules/</code> — see <code>knowledge_curation.py</code>, <code>persona_generator.py</code>, <code>outline_generation.py</code>, <code>article_generation.py</code>, <code>article_polish.py</code>.</p>
+
+</body>
+</html>

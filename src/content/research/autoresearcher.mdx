@@ -2,12 +2,90 @@
 title: "autoresearcher"
 date: 2026-05-24
 tags: []
-summary: "The Leaflet design: a group of agents that surveys a field, generates hypotheses (with poetry), runs experiments, writes papers — plus the readings that got us here."
+summary: "The Leaflet auto-researcher: design, framework with sample runs (STORM survey + Co-Scientist hypothesis generation on SAEs), and the readings that got us here."
 draft: false
 meta:
   is_finished: false
   opinion_strength: 7
   evidence_strength: 6
+---
+
+## autoresearcher design
+
+The Leaflet stack has three core steps. This section is the working framework — what each step actually does, the prompt sequence that drives it, and a real sample I ran on the SAE topic.
+
+### Step 1 — Survey (STORM)
+
+The survey step is Stanford's **STORM** (Synthesis of Topic Outlines through Retrieval and Multi-perspective Question Asking — [paper](https://arxiv.org/abs/2402.14207) / [code](https://github.com/stanford-oval/storm)).
+
+Given a topic string, STORM produces a Wikipedia-style article from scratch by:
+
+1. Generating writer personas (from related Wikipedia tables of contents).
+2. Simulating one multi-turn conversation per persona — each turn = ask a question, decompose into search queries, retrieve snippets, answer.
+3. Drafting an outline from parametric knowledge, then refining it using the conversations.
+4. Writing each section using the retrieved snippets, with citations.
+5. Adding a summary at the top and deduping.
+
+The exact LM-call-by-LM-call prompt sequence is here: **<a href="/research/autoresearcher/storm_prompt_sequence.html" target="_blank" rel="noopener">storm_prompt_sequence.html</a>** ← click through.
+
+#### Sample run on SAEs
+
+**Input:**
+
+```
+--topic "Sparse autoencoders in language model interpretability"
+--retriever serper
+--max-conv-turn 2 --max-perspective 2 --search-top-k 3
+```
+
+Run on Claude Code as the LM (custom dspy adapter shelling out to `claude -p`) + Serper for web retrieval. Wall-clock: ~7m45s. ~30 LM calls, 18 Serper queries.
+
+**Output:** a 36K-character Wikipedia-style article with citations to Anthropic Circuits Thread, OpenAI SAE paper, arxiv, OpenReview. Full article: **<a href="/research/autoresearcher/storm_sae_article.txt" target="_blank" rel="noopener">storm_sae_article.txt</a>**.
+
+Excerpt — the opening summary paragraph:
+
+> **Sparse autoencoders** (**SAEs**) are a class of neural network architectures that have emerged as a prominent tool in mechanistic interpretability, a subfield of artificial intelligence research that aims to open the black box of neural networks and rigorously explain the underlying computations they perform. Their primary application is the decomposition of the complex, superposed internal representations of large language models (LLMs) into components that correspond to distinct, human-interpretable semantic concepts. […]
+
+*Honest gaps for Leaflet:* STORM produces a clean article but doesn't fully match what Leaflet step 1 wants — no explicit history/timeline section, people aren't named (Olah, Cunningham, Bricken, Templeton, Nanda), datasets/open-source assets aren't enumerated, and the outline is parametric-knowledge-driven rather than literature-driven. Natural upgrades for the Leaflet variant: academic-only retriever (Semantic Scholar / paper-qa), explicit history + people + datasets sub-prompts, and a citation-precision verification pass.
+
+### Step 2 — Hypothesis generation (Co-Scientist)
+
+The hypothesis-generation step is an open-source re-implementation of Google's **AI co-scientist** ([Gottweis et al., *Nature*, 2026](https://www.nature.com/articles/s41586-026-10644-y) / [Google research blog](https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/)). The agent roster, prompts, and control flow follow the paper.
+
+The agents:
+
+- **Generation** — proposes hypotheses via literature review and simulated scientific debate.
+- **Reflection** — reviews hypotheses for novelty, correctness, and testability; deep-verifies the underlying assumptions.
+- **Ranking** — runs an Elo tournament with simulated debates between hypotheses.
+- **Evolution** — combines, simplifies, makes more feasible, or out-of-box-reimagines top-ranked hypotheses.
+- **Proximity** — embeds and clusters hypotheses to drive dedup and informative tournament pairings.
+- **Meta-review** — synthesizes system-wide feedback and the final research overview.
+
+A **Supervisor** parses the goal into a research plan and schedules agent tasks through a durable SQLite-backed queue.
+
+The exact LM-call-by-LM-call prompt sequence is here: **<a href="/research/autoresearcher/co_scientist_prompt_sequence.html" target="_blank" rel="noopener">co_scientist_prompt_sequence.html</a>** ← click through.
+
+#### Sample run on SAEs
+
+**Input:**
+
+```
+co-scientist run "test SAEs as way to interpret neural networks" \
+  --n 3 --budget-usd 2.0 --wall-clock 900
+```
+
+**Output:** the Meta-review agent's final research overview. Top-ranked hypothesis was *SAE feature-splitting as a causal concept hierarchy* — test whether features that appear at smaller dictionary sizes have greater causal effect on downstream task performance than features only appearing at larger sizes. Full overview: **<a href="/research/autoresearcher/co_scientist_sae_overview.md" target="_blank" rel="noopener">co_scientist_sae_overview.md</a>**.
+
+Excerpt — the executive summary:
+
+> The tournament converged on a single top-ranked hypothesis exploring how Sparse Autoencoder (SAE) feature-splitting hierarchies might encode causal structure within neural networks. The core idea — that features learned at smaller dictionary sizes are causally more central than those appearing only at larger sizes — is a compelling operationalization of mechanistic interpretability that bridges representation learning and causal inference. […] Acting on it could yield a principled, falsifiable framework for evaluating whether SAEs do more than describe activations — whether they actually illuminate *how* models compute.
+
+Concrete first experiment proposed: train SAEs at 3–5 dictionary sizes (512 / 2048 / 8192 / 32768 features) on a single residual-stream layer of a small open-weight LLM (Pythia-1.4B or GPT-2-XL); compute activation-patching effect sizes per feature on 2–3 downstream tasks; test whether mean effect size is significantly higher for features in the smallest SAE vs. the largest. 4–8 weeks of work with standard interpretability tooling (TransformerLens, SAELens).
+
+### Step 3 — Experimentation and writeup
+
+Detailed setup pending — this step uses Sakana's AI Scientist v2 (cloned at `~/AI-Scientist-v2/`), with ShinkaEvolve inside it where evolutionary search beats greedy iteration, and AlphaEvolve as the design reference. The hypothesis from step 2 is the input. The output is a paper + code that ran.
+
 ---
 
 ## specifics
