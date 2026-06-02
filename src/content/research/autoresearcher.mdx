@@ -12,13 +12,27 @@ meta:
 
 Before I clone Sakana's AI Scientist and run it, I want to skim every related paper — just in case something better than this already exists. Working dump below.
 
-The plan after the skim is small:
+## The stack I like
 
-1. Clone [AI Scientist v2](https://github.com/SakanaAI/AI-Scientist-v2/tree/main/ai_scientist) and get one end-to-end run going on a real research question.
-2. Run [ShinkaEvolve](https://github.com/SakanaAI/ShinkaEvolve) over Codeforces problems.
-3. Point AI Scientist at a new SAE hypothesis.
+The auto-research pipeline isn't one agent — it's three:
+
+1. **Hypothesis generation** — Google's AI co-scientist (or Stanford STORM / Edison Scientific) → produces a ranked list of research directions from the literature.
+2. **Experiment + writeup** — Sakana's AI Scientist v2 → takes one of those directions and runs the full ideation → BFTS experiments → paper pipeline.
+3. **Algorithm/code evolution** — Sakana's ShinkaEvolve → optionally evolves the code/algorithm inside the experiment step.
+
+AI Scientist v2 is built for *one hypothesis → one paper*, not for surveying. The first step belongs to a different class of tool.
 
 ---
+
+<Section color="gray" label="Hypothesis-generation agents — the missing piece">
+
+*The step that comes **before** AI Scientist. Survey the field, propose directions, debate, rank.*
+
+- **[Google — AI co-scientist (blog, Feb 2025)](https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/)** — multi-agent system designed exactly for this. Generation → Reflection → Ranking → Evolution → Meta-review. Piloted on biomedical questions with domain experts.
+- **[Stanford STORM (open source)](https://github.com/stanford-oval/storm)** — multi-agent literature-survey writer. Closest open-source thing to a hypothesis-generation pipeline. Runnable today.
+- **[Edison Scientific — platform](https://platform.edisonscientific.com/)** — research-agent platform; placeholder note until I dig in.
+
+</Section>
 
 <Section color="maroon" label="AI Scientist v2 (Sakana)">
 
