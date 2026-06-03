@@ -30,6 +30,7 @@ export const site = {
     'research/complex-systems',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
+    'fantasy/pilot',
   ] as string[],
 
   // External subscribe URL (homepage button).
