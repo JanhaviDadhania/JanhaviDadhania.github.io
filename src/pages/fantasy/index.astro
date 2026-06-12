@@ -7,7 +7,7 @@ const posts = await getPublishedEntries('fantasy');
 const groups = groupIntoClusters('fantasy', posts).map((g) => ({
   id: g.id,
   posts: g.posts.map((p) => ({
-    href: `/fantasy/${p.slug}/`,
+    href: p.data.link ?? `/fantasy/${p.slug}/`,
     title: p.data.title,
   })),
 }));

@@ -4,7 +4,7 @@ import { postComponents } from '@/lib/postComponents';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('fantasy');
+  const posts = await getCollection('fantasy', ({ data }) => !data.link);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
