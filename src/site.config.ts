@@ -31,6 +31,7 @@ export const site = {
     'data/areas-of-ai',
     'fantasy/me-and-moon',
     'fantasy/pilot',
+    'blog/design-of-my-surroundings',
   ] as string[],
 
   // External subscribe URL (homepage button).
