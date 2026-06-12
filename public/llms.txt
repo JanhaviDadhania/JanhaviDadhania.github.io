@@ -24,6 +24,7 @@ Most posts on this site are works-in-progress and explicitly flagged with a "thi
 ## Fantasy
 
 - [how to send a small satellite to the moon and take photos](https://concavemirror.to/fantasy/me-and-moon/): A practical guide to lunar CubeSat missions — mission design, propulsion, launch, trajectory, orbit insertion, imaging, link budgets.
+- [novel](https://novel.concavemirror.to/): The wiki of the epic fantasy novel — characters, places, threads. Separate Quartz site on a subdomain.
 
 ## Other
 

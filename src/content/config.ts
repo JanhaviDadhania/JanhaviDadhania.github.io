@@ -21,7 +21,14 @@ const postSchema = z.object({
 const blog = defineCollection({ type: 'content', schema: postSchema });
 const research = defineCollection({ type: 'content', schema: postSchema });
 const data = defineCollection({ type: 'content', schema: postSchema });
-const fantasy = defineCollection({ type: 'content', schema: postSchema });
+
+// Fantasy diverges: entries may be pure external links (e.g. the novel wiki
+// at novel.concavemirror.to). Link entries appear on the index but build no
+// internal page.
+const fantasy = defineCollection({
+  type: 'content',
+  schema: postSchema.extend({ link: z.string().url().optional() }),
+});
 
 // Tools have their own schema: plain-text + images, no opinion/evidence meta,
 // optional external "visit" link, and a category label.
