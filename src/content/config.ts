@@ -10,6 +10,11 @@ const postSchema = z.object({
   tags: z.array(z.string()).max(5).default([]),
   summary: z.string().optional(),
   cover_image: z.string().optional(),
+  // Per-page background image — when set, PostLayout replaces the default
+  // graph-paper bg with this image (with a paper overlay for text readability).
+  // Used for the "page wears its sources" rule (every page's bg is a collage of
+  // refs/drawings used while writing). Optional; existing posts unaffected.
+  bg_image: z.string().optional(),
   draft: z.boolean().default(false),
   meta: z.object({
     is_finished: z.boolean(),
