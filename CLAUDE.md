@@ -72,6 +72,7 @@ public/
 - **Index page clustering is explicit.** Edit `lib/clusters.ts`. Posts not in any cluster auto-fall into a synthetic `rest` cluster — won't disappear, but won't be deliberately placed either.
 - **Per-post random margins are intentional.** Don't replace with fixed values without asking.
 - **MDX + JSX + LaTeX math conflicts.** `remark-math` doesn't always preprocess `$...$` inside JSX children. If a heavily-math post can't compile inside `<Section>` blocks, fall back to `.md` (plain markdown) with `## headings` — `seldon-framework.md` is the precedent. Don't fight the parser.
+- **`bg_image: string`** (optional, on `postSchema`) — when set on a post, `PostLayout` replaces the default graph-paper bg with a fixed full-viewport image layer (the `.post-bg-layer` div) behind everything, with a paper veil at ~55% opacity on top to keep article text readable. Implements the per-page collage rule (every page wears its sources behind it). Tune the readability knob via the `.post-bg-layer::after { opacity }` rule in `PostLayout.astro`. Collage source files live under `public/images/<collection>/<slug>/sources/` and the merged collage at `public/images/<collection>/<slug>/collage.png`. First use: `/blog/leaflet-my-autoresearcher/`. Posts without `bg_image` are unaffected.
 
 ## Manual updates that are easy to forget
 
