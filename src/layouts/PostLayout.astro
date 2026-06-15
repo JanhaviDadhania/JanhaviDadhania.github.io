@@ -11,6 +11,7 @@ interface Props {
   date: Date;
   tags?: readonly string[];
   summary?: string;
+  side_images?: string[];
   meta: {
     is_finished: boolean;
     opinion_strength: number;
@@ -21,7 +22,7 @@ interface Props {
 // `tags` and `meta` are accepted in the props (schema requires them) but not
 // rendered on the post page right now — the meta block was removed per janhavi
 // (2026-05-24); keeping the fields in frontmatter so the area can be restored.
-const { slug, title, summary } = Astro.props;
+const { slug, title, summary, side_images } = Astro.props;
 
 const isUnfinished = site.unfinished_slugs.includes(slug);
 
@@ -34,6 +35,7 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
 <BaseLayout title={title} description={summary}>
   <article
     class="post"
+    data-side-images={side_images && side_images.length > 0 ? '' : undefined}
     style={`--left-margin: ${leftMargin}px; --right-margin: ${rightMargin}px;`}
   >
     {isUnfinished && <UnfinishedBar />}
@@ -46,6 +48,15 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
       <slot />
     </div>
   </article>
+
+  {side_images && side_images.length > 0 && (
+    <aside class="side-images" aria-label="reference images for this post">
+      {side_images.map((src) => (
+        <img src={src} alt="" loading="lazy" />
+      ))}
+    </aside>
+  )}
+
   <BackLink />
 </BaseLayout>
 
@@ -142,6 +153,60 @@ const rightMargin = 50 + Math.floor(Math.random() * 100) + 1;
       padding-left: var(--left-margin);
       padding-top: var(--space-2);
       border-top: 2px solid var(--ink);
+    }
+  }
+
+  /* ─── side_images column ─────────────────────────────────────────────── */
+  /* Fixed-position right column at 30% viewport width, vertically scrollable,
+     stacked images. The article body shrinks to clear it (right edge stops at
+     the column). Only on viewports wider than the mobile breakpoint. */
+  .side-images {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30vw;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1rem 1rem 6rem;
+    box-sizing: border-box;
+    background-color: var(--paper);
+    border-left: 2px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 5;
+  }
+  .side-images img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* When the post has side_images, push the post content off the right 30%
+     so it doesn't slip under the fixed column. Header and body both shift. */
+  .post[data-side-images] .post-header,
+  .post[data-side-images] .post-body {
+    margin-right: 30vw;
+  }
+  /* The header's bottom rule should also stop at the column. */
+  .post[data-side-images] {
+    overflow: hidden;
+  }
+
+  @media (max-width: 800px) {
+    /* On small screens the side column is collapsed to inline at the bottom,
+       not a fixed sidebar — phone users don't have the horizontal room. */
+    .side-images {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-left: none;
+      border-top: 2px solid var(--ink);
+      padding: 1rem var(--left-margin) 2rem var(--left-margin);
+    }
+    .post[data-side-images] .post-header,
+    .post[data-side-images] .post-body {
+      margin-right: 0;
     }
   }
 </style>
