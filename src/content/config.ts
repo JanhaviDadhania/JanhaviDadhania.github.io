@@ -10,6 +10,10 @@ const postSchema = z.object({
   tags: z.array(z.string()).max(5).default([]),
   summary: z.string().optional(),
   cover_image: z.string().optional(),
+  // Optional list of image paths rendered as a fixed-position right column
+  // at ~30% viewport width on the post page. Experimental — first used on
+  // /blog/leaflet-my-autoresearcher/ as an alternative to a bg collage.
+  side_images: z.array(z.string()).optional(),
   draft: z.boolean().default(false),
   meta: z.object({
     is_finished: z.boolean(),
