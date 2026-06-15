@@ -72,6 +72,7 @@ public/
 - **Index page clustering is explicit.** Edit `lib/clusters.ts`. Posts not in any cluster auto-fall into a synthetic `rest` cluster — won't disappear, but won't be deliberately placed either.
 - **Per-post random margins are intentional.** Don't replace with fixed values without asking.
 - **MDX + JSX + LaTeX math conflicts.** `remark-math` doesn't always preprocess `$...$` inside JSX children. If a heavily-math post can't compile inside `<Section>` blocks, fall back to `.md` (plain markdown) with `## headings` — `seldon-framework.md` is the precedent. Don't fight the parser.
+- **`side_images: string[]`** (optional, on `postSchema`) — when set on a post, `PostLayout` renders a fixed-right `aside.side-images` column at 30vw containing the listed images, vertically scrollable. The article body and header shift 30vw left to clear it. On mobile (≤800px) the column collapses inline at the bottom. Used to implement the per-page collage rule (every page wears its sources beside it). Source images live under `public/images/<collection>/<slug>/sources/`. First use: `/blog/leaflet-my-autoresearcher/`. Posts without `side_images` are unaffected.
 
 ## Manual updates that are easy to forget
 
