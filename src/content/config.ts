@@ -14,6 +14,7 @@ const postSchema = z.object({
   // at ~30% viewport width on the post page. Experimental — first used on
   // /blog/leaflet-my-autoresearcher/ as an alternative to a bg collage.
   side_images: z.array(z.string()).optional(),
+  co_author: z.object({ name: z.string(), url: z.string().url().optional() }).optional(),
   draft: z.boolean().default(false),
   meta: z.object({
     is_finished: z.boolean(),
