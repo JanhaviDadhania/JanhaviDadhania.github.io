@@ -4,6 +4,8 @@ import SocialRow from './SocialRow.astro';
 import PageNav from './PageNav.astro';
 ---
 <section class="hero">
+  <img class="home-banner" src="/images/home/banner.jpg" alt="" />
+
   <div class="ghost-text" aria-hidden="true">{site.title.toUpperCase()}</div>
 
   <div class="top">
@@ -38,6 +40,16 @@ import PageNav from './PageNav.astro';
 
 <style>
   .hero { position: relative; }
+
+  /* Janhavi's custom banner at the top of the home page. The image itself
+     carries its own padding/white-space at the bottom, so the Mirror title +
+     video block flow naturally below it without extra spacing. */
+  .home-banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 0 var(--space-4);
+  }
 
   .ghost-text {
     position: fixed;
