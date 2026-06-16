@@ -2,7 +2,7 @@
 title: "leaflet, my autoresearcher"
 date: 2026-06-14
 tags: []
-summary: "Episode 2 of Breeze Through Brain — on Leaflet, my auto-research agent, the day she went into retirement. Notes on whether models should do research, what hypothesis-driven work looks like when implementation is free, and why I still build my own framework when Fable and Codex already exist. Conflict is the answer."
+summary: "On whether models should be doing research at all, the new shape of hypothesis-driven work when implementation is free, what humans elevate to, and why I still build my own framework when Fable and Codex already exist. Conflict is the answer."
 side_images:
   - /images/blog/leaflet-my-autoresearcher/sources/photo_978.jpg
   - /images/blog/leaflet-my-autoresearcher/sources/photo_979.jpg
@@ -15,103 +15,83 @@ side_images:
   - /images/blog/leaflet-my-autoresearcher/sources/photo_986.jpg
   - /images/blog/leaflet-my-autoresearcher/sources/photo_987.jpg
   - /images/blog/leaflet-my-autoresearcher/sources/photo_988.jpg
-draft: true
+draft: false
 meta:
   is_finished: false
   opinion_strength: 9
   evidence_strength: 4
 ---
 
-<Section color="maroon" label="ep 2 of breeze through brain">
-
-This is episode 2 of *Breeze Through Brain*. The first one was on Silicon. This one is on Leaflet.
-
-Leaflet is my auto-research agent. Leaflet today rests in peace. But she will live with us forever, and she will explore the realm that normal leaflets never get to explore.
-
-We were going to start by talking about Leaflet's architecture, and *why* she was designed that way. Before that, a question I keep getting asked.
-
-</Section>
-
 <Section color="green" label="should models be doing research at all?">
 
-I have many friends who think models cannot do research the way humans can — and that making models do research is a waste of compute.
+Many of my friends think models cannot do research the way humans can — and that making models do research is a waste of compute.
 
-I'm from the school where I don't think there is anything special about a person conducting research compared to a large language model. Especially a large language model — because it works so similarly to the way human intuition does. Today the model cannot make the same leaps a PhD person would. Fine. But we should still be using Leaflet, or systems like it, to conduct research, because they take a lot of load off the researchers — especially the parts where the researcher would otherwise hire assistants or run experiments by hand.
+Let's map what research actually involves. Generating a hypothesis using background knowledge and creativity. Designing an experiment to test it, running it, and measuring the outcomes. Then reading the measurements, and either proving, disproving, or updating the hypothesis. Repeat.
 
-There's an old distinction: theorist versus experimentalist. Models can very well replicate the experimentalist today — most definitely in the computer realm. If a researcher is working on computer science itself, or computer simulations, or physics simulations, or image recognition — anything computer-based — and they are *not* leveraging the capabilities we have right now, they are wasting their precious compute, which should ideally be going into trying out multiple things. If you can run five different hypotheses at once, why would you only ever spend a month doing one?
+**Models can very reasonably handle the experimental side of this today** — designing experiments given a hypothesis, running them, and recording measurements. They can do this far more reliably, and in far greater quantity, than humans ever could.
 
-You are wasting your precious *rare* human resource trying to save silicon compute. And I am not worried about silicon. Today it *seems* scarce — but only because the models have become useful so quickly. Now that people have realised how important compute is, a huge chunk of resources is being spent on getting more good compute to us. Data centres here, data centres in the oceans, in outer space. There is not a limitation of space. There may be a limitation of the kind of chips we can make — but once a design is finalised, it can be handed to a company in China very similar to TSMC and they can mass-produce.
+On hypothesis generation: leading research labs are already using models specifically for mass hypothesis generation. Earlier, it took a human who had spent their life in a field — from undergraduate to master's to PhD — to generate hypotheses one by one. Models can be prompted to produce hundreds of them in minutes. With specialised training, the quantity and quality both improve.
 
-The clothes-design analogy: it's like the industrial era, where people said *there are so many designs of clothes that can happen, we should be using the precious resource of an artist to design incredible clothes.* Yes — Nvidia, Apple, Google design the GPUs. Once the design is finalised, you mass-produce.
+So the only stage where we might want a few humans in the loop is hypothesis generation — generating them and reviewing what comes back. At present, labs have assistants and students running experiments and measuring outcomes one by one. All of that can be automated. It is more reliable. It is faster.
 
-What people are *actually* worried about, I think, is that research has creativity in it, and creativity shouldn't be mass-produced. I agree with that. But creativity in research isn't *mass production* — creativity in research is *having more scientists trying more things*. Research is literally finding the needle in the haystack. Trying a gazillion things, and *maybe* one of them works — you never know which one will. The important thing is: are we able to try a gazillion things? Until now we did not have enough smart people to try all of them out. Hence it was such a rare field. Now if I have a hypothesis I don't want to wait six years for a researcher to come across the same thought.
-
-Every day I come to know about normal developers who are figuring out new state-of-the-art ways of doing things — simply because they had ideas and they could ask a model to run different hypotheses until one worked.
+**What people are actually worried about is that research is a creative field, and mass-producing creativity feels uncomfortable.** It is uncomfortable. But machines are coming to work alongside humans in almost every creative field. We just have to swallow that.
 
 </Section>
 
-<Section color="blue" label="the new shape of a hypothesis">
+<Section color="blue" label="the new shape of research">
 
-The way of doing research is changing too.
+If we integrate machines into research, scientists can now produce and test far more hypotheses than before. Earlier, since running experiments and writing code for hundreds of hypotheses was the bottleneck, a scientist had to choose: which one is worth testing first? Which ones aren't worth testing at all?
 
-Earlier I would put effort into getting the *correct* hypothesis — the right hunch — because there was no way to just try out all 50 of them. So I'd narrow down. Now it's different. I can have 100 hypotheses and the implementation will be handled. Even the approach toward research changes. I'd say research will be *more scientific* than ever — if science is about trying all hypotheses until we negate most of them, what better than having a lot more intelligence in hand?
+That constraint no longer exists. You can try out hundreds of hypotheses. This changes how researchers think and work.
 
-That was about *implementing* a hypothesis. Machines are doing that very well now — they can code and talk to us in our language. But we are also automating the *generating* part. Sakana AI, the leading Japanese auto-research startup, is focused precisely on implementation. A tiny fraction of auto-researchers also automate hypothesis generation. I have built that part and used it personally.
+What it opened up for me personally: I can explore a lot more than I would have before. Earlier I would read ten papers to understand one topic. Now the model generates ten hypotheses for me — and they're already precise. I don't have to read a hundred papers to surface them. I have the ten, and sitting with the model I can understand what's involved.
 
-What it opened up for me: I can explore a lot more than I would have before. Earlier I would read 10 papers to understand one topic. Now the model is generating 10 hypotheses for me — and they're already precise. I don't have to read 100 papers to generate them. I have the 10, and sitting *with* the model I can understand what is involved.
-
-What does it take to come up with a hypothesis? For me, it has always been this: at the same time I am exploring a bunch of papers — studying art, studying language, studying physics — I take a concept from one field and try to apply it to another. Most recently I have been applying everything in complex systems to all the other fields I'm studying. That is where my most interesting hypotheses come from. I've watched other scientists do the same — they were studying some field, they went and applied it to a completely new one, and it just worked. The world is more interconnected than we give it credit for.
-
-In that game, what better than having the world's best generalist with you?
-
-I would not call a model the world's best generalist. You still have to point it in the right direction for it to generate the right hypotheses. You actually have to sit with it and say: *this is what I want, this is the direction I want to explore.* Only then will it go and generate.
-
-Even then — we're talking now versus two years from now. Two years ago models couldn't even implement properly; people had to be heavily involved. Today I can almost forget about implementation. And if that's true for implementation, my job now is hypothesisation. How long before I can forget about creating hypotheses too — and just focus on the fields I actually care about? Rather than figuring out how to grow in a field, I'd be saying: *hey, can you please figure something out in the medical field that would be revolutionary for humans* — and it would just fucking do it.
+What does it take to come up with a hypothesis? For me it has always been this: I'm exploring a bunch of papers simultaneously — studying art, language, physics — and I take a concept from one field and try to apply it to another. Most recently I've been applying ideas from complex systems to everything else I'm studying. That's where my most interesting hypotheses come from. I've watched other scientists do the same — they were studying some field, went and applied it to a completely different one, and it just worked. **The world is more interconnected than we give it credit for.**
 
 </Section>
 
 <Section color="pink" label="what humans elevate to">
 
-I'm hopeful that when that time comes — when models can figure it out — humans will have elevated to something on an even higher level.
+I'm hopeful that when that time comes — when models can figure out the hypothesis generation too — humans will have elevated to something on an even higher level.
 
-The role of us humans, I always think, is to discover problems. There were a lot of other humans who would find solutions to those problems. But our job nevertheless is to discover more and more problems. The better the problems we find, the better our race becomes. That is the most defining feature, if anything at all, of how I would consider a civilisation to be advanced — *they know about problems we can't even fathom.*
+The role of us humans, I always think, is to discover problems. There are plenty of other humans who find solutions to problems. But our job is to discover more and more problems. The better the problems we find, the better our civilisation becomes. **That is the most defining feature of an advanced civilisation — they know about problems we can't even fathom.**
 
-But then — you have a problem, you have a bunch of possible solutions, you go in five different directions and you have to make a choice. There's no real mathematical way to get the probability of each one working.
+But then: you have a problem, you have a bunch of possible solutions, you go in five different directions and you have to make a choice. There's no real mathematical way to get the probability of each one working.
 
 That's where I think world models come in. People run world-level simulations. *Here are five possible ways of dealing with this problem. Run a simulation for all five.* Then you can see the outputs.
 
-What level of problems am I talking about? Say we discover a vaccine for polio. We want to understand: what are the impacts of curing polio around the world, when given to everyone? A world model lets us simulate. There will be a class that will accept it, a class that won't. Then *that* will be a problem — one we could not have previously fathomed. World models bring those up.
+What level of problem am I talking about? Say we discover a vaccine for polio. We want to understand: what are the impacts of curing polio around the world, when given to everyone? A world model lets us simulate. There will be a class that accepts it, a class that won't. Then *that* will be a problem — one we could not have previously fathomed. World models bring those up.
 
-You're making an assumption that this is possible. Sure. But that's also the same ground we stood on before — *all of this would be nice if intelligence simulation is possible*. And we are at a point now where it might be. It's a hypothesis. If it is possible, we will see.
+You're making an assumption that this is possible. Sure. But that's the same ground we stood on before — *all of this would be nice if intelligence simulation is possible.* And we are at a point now where it might be. It's a hypothesis. If it is possible, we will see.
 
-LLMs are very good at simulating a certain thing given a role. They are role-playing models. You give them the right role and they play. So if we can identify all the kinds of different roles that exist in the world, we can create role-playing models for each. Give them the same problem shape. See how each one responds.
+LLMs are very good at simulating a given role. They are role-playing models. You give them the right role and they play. So if we can identify all the kinds of roles that exist in the world, we can create role-playing models for each. Give them the same problem. See how each one responds.
 
 I would still call this an unsolved problem. Right now. Hopefully someday.
 
-Do you remember the *Foundation* novels? Hari Seldon. The whole book is on this — Hari Seldon predicts the movement of masses, but in book two they find characters who *break through* his frame. Characters who make all his predictions untrue. Sounds similar to weather forecasting in a way. We are optimistic about this.
+Do you remember the *Foundation* novels? Hari Seldon predicts the movement of masses, but in the second book they find characters who break through his frame entirely — characters who make all his predictions untrue. Sounds similar to weather forecasting in a way. We are optimistic about this.
 
 </Section>
 
-<Section color="maroon" label="why build your own framework when fable exists?">
+<Section color="maroon" label="why build your own framework when Fable exists?">
 
 The actually practical question. When I started doing this I kept asking myself: I can just give a good detailed prompt to Fable to solve a problem. Why on earth would I build my own auto-research framework? Fable is awesome. Fable rests in peace too. So why?
 
-Here is the reason I would still want a framework, even with the best model:
+Here is the reason I would still want a framework, even with the best model available:
 
 **A framework's job today is to allow productive conflict to happen.**
 
-Each time there is a conflict between agents, some new information is learned — something that was previously unknown, or at least unconceived. Can the framework allow that?
+Each time there is a conflict between agents, something new is learned — something previously unknown, or at least unconceived. Can the framework allow that?
 
-Fable, the model itself, is good. The Anthropic CLI creates a very good conflict for the model to solve — that's why it works so well. But the kind of agents the standard CLIs have — they're singular. They do not create conflicts. They have some *algorithmic* conflicts (you have to read a file before you write to it, that kind of rule), but those are the framework forcing simple checks. The Claude Code instance itself behaves like one person. There isn't much internal conflict until you prompt it to have some. You can prompt almost any decent model into the same shape — that's not the differentiator.
+Fable, the model itself, was good. The Anthropic CLI creates a very good conflict for the model to solve — that's why it works so well. But the agents in standard CLIs are singular. They do not create conflicts. They have some algorithmic conflicts (you have to read a file before you write to it, that kind of rule), but those are the framework forcing simple checks. The Claude Code instance behaves like one person. There isn't much internal conflict until you prompt it to have some. You can prompt almost any decent model into the same shape — that's not the differentiator.
 
-Before Fable came on, the model I relied on for anything important — anything where I was *ideating*, not just implementing — was ChatGPT 5.5 Pro. An extremely good ideation model. After Fable went away and I had to go back to Opus 4.8 (I'm fond of Opus, don't get me wrong) — the difference is: Opus, I need to tell what to do. Fable, I was willing to listen to. Its judgment you could trust.
+Before Fable, the model I relied on for anything important — anything where I was *ideating*, not just implementing — was ChatGPT 5.5 Pro. An extremely good ideation model. After Fable went away and I had to go back to Opus 4.8 (I'm fond of Opus, don't get me wrong) — the difference is this: Opus, I need to tell what to do. Fable, I was willing to listen to. Its judgment you could trust.
 
-A friend pushed back here: *the model is awesome — but is it the model's capability, or is it the framework around it doing the work?* That's a good distinction. There are two components:
+A friend pushed back: *the model is awesome — but is it the model's capability, or is it the framework around it doing the work?* That's a good distinction. There are two components:
 
 1. **Model capability.** Some models are simply better generalists, better ideators, better judges.
 2. **Framework capability.** If the framework lets a model write a hypothesis, walk away, come back two steps later, and review what it wrote — that's a property of the *framework*, not the model.
 
-When we are ideating an auto-research agent, both matter. The same models can sit inside very different frameworks, and the framework that enables explicit conflict will outperform.
+When building an auto-research agent, both matter. The same models can sit inside very different frameworks, and the framework that enables explicit conflict will outperform.
 
 So the answer to *why build my own?* is: take the same models the CLIs use, but build a framework that enables conflict more deeply than they do. Fable and Codex have it, but constrained. Make ours less constrained.
 
@@ -119,33 +99,29 @@ So the answer to *why build my own?* is: take the same models the CLIs use, but 
 
 <Section color="green" label="frameworks compound as models improve">
 
-The second reason to keep building.
+Imagine three agents working together to produce one output — say a developer, a security agent, and a QA agent — going through 50 conflicts before they're all happy with the result. A better model would likely have fewer conflicts on the same task. Or it might have more, depending on what's being done — but the point is: **every single argument in the system will be of higher quality than it was before.**
 
-Imagine three agents working together to produce one output — say a developer, a security agent, and a QA agent — and they have to go through 50 conflicts before they're all happy with the final result. A better model would likely have *fewer* conflicts on the same task. Or it might have *more* conflicts, depending on what's being done — but the point is: every single argument in the system will be of higher quality than it was before.
+My usual setup in software is developer → security agent → QA. The developer writes code; the security agent checks for issues; the loop runs until all three are satisfied.
 
-Right now, in software, my usual setup is developer → security agent → QA. The developer writes code; the security agent checks for issues; the loop runs until all three are happy.
-
-With a better model, what happens? The code that is first-hand written is already much more secure than what a junior agent would have written, because the model has internalised: *in this world, security matters.* So the code is already cleaner. Now when it goes to the security agent — which is also a better model — security doesn't just check for basic things. It checks for extremely complicated stuff. Maybe more conflicts, maybe fewer. The point is every single argument is at a higher quality than before.
+With a better model, what happens? The code written in the first pass is already much more secure than what a junior agent would produce, because the model has internalised: *in this world, security matters.* So the code arrives cleaner. When it goes to the security agent — which is also a better model — that agent doesn't just check for basic things. It checks for extremely complicated stuff. Maybe more conflicts, maybe fewer. The point is every argument is at a higher quality than before.
 
 The same system magically appears to start working better — because the *people* in it (if we consider agents to be people) became more thoughtful.
 
 </Section>
 
-<Section color="gray" label="when do you NOT want conflict?">
+<Section color="gray" label="when do you not want conflict?">
 
-A reasonable counter — are there tasks that explicitly require *less* conflict?
+A no-conflict system is a hierarchical system. The coder agent gives the code, the PR agent just takes and pushes it, and that's all it does. It never questions what the code is or where it's being pushed.
 
-A no-conflict system is a hierarchical system. The coder agent gives the code, the PR agent just takes and pushes it, and that's all that agent does. It never questions what the code is, never questions where it's being pushed.
+Maybe you can think of examples where that's appropriate, but they have to be very specific.
 
-Maybe you can think of some examples, but they have to be very specific.
+Say I want to post on socials about a security breach. My developer and PR agents go figure out the source of the breach, fix it, and write a report. When that report goes out to social, you might think: the social agent's job is just to relay what they said.
 
-Say I want to post on socials about a recent fuck-up — a security breach happened, and I want to post that this thing happened. Sad. My developer and PR agents will go figure out the source of the breach, fix it, and write a report. When that report goes out to social, you might think: the social agent's job is just to report what they said.
-
-But even *here* — think what a conflict would bring. The social agent would say: *hey, if you post it exactly like this, it's going to sound really bad. Maybe make these changes. And we can release a longer note for people who want the full thing.* That's a productive conflict. It improves the outcome.
+But even here — think what a conflict would bring. The social agent would say: *hey, if you post it exactly like this, it's going to sound really bad. Make these changes. And release a longer note for people who want the full story.* That's a productive conflict. It improves the outcome.
 
 I'm having a hard time thinking of many scenarios where I would *not* want conflict. In most situations conflict creates better outcomes.
 
-And here is a thought I keep coming back to: imagine a state ruled by a dictator. That dictator wants the population to have no conflicts — to just follow whatever the constitution says. That is the only kind of system that wants no conflict. Everywhere else: you want conflict.
+**Imagine a state ruled by a dictator. That dictator wants the population to have no conflicts — to just follow whatever the constitution says. That is the only kind of system that wants no conflict. Everywhere else: you want conflict.**
 
 </Section>
 
@@ -153,28 +129,20 @@ And here is a thought I keep coming back to: imagine a state ruled by a dictator
 
 Having conflict is one thing. The *structure* of it is another.
 
-I have been using Leaflet for the past week, and I'm beginning to find my own answers to: *when do I want conflicts? how much? when exactly do I want them to resolve?* The artists talk about their process of getting ideas. This is what I'm finding here. Not the agent's process — *my* process. The carbon–silicon mingling.
+I have been using Leaflet for the past week, and I'm beginning to find my own answers to: *when do I want conflicts? how much? when exactly do I want them to resolve?* Artists talk about their process of getting ideas. This is what I'm finding here. Not the agent's process — *my* process. The carbon–silicon mingling.
 
-Drawing the line is everything. We want conflicts, but we want them to resolve at some point. A conflict that never resolves is also useless. If models are extremely capable but also extremely adamant, the security agent can keep finding new stuff forever. The loop just never ends. There needs to be a point where everyone is like — *okay, you don't need to keep going.* Where do you draw it? Maybe 90%. *I'm happy at 90%.*
+Drawing the line is everything. We want conflicts, but we want them to resolve at some point. A conflict that never resolves is useless. If models are extremely capable but also extremely adamant, the security agent can keep finding new issues forever. The loop never ends. There needs to be a point where everyone says — *okay, we don't need to keep going.* Where do you draw it? Maybe 90%. I'm happy at 90%.
 
-Here is the frame I have landed on for my own research:
+Here is the frame I've landed on for my own research:
 
-1. I ask the agent to go and do a **survey** of the field.
-2. The agent and I **sit together and read it**. At this point we are not generating hypotheses, not drawing conclusions, not questioning. Just reading.
-3. We go to **hypothesis generation**. The agent generates first. I review. It generates again. After some rounds we have a list.
+1. I ask the agent to do a **survey of the field.**
+2. The agent and I **sit together and read it.** At this point we are not generating hypotheses, not drawing conclusions, not questioning. Just reading.
+3. We go to **hypothesis generation.** The agent generates first. I review. It generates again. After some rounds we have a list.
 4. **I rank the hypotheses.**
-5. After the ranking is done, I **start experimenting** — test the first hypothesis. Based on what comes back, update the rest.
+5. After ranking, I **start experimenting** — test the first hypothesis. Based on what comes back, update the rest.
 
-That's my frame. Yours could be different. Maybe your stage one is: just ask the model for a hypothesis, test it, get the conclusion, and *that's* where you start to think.
+That's my frame. Yours could be different. Maybe your stage one is: just ask the model for a hypothesis, test it, get the conclusion, and that's where you start to think.
 
-That's not how the agent's process should be designed — that's the carbon–silicon mingling I want for *me*. Where I want the human in the loop. All the scientists from now on are going to have their own way to do research with agents. These people are so smart. Let's see what kind of processes they come up with.
-
-</Section>
-
-<Section color="pink" label="rest in peace, leaflet">
-
-That's the episode.
-
-In future episodes we talk about all the things we find when we run research here. Leaflet, rest in peace. You will live with us forever.
+That's not how the agent's process should be designed — that's the carbon–silicon mingling I want for *me.* Where I want the human in the loop. All the scientists from now on are going to have their own way to do research with agents. These people are so smart. Let's see what kind of processes they come up with.
 
 </Section>
