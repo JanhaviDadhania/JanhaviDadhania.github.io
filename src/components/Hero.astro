@@ -41,14 +41,21 @@ import PageNav from './PageNav.astro';
 <style>
   .hero { position: relative; }
 
-  /* Janhavi's custom banner at the top of the home page. The image itself
-     carries its own padding/white-space at the bottom, so the Mirror title +
-     video block flow naturally below it without extra spacing. */
+  /* Janhavi's custom banner at the top of the home page.
+     Breaks out of the home .container (which is 90% width + 10vh top padding)
+     to sit flush against the viewport edges and top. Image carries its own
+     internal padding so content below it gets natural breathing room. */
   .home-banner {
     display: block;
-    width: 100%;
+    width: 100vw;
     height: auto;
-    margin: 0 0 var(--space-4);
+    /* Escape horizontal width constraint: pull margins outward by half the gap
+       between viewport (100vw) and container (~90% of viewport). */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    /* Cancel container's top padding so banner top hugs viewport top. */
+    margin-top: -10vh;
+    margin-bottom: 0;
   }
 
   .ghost-text {
