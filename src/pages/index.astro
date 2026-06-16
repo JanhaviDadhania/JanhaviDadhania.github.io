@@ -53,7 +53,8 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 });
 ---
 <BaseLayout>
-  <main class="container">
+  <div class="home-bg" aria-hidden="true"></div>
+  <main class="container glass">
     <Hero />
 
     <section class="journal">
@@ -91,15 +92,37 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 </BaseLayout>
 
 <style>
+  /* Janhavi's moodboard as the home-page background. Fixed full-viewport,
+     stays put while content scrolls (apple-like). Other pages unaffected. */
+  .home-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('/images/home/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
   .container {
     width: 90%;
     max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 10vh 0;
+    margin: 5vh auto;
+    padding: 6vh 4vw;
     flex: 1;
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  /* Apple-style frosted glass card so the colorful bg doesn't drown text. */
+  .container.glass {
+    background-color: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10);
   }
 
   .journal {
