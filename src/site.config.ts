@@ -10,6 +10,7 @@ export const site = {
   // Up to 8 fit in the journal block — anything beyond that is silently
   // ignored. Slugs that don't match a published entry are silently dropped.
   featured: [
+    'blog/leaflet-my-autoresearcher',
     'tools/robot-io',
     'blog/if-plato-had-notebooklm',
     'tools/bismuth',
@@ -23,11 +24,9 @@ export const site = {
   unfinished_slugs: [
     'blog/the-map-of-the-agent-universe',
     'blog/how-i-organise-my-agents',
+    'blog/how-i-read-and-write',
     'research/seldon-framework',
-    'research/ai-neuroscience',
     'research/autoresearcher',
-    'research/consciousness',
-    'research/complex-systems',
     'data/areas-of-ai',
     'fantasy/me-and-moon',
     'fantasy/pilot',

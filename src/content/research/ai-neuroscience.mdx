@@ -10,27 +10,19 @@ meta:
   evidence_strength: 8
 ---
 
-A French doctor in 1861 had a patient who could speak only one word, "Tan". He could perfectly understand speech but could speak nothing but "Tan". Doctor checked his brain after he died and found his left frontal lobe damaged. Doctor concluded that area controls speech production in humans. It is called Broca's area.
+I have spent half of my weekends browsing books in church street bookstores in bangalore. I could go on for four five hours picking titles, reading backcovers, author stories and collecting everything I wanna have.
 
-<img src="/images/research/brain-areas-broca-wernicke.jpg" alt="Brain diagram showing Broca's area, Wernicke's area, primary motor and sensory areas, primary auditory area, and primary visual area" style="max-width: 100%; height: auto; display: block; margin: 1.5rem auto;" />
+During one of these visits I found **"The Web of Life"** by Fritjof Capra. I read the book in a month and since then I started studying complex systems. Complex systems seem to like answer to everything. Newton's Mechanics, relativity, number theory all seem subsets of this subject. I got lusted away by complex systems :p I got into habit of trying to model everything as complex system.
 
-For years, neuroscientists studied brain using this rudimentary method. They will get lucky with patients who have parts of brains damaged; they would test those people and come across such bizarre quirk and conclude that part is responsible for so and so.
+I am AI engineer by profession, I have built and trained transformer models since before chatGPT came. I now wanted to solve these deep models using complex system theory. Half of my active research projects are on this.
 
-Almost till 1970ish. Right now we make people do things like speak and take their MRI scans to point brain activity regions.
-
-We can't freely turn on/off people's brains and test hypothesis. But we can do it on neural networks.
-
-That is what AI neuroscience is about. Engineers probe neural networks, again and again at different areas and check which part is doing what.
-
-<iframe width="100%" height="400" style="max-width: 720px; display: block; margin: 1.5rem auto; aspect-ratio: 16/9;" src="https://www.youtube.com/embed/ba-HMvDn_vU" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+While reading on "solving neural networks" I came across Mech Interp community. I sat and scoured neuropedia in 4 hours; and noted down everything I explored along with it here below.
 
 ---
 
-<Section color="maroon" label="Act 1 — try to read neurons">
+You too must have gotten this thought — *"can we not map each of the concepts we know to individual neurons? Brain experts have already figured out which areas of the brain are responsible for speech, which ones for creative thinking, which ones for vision — then it must be possible to figure out what is responsible for the color red, what for the word notebook."*
 
-*The first attempt was the most natural one.*
-
-If a neural network is made of neurons, and we want to know what it is doing, the obvious move is to look at what each neuron responds to. This was the dominant approach for vision models in the 2010s — feature visualisation, activation maximisation, finding "the cat neuron." When large language models arrived, OpenAI tried the same thing on them.
+And if neural networks are almost similar to brains, then the same must be possible for neural networks too. And we don't even have any issues probing neural networks again and again; we could not do the same for brains. Doctors had to wait for the perfect patient to come, who has some part of the brain damaged. We can on purpose damage different parts of neural networks and check what works and what doesn't. It seemed like a jackpot. We should be able to figure it all out quickly. Some one must have tried it. Yes, OpenAI did.
 
 In May 2023, **OpenAI** published *"Language models can explain neurons in language models"* (Bills et al., 2023). They used GPT-4 to look at the activations of neurons in GPT-2 and write English explanations of what each neuron seemed to fire for. They scored the explanations by asking GPT-4 to predict the neuron's activation on held-out text using only the explanation, and seeing how close that prediction came to the real activation.
 
@@ -43,21 +35,15 @@ So why not? Why do neurons mix concepts?
 - Paper: [Language models can explain neurons in language models (OpenAI, 2023)](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html)
 - Code + data: [openai/automated-interpretability](https://github.com/openai/automated-interpretability)
 
-</Section>
+From this we figured that one neuron doesn't do one thing — it is doing a bunch of things, but it is also not doing anything by itself. Functionality is spread across. A few neurons together are responsible for a feature, and one neuron is responsible for lots of things, but only partially. So we designed an experiment to take this into account and figure out what all partial concepts a neuron represents.
 
-<Section color="green" label="Act 2 — superposition explains the mess">
-
-*Why each neuron is doing many jobs at once.*
-
-The cleanest answer came from **Anthropic** the same year. In their 2022 paper *"Toy Models of Superposition"* (Elhage et al.), they showed that when a network has more features it wants to represent than it has neurons to dedicate to each one, it packs multiple features into the same neuron — provided those features are sparse enough to rarely co-occur.
+In their 2022 paper *"Toy Models of Superposition"* (Elhage et al.), they showed that when a network has more features it wants to represent than it has neurons to dedicate to each one, it packs multiple features into the same neuron — provided those features are sparse enough to rarely co-occur.
 
 This is *superposition*. It is the reason individual neurons are hard to interpret: each one is a linear combination of several actual features. Polysemanticity isn't noise. It's compression.
 
 Once you have this framing, the interpretability problem changes shape. The right unit of analysis isn't the neuron — it's the *feature direction* in activation space. You need a way to recover those feature directions from the superposed soup the neurons present.
 
 Paper: [Toy Models of Superposition (Anthropic, 2022)](https://transformer-circuits.pub/2022/toy_model/index.html)
-
-</Section>
 
 <Section color="blue" label="Act 3 — SAEs separate the features">
 
@@ -79,6 +65,8 @@ SAEs are the current state of the art for separating superposed features. They a
 - [Leask et al., *SAEs Do Not Find Canonical Units of Analysis* (2025)](https://arxiv.org/abs/2502.04878)
 - Sparse coding origins: [Olshausen & Field, *Emergence of simple-cell receptive field properties by learning a sparse code for natural images* (Nature, 1996)](https://www.nature.com/articles/381607a0)
 - Open SAE suite: [Gemma Scope (DeepMind, 2024)](https://arxiv.org/abs/2408.05147) — 400+ SAEs on Gemma 2
+
+This experiment worked. Now we have a way to separate the concepts. Another sister experiment was to trace the circuit — figuring out the exact path from input to output.
 
 </Section>
 
@@ -117,8 +105,6 @@ _(If there is an earlier or more specific "verbaliser" paper I'm missing here, j
 </Section>
 
 <Section color="blue" label="Act 6 — what I tried">
-
-*Enough reading. I wanted to run the loop end-to-end myself, on my own machine.*
 
 So I picked the smallest open model that still has interesting middle layers — **Gemma 2 2B** — and ran the whole pipeline on an M3 MacBook. No cluster, no remote GPU. The point was to feel where each step actually pinches.
 
@@ -216,6 +202,26 @@ The field's main open problems are documented in *"Open Problems in Mechanistic 
 - [LessWrong / Alignment Forum](https://www.alignmentforum.org/) — where current debates happen.
 - [Distill Circuits thread](https://distill.pub/2020/circuits/) — pre-LLM mech interp on vision models. Origin of the modern toolkit.
 - [ARENA curriculum](https://arena.education/) — practical curriculum to learn the tools.
+
+**An interesting watch:**
+
+<iframe width="100%" height="400" style="max-width: 720px; display: block; margin: 1.5rem auto; aspect-ratio: 16/9;" src="https://www.youtube.com/embed/ba-HMvDn_vU" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+
+## How brains were first read
+
+A French doctor in 1861 had a patient who could speak only one word, "Tan". He could perfectly understand speech but could speak nothing but "Tan". Doctor checked his brain after he died and found his left frontal lobe damaged. Doctor concluded that area controls speech production in humans. It is called Broca's area.
+
+<img src="/images/research/brain-areas-broca-wernicke.jpg" alt="Brain diagram showing Broca's area, Wernicke's area, primary motor and sensory areas, primary auditory area, and primary visual area" style="max-width: 100%; height: auto; display: block; margin: 1.5rem auto;" />
+
+For years, neuroscientists studied brain using this rudimentary method. They will get lucky with patients who have parts of brains damaged; they would test those people and come across such bizarre quirk and conclude that part is responsible for so and so.
+
+Almost till 1970ish. Right now we make people do things like speak and take their MRI scans to point brain activity regions.
+
+We can't freely turn on/off people's brains and test hypothesis. But we can do it on neural networks.
+
+That is what AI neuroscience is about. Engineers probe neural networks, again and again at different areas and check which part is doing what.
 
 ---
 
