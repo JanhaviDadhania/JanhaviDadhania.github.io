@@ -1,43 +1,88 @@
 ---
 title: "How I Organise My Agents"
-date: 2026-05-19
-tags: [agents, workflows, bismuth]
-summary: "How I split workflows, agents, and complex researchers — and why I prompt every agent to keep a folder for learning new skills on its own."
+date: 2026-06-18
+tags: [agents, bismuth, gtd, memex]
+summary: "Version one of how I organize my digital and personal life with a small team of agents — Bismuth at my side, Leaflet in the lab, an evaluation agent keeping me honest — and the old GTD system that finally works now that maintenance costs nothing."
 draft: false
 meta:
   is_finished: false
-  opinion_strength: 6
+  opinion_strength: 7
   evidence_strength: 4
 ---
 
-In my mind, I separate **workflows** and **agents**. And also have a third category of **complex researchers**. I took this organisation schema from Anthropic's [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents).
+Earlier, when AI wasn't here, I worked very differently. Now I have a small team of agents, and the way I do everything has changed, abruptly. I care about *how* I make these changes. I have become more optimist about having organisation system to structure everything I consume and everything I produce. I had the system earlier, but the maintainance was so high I had given up on having one. I was okay working with messy setup earlier because the manual upkeeping of it was too much. After almost two years break from having a system, I now have it again because I now have AI. Not just a sysetm but I am producing more than 3 times the ideas than earlier becasue I have things setup to channel it at proper places, I don't need to do it.
 
-## Workflows
+This is **version one**. It's mid-2026. I'll keep editing it as the surroundings change, and they will.
 
-On a high level, workflows are rigidly built systems with prompts. I have a workflow that generates carousels from the idea I give it. It passes through a bunch of chained prompts and returns a carousel at the end. I use this to get the mundane work of creating carousels for my social media posts done.
+<Section color="maroon" label="the organisation of everything I consume and produce">
 
-## Agents
+I have a folder for all the projects I am working on. It keep it on my laptop but keep pushing it on cloud. So it is always accessible from anywhere. I have a folder for social-media, for research, for my novel. Everything on that project lives inside its folder. I create a specific reference folder in every project to store all the PDFs, images, audio files, longer texts that I need for the project; plus a text file that has the index and summary of all data in it for easy search. I have a txt file describing the project, listing what I imagined successfull project will look like, what gave me motivation to start this project, what I want to do. And there will be file storing all the idea and data. These folders usually never go beyond few MBs, sometimes just KBs containing everything I have done on the project. Then there are somedaymaybe lists, everything I want to do but don't have time or money or circumstances to do it right away, so I store it in a sepearte list. Then few other lists like toread, checklists for every week etc.
 
-Agents are for solving problems that I can't define rigid steps for. My personal assistant [Bismuth](/tools/bismuth/) is a two-agent system. It writes down and organises everything I produce — todos, ideas, project visions, goals, blogs, schedule, shopping list, people I follow, to-read, book reviews, and much more. It listens to me from chat, camera, microphone, and a Dropbox folder.
+I worked with this system for about two years, but the maintainance headache was too much that I decided to throw the system and be okay with the mess. I had to make sure the article I liked on tweeter goes to the right project folder, the screenshot I took goes in the reference folder, the blog I wrote is commited and pushed to upstream. I receive ideas from social media, from whatsapp messages, while talking to a friend, while reading a book, while listening to a podcast, I needed to manually put it in the system. I was spending too much time in this grunt work.
 
-I have set up a very high-level prompt of what I want it to do; the agent figures out how it will get it done. I do not explicitly tell it to use terminal for this, browser for that, save file for this, get an STT Python library for this, use camera for this. Instead I simply give it access to all the tools.
+Now [bismuth](/tools/bismuth/) does it all. I can text bismuth, send it image, record audio message, give it a link, send it pdf, and even chat with it and it will make sure it lands at the right place. If I am brainstorming bismuth makes sures it is written down in the file and placed in the right folder. This surity that everything I produce will always land in a system frees up so much space from my head. Earleir half of my head was thinking about making sure If I have thought something, i also need to write it down and publish to my blog. That still happens but I don't do it manually. I just produce the idea, write a blog and bismuth makes sure the rest of the work is done.
 
-One drawback of having an agent over chained prompts is that **agents are unpredictable**. Prompts take one decision at a time, which can be logged; agents take 20 decisions at a time without logging.
+</Section>
 
-Recently I added screen, motor (hand), speaker, microphone, and camera to Bismuth. I texted Bismuth the path to my [hardware CLI app](/tools/robot-io/) and said: I want you to have these 5 additional sensors and output channels, integrate them into yourself. That was it. Ten minutes later, Bismuth had all of it wired in. I don't know every step it took to get there — I couldn't have audited 20+ decisions in 10 minutes if I'd tried.
+<Section color="green" label="self updation">
+when I change my workflow, bismuth can update its workflow too. It can edit its own self. A month later if I decide I now want bismuth to talk to me from twitter, bismuth can change its own self, update its code and prompt and on restart will then start working in its new way. When I gave bismuth screen and microphone and speakers as new features, all I had to do was tell it that this are the new output devices I want you to have, from now on whenever available you can use them to communicate with me. It updated its own code and prompts and workflow to incorporate it. One of the best features(inspired from https://teamofsilicons.com/) that takes all the load away from me, once started bismuth takes care of himself.
 
-## Complex researchers
+</Section>
 
-The third category sits in between workflows and agents — multi-step research systems where the output is a write-up rather than an action. They take a question or a theme, dig through a corpus, follow chains of related ideas, and return something readable. The loop is narrower than a general agent's: read, traverse, write.
+<Section color="green" label="I had been using bismuth for...">
+Everything I do on my laptop, I do through [Bismuth](/tools/bismuth/).
 
-[Seldon](/tools/seldon/) is my version. It treats my notes as a graph of ideas, runs a traversal algorithm to a chosen depth, and asks an LLM to write an article from the resulting sub-graph. Different traversal strategies should produce differently shaped articles — that's the running experiment.
+I update this website through it. I write my novel through it, I don't hand type my novel, I get my best ideas while walking so I just talk to bismuth. It saves my to-do lists, my half-formed social-media ideas, the dresses I want to buy. The next time, when I want to brainstorm or actually work, it pulls back every relevant thing I made on the days before.
 
-## Self-updation
+It goes onto LinkedIn and finds people worth reaching out to. It messages them on my behalf, reads their replies, and keeps the whole sheet, who we contacted, what they said, what stage we're at, who looks most promising, where my time is best spent. I mostly talk to it from **Telegram.** When something isn't urgent, I drop it into a **folder it watches**, and it gets to it. It tracks my reminders.
 
-I took the self-updation idea from [team-of-silicons](https://github.com/unlikefraction/team-of-silicons). I always prompt my agents to have a directory for learning new skills, so they can self-update. The hardware integration above is the cleanest example of this I have: I never told Bismuth *how* to talk to a webcam, a servo, or a speaker. I gave it the CLI, told it what I wanted, and it figured out the rest — wrote new skill files into the skills folder, and they have stayed there. Next time Bismuth needs the camera, it doesn't have to learn again.
+I gave bismuth a screen, speaker, microhphone. I am not actively using screen and speaker for now, becasue it is a tiny screen attached to arduino and I haven't explored making bismuth talk to me directly. But I will be exploring that in next coming months. right now, it sometimes draws me smily on screen, winks sometime, and make r2d2 sounds.
 
-**The agent updates itself permanently.**
+</Section>
 
-## Future work: automatic recovery
+<Section color="pink" label="coffee-chat mode">
+There's a second mode I switch Bismuth into when I want to go deep on one thing, usually when I'm writing and researching.
 
-My current agents can adapt to a changing environment by learning newer skills, like animals adapting. But they yet cannot self-recover. If part of an agent is randomly deleted, it cannot regenerate. I plan to add this feature — figuring out what is the best way to implement it.
+I make progress on thing by chatting about it. I throw a question, I get an answer, I push on it, I answer back, and we walk forward. So when I want this, Bismuth dumps the assistant context out of its head and keeps only what's relevant to the one thing we're working on. It stops being a secretary and becomes a partner across the table, in the evening, with a coffee. I can this bismuth's coffeechat mode. Bismuth is writing everythign down at right places while also talking to me; unlike me bismuth can do two things in parallel, it can spawn writer works while talking to me. I alwasy had to sit and write things down ealier after a good brainstorming, but now it is taken care of as I am talking.
+</Section>
+
+<Section color="green" label="leaflet, my autoresearcher">
+My second agent is [Leaflet](/blog/leaflet-my-autoresearcher/), my auto-researcher.
+
+It is my auto-research setup. I started working on Mechanistic Interpretability project wiwth bismuth sometime ago. Then I wanted to run lot more experiments in parallel than one at a time. I set up a loop to run experiments. Then I set up an agent to generate hypothesis. And then I set up an agent to do literature reviews. Those are the three leaflets of the leaflet agent.
+
+The bismuth took care of organising everything I produced, leaflet takes care of running experiments for my ideas, plus assists in generating hypothesis.
+
+I usually use leaflet from temrinal. Bismuth can talk and ask leaflet to run some experiment but I rarely do it. I prefer to sit on laptop while thinking on research idea.
+</Section>
+
+<Section color="gray" label="the evaluation agent">
+This agent doesn't do much work, it is to remind me to have a checkpoint. Evaluation agent reads through everything leaflet and bismuth has written down since last time it ran and gives me analysis on how much of my time was spant on which project, what all did we do last week, what all got totally missed. The third one barely does any work, and that's the point.
+</Section>
+
+<Section color="blue" label="how they talk to each other">
+This is the part that's genuinely multi-agent, and the mechanism is almost boringly simple: **they talk through the file system.**
+
+Bismuth talks to Leaflet. Leaflet can read Bismuth's memory. Both can talk to the evaluation agent, and it can talk back to both. When Bismuth wants something from Leaflet, it first reads a file that tells it how Leaflet's files are laid out, a map, and then it knows how to navigate. Everything each agent does gets written down somewhere legible, because the rule across all of them is the same: **keep things organized so the next reader, another agent, or me, can find their way.**
+
+This is the oldest idea in the building, actually.
+</Section>
+
+<Section color="pink" label="reading and writing">
+Two of my oldest habits changed shape entirely.
+
+**Reading.** Especially non-fiction. I read with [NotebookLM](https://notebooklm.google.com/) now, summaries first, then a deep dive with by my own questions. I used to read blindly, front to back, because I had nothing to summarize for me. I don't anymore.
+
+**Writing.** I've always known I get my best ideas walking, with a coffee — and always known I can't write them down with a pen while walking. That gap ate a lot of ideas over the years. Now I record everything and Bismuth does the writing. This post is exactly that: a walk, out loud, caught.
+</Section>
+
+<Section color="gray" label="what's still missing">
+
+**self recovery.** Bismuth has self updation feature, but it still cannot repair it self. If by mistake parts of its prompt or code gets deleted, it doesn't have mechanism to regrow those parts. I am thinking on architecture to have this feature.
+
+**Visual agents.** All my agents read, write, and talk — but it's all *text.* And a lot of what I do is visual: I draw for the novel, characters, landscapes, the geography, the tools. Right now I just talk those through with Bismuth. I don't have a real visual workflow, and I've never explored whether I should. Probably next.
+
+**Autonomous agents.** Everything I run still waits for me to start it. But some things shouldn't have to: an agent that reads LinkedIn on its own and surfaces people, or a new field starting to stir. And, an idea I'm having *right now*, out loud, I've stockpiled magazines I've always wanted to read and never will, because there aren't enough hours. There should be one agent that reads all of them and tells me what's new. I'm going to build that one.
+</Section>
+
+This is version one of how I work with AI, what my everyday actually looks like in **mid-2026.** Let's see how it changes.
