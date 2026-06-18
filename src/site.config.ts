@@ -23,7 +23,6 @@ export const site = {
   // the bar. Format: '<collection>/<slug>'.
   unfinished_slugs: [
     'blog/the-map-of-the-agent-universe',
-    'blog/how-i-organise-my-agents',
     'blog/how-i-read-and-write',
     'research/seldon-framework',
     'research/autoresearcher',
