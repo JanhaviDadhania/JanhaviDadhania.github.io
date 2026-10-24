@@ -4,6 +4,13 @@ import SocialRow from './SocialRow.astro';
 import PageNav from './PageNav.astro';
 ---
 <section class="hero">
+  <img
+    class="home-banner"
+    src="/images/home/bg.png"
+    alt=""
+    aria-hidden="true"
+  />
+
   <div class="ghost-text" aria-hidden="true">{site.title.toUpperCase()}</div>
 
   <div class="top">
@@ -38,6 +45,24 @@ import PageNav from './PageNav.astro';
 
 <style>
   .hero { position: relative; }
+
+  /* Janhavi's moodboard collage at the top of the home page. Escapes the
+     .container (90% width + 5vh top margin + 6vh top padding) so it bleeds
+     edge-to-edge and hugs the viewport top. PNG's bottom is transparent, so
+     spacing below the banner is set by the artwork itself, not CSS. */
+  .home-banner {
+    display: block;
+    width: 100vw;
+    /* Global `img { max-width: 100% }` would otherwise clamp the banner to
+       the container's content-box and leave a white strip on the right. */
+    max-width: none;
+    height: auto;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-top: calc(-6vh - 5vh);
+    margin-bottom: var(--space-8);
+    filter: saturate(1.12) brightness(1.02) contrast(1.03) sepia(0.04);
+  }
 
   .ghost-text {
     position: fixed;
