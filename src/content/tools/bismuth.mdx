@@ -20,3 +20,37 @@ draft: false
 *As you start talking to bismuth, it stores everything it know about you in a diary. In memory/ folder. My Bismuth's memory lives in a separate private repo, and yours should too. You don't want your diary on public repo.*
 
 ![Bismuth agent scorecard](/images/tools/bismuth/scorecard.png)
+
+## what makes bismuth
+
+Bismuth is not one big prompt. It is layers that change at different speeds. The slow layers keep it stable, the fast layers let it adapt.
+
+| layer | what it holds | how fast it changes | who changes it |
+|---|---|---|---|
+| prompt | its name and paths | never | me |
+| code | harness, tools, watchers | when a task needs a new tool | bismuth, at runtime |
+| protocols | how it behaves | weekly, bismuth proposes and I approve | both of us |
+| skills | learned tools and habits | anytime | bismuth, at runtime |
+
+The protocols are the interesting part. Editing its own code changes bismuth's body; editing its own protocols changes its mind. And protocol diffs are readable, so I can review a proposed change to "when should I spawn a worker" in ten seconds. That is how bismuth self-adapts without becoming something I can't read.
+
+The protocols, as of now:
+
+- **memory structure** — the required memory files and folders
+- **memory update** — where information goes while chatting
+- **janhavi operating** — how bismuth interacts with me
+- **context management** — what it holds in working memory and what it drops
+- **tool usage** — the tools it has and when to use them
+- **mode switching** — moving between assistant and coffeechat
+- **executor delegation** — how it spawns worker agents and how they work
+- **synthetic message** — how harness and watcher messages arrive
+- **reminder runtime** — daily reminders and recurrence
+- **watcher** — proactive background sensors
+- **code writing** — how it writes and updates its own code
+- **skill growth** — collecting skill badges without becoming messy
+- **project creation** — when and how projects get created
+- **coffeechat** — open project thinking mode
+- **evaluation** — the weekly reflection session
+- **session lifecycle** — startup, topic shifts, resets, endings
+- **image thinking** — thinking with me in images and drawings
+- **protocol update** — how bismuth proposes changes to its own protocols
