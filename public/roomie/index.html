@@ -814,10 +814,10 @@
         </div>
 
         <div class="dm-actions">
-          <a id="waLink" class="dm-btn wa" href="https://wa.me/917016441970?text=Hi%20Janhavi!%20Saw%20your%20IG%20ad%20for%20the%20Utopia%20room.%20I'm%20working%20remotely%20and%20would%20love%20a%20quick%20tour!" target="_blank" rel="noopener">
+          <a id="waLink" class="dm-btn wa" onclick="trackContact('whatsapp')" href="https://wa.me/917016441970?text=Hi%20Janhavi!%20Saw%20your%20IG%20ad%20for%20the%20Utopia%20room.%20I'm%20working%20remotely%20and%20would%20love%20a%20quick%20tour!" target="_blank" rel="noopener">
             💬 WhatsApp 70164 41970
           </a>
-          <a class="dm-btn ig" href="https://ig.me/m/janhavidadhania_" target="_blank" rel="noopener">
+          <a class="dm-btn ig" onclick="trackContact('instagram')" href="https://ig.me/m/janhavidadhania_" target="_blank" rel="noopener">
             📸 DM @janhavidadhania_
           </a>
         </div>
@@ -836,6 +836,11 @@
       const buttons = btn.parentElement.querySelectorAll('button');
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+    }
+
+    // Meta Pixel: fire Contact when a contact button is tapped
+    function trackContact(method) {
+      try { if (window.fbq) fbq('track', 'Contact', { content_name: method }); } catch (e) {}
     }
 
     // 1-Tap WhatsApp Icebreaker
